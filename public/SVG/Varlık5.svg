@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="katman_2" data-name="katman 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480.17 245.29">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f5f5f5;
+      }
+
+      .cls-2 {
+        fill: #e0e0e0;
+      }
+    </style>
+  </defs>
+  <g id="Floor">
+    <g id="Floor-2" data-name="Floor">
+      <ellipse class="cls-1" cx="240.08" cy="122.65" rx="240.08" ry="122.65"/>
+    </g>
+  </g>
+  <g id="Shadow">
+    <path id="Shadow-2" data-name="Shadow" class="cls-2" d="M396.09,105.9c-16.46,9.27-16.62,24.59-.37,34.21,16.25,9.62,42.78,9.91,59.25,.64,16.47-9.27,16.63-24.59,.37-34.21-16.26-9.62-42.79-9.91-59.25-.64Z"/>
+    <path id="Shadow-3" data-name="Shadow" class="cls-2" d="M31.06,121.75c-17.72,9.98-17.89,26.47-.4,36.82,17.5,10.36,46.05,10.67,63.77,.69,17.72-9.98,17.9-26.46,.4-36.82-17.5-10.36-46.06-10.67-63.77-.69Z"/>
+  </g>
+</svg>
