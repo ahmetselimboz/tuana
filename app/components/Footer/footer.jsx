@@ -3,10 +3,11 @@ import React from 'react'
 import { FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { LuDot } from 'react-icons/lu'
+import LanguageDropdown from './languagedropdown'
 
 const footer = () => {
     return (
-        <div className='w-full lg:h-[600px] h-fit flex flex-col justify-between border-t-8 border-primary mt-8'>
+        <div className='w-full lg:h-[600px] h-fit flex flex-col justify-between border-t-8 border-primary mt-8 bg-main'>
 
             <div className="w-full h-full flex lg:flex-row flex-col">
                 <div className='lg:w-2/6 w-full h-full flex flex-col items-center justify-start'>
@@ -39,12 +40,12 @@ const footer = () => {
                     <div className='w-full lg:h-5/6 flex  h-[400px]'>
                         <div className='w-full lg:h-[400px] '></div>
                     </div>
-                    <div className='w-full h-1/6 flex items-center lg:flex-row flex-col px-8 lg:mb-0 mb-6'>
+                    <div className='w-full h-1/6 flex items-center  lg:flex-row flex-col px-8 lg:mb-0 mb-6'>
                         <div className='lg:w-1/2 w-full h-full flex flex-col items-center justify-center lg:mb-0 mb-4'>
                             <div className='text-stone-900 font-dosis font-medium text-xl'>Your analytical data in your pocket! </div>
                             <div className='text-stone-900 font-dosis font-semibold text-3xl'>Download Now!</div>
                         </div>
-                        <div className='lg:w-1/2 w-full h-full flex items-center gap-2'>
+                        <div className='lg:w-1/2 w-full h-full flex items-center justify-center gap-2'>
                             <Link href="/" target='_blank'>
                                 <img src="/GooglePlay.png" alt="" className='w-fit h-auto' />
                             </Link>
@@ -75,9 +76,7 @@ const footer = () => {
                         <Link href="/" className='hover:underline transition-all text-center'>Environmental and Social Policy</Link>
                     </div>
                     <div className='lg:w-1/4 w-full h-full flex items-center justify-center lg:mb-0 mb-3'>
-                        <div className='w-[120px] h-[50px] bg-black'>
-
-                        </div>
+                     <LanguageDropdown></LanguageDropdown>
                     </div>
                 </div>
             </div>

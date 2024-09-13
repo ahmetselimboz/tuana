@@ -1,0 +1,60 @@
+"use client"
+import React, { useEffect, useState } from 'react'
+import CustomBarCharts from "@/app/components/Charts/custombarcharts"
+
+const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+
+    const [seed, setSeed] = useState(1);
+
+    const reset = () => {
+        setSeed(Math.random());
+    }
+
+    useEffect(() => {
+        reset()
+    }, [selectedDate]);
+
+    const sources = [
+        { route: "Direct/None", visitor: "44" },
+        { route: "Google", visitor: "10" },
+        { route: "Github", visitor: "36" },
+        { route: "LinkedIn", visitor: "12" },
+        { route: "Twitter", visitor: "18" },
+        { route: "Yandex", visitor: "30" },
+        { route: "Bing", visitor: "42" },
+        { route: "Yahoo", visitor: "38" },
+    ]
+
+    return (
+        <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[400px] bg-main  flex flex-col py-4">
+            <div className="w-full flex items-center justify-between pr-5 pl-6 font-medium underline text-xl font-dosis">
+                <div>Pages</div>
+                <div>Visitors</div>
+            </div>
+            <div className="w-full h-auto flex items-center justify-between relative">
+
+                <div className="w-full h-auto flex flex-col items-start gap-[0.65rem] mx-9 mt-[2.18rem]  ">
+                    {
+                        sources.map((opt, index) => (
+                            <div key={index} className="font-dosis font-medium text-lg w-full text-stone-900 flex items-center justify-between">
+                                <div className="">
+                                    {opt.route}
+                                </div>
+                                <div className="">
+                                    {opt.visitor}
+                                </div>
+                            </div>
+                        ))
+                    }
+
+                </div>
+                <div className="w-[98%] h-full flex items-center justify-center absolute">
+                    <CustomBarCharts barData={sources} height={350} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomBarCharts>
+                </div>
+            </div>
+
+        </div>
+    )
+}
+
+export default sourcescard

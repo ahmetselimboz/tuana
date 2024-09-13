@@ -8,7 +8,7 @@ import LineDesign from "@/app/components/Homepage/linedesign"
 export default function Home() {
   return (
     <>
-    <div className="w-full h-full relative">
+    <div className="w-full h-full bg-main relative">
       <Navbar></Navbar>
       <div className="w-full h-24 lg:h-0"></div>
       <Header></Header>

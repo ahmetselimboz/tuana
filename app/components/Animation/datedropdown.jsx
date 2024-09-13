@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import Dropdown from '@/app/components/Animation/dropdown'; 
@@ -6,7 +7,7 @@ const DateDropdown = ({ selectedDate, setSelectedDate, setSelectedDropdown, navb
     const [isOpen, setIsOpen] = useState(false);
 
     const [isScrolled, setIsScrolled] = useState(false);
-    console.log(navbar);
+
     useEffect(() => {
         const handleScroll = () => {
             if (!navbar) {

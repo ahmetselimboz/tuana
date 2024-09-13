@@ -11,7 +11,7 @@ const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false)
     const { width } = useWidth()
     const pathname = usePathname()
-    console.log(pathname);
+
 
     const navMenu = [
         { title: "Why Tuana", url: '/why-tuana' },

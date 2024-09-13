@@ -1,3 +1,4 @@
+"use client"
 import useWidth from '@/app/hooks/useWidth';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -10,13 +11,15 @@ import { RxCaretDown } from 'react-icons/rx'
 import { SiCodeforces } from 'react-icons/si'
 import { TbWorld } from 'react-icons/tb'
 import Dropdown from '@/app/components/Animation/dropdown'
-import DateDropdown from '@/app/components/Animation/DateDropdown'
+import DateDropdown from '@/app/components/Animation/datedropdown'
+import Menu from "@/app/components/Analytics/menu"
+import { HiMiniBars3 } from 'react-icons/hi2';
 
 const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdown }) => {
 
     const [openAppBar, setOpenAppBar] = useState(false)
     const [openUserBar, setOpenUserBar] = useState(false)
-
+    const [openSidebar, setOpenSidebar] = useState(false)
     const [isVisible, setIsVisible] = useState(false);
 
     const { width } = useWidth()
@@ -31,13 +34,26 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
         { icon: <IoSettingsOutline />, title: "Settings", slug: "/settings" },
     ]
 
+
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 300) {
-                setIsVisible(true);
+            if (width >= 1024) {
+               
+                if (window.scrollY > 400) {
+                    setIsVisible(true);
+                } else {
+                    setIsVisible(false);
+                }
             } else {
-                setIsVisible(false);
+                if (window.scrollY > 850) {
+                    setIsVisible(true);
+                } else {
+                    setIsVisible(false);
+                }
             }
+
+
+
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -46,11 +62,96 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, []);
+    }, [width]);
+
+
 
     if (width <= 1024) {
         return (
-            <div></div>
+            <div className='w-full flex flex-col fixed z-20 bg-main py-4'>
+                <div className='w-full  px-2   '>
+                    <div className='flex w-full'>
+                        <div className='w-1/3 flex items-center  relative'>
+                            <HiMiniBars3 className='text-stone-900 text-2xl pl-2 w-fit' onClick={() => { setOpenSidebar(!openSidebar) }} />
+                            <Dropdown isOpen={openSidebar}>
+                                <div className={`min-w-[250px] h-fit absolute z-40 border border-stone-900/20 top-12 -left-5 rounded-md shadow-xl bg-main`}>
+                                    <div className='w-full flex flex-col  px-6 py-8 gap-2'>
+                                        <Menu></Menu>
+                                    </div>
+                                </div>
+                            </Dropdown>
+                        </div>
+                        <div className='w-full flex flex-col items-center justify-center relative'>
+                            <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar) }}>
+                                <div className='text-3xl text-primary'>
+                                    <SiCodeforces />
+                                </div>
+                                <div className='text-1-5xl font-medium font-dosis tracking-wider text-primaryGray hover:text-stone-900 transition-all'>
+                                    www.tuanalytics.com
+                                </div>
+                            </div>
+                            <Dropdown isOpen={openAppBar} classw="flex items-center justify-center">
+                                <div className={` w-[350px] h-fit absolute z-30 border border-stone-900/20 top-10 rounded-md shadow-xl bg-main`}>
+                                    <div className='w-full '>
+                                        {
+                                            projectList.map((pl, index) => (
+                                                <Link key={index} href={`?id=${pl.siteId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
+                                                    <div className='text-4xl text-primary'>
+                                                        {
+                                                            pl.type == "web" ? (<TbWorld />) : (<IoMdPhonePortrait />)
+                                                        }
+
+                                                    </div>
+                                                    <div className='text-xl font-dosis'>{pl.title}</div>
+                                                </Link>
+                                            ))
+                                        }
+                                        <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
+                                        <Link href="/add-project" className={`flex items-center justify-center gap-3 py-3 hover:underline transition-all px-8`}>
+                                            <div className='text-4xl text-primary'><CiCirclePlus /></div>
+                                            <div className='text-xl font-dosis'>Add Project</div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Dropdown>
+                        </div>
+                        <div className='w-1/3 flex items-center justify-end relative'>
+                            <div className={`w-fit flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
+                                <FaUser onClick={() => { setOpenUserBar(!openUserBar) }} className='w-fit flex items-center justify-center gap-1  h-[25px]' />
+                            </div>
+                            <Dropdown isOpen={openUserBar}>
+                                <div className={`min-w-44 h-fit absolute z-40 border border-stone-900/20 top-12 right-0 rounded-md shadow-xl bg-main`}>
+                                    <div className='w-full '>
+                                        {
+                                            itemList.map((il, index) => (
+                                                <Link href={il.slug} key={index} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
+                                                    <div className='text-2xl text-primary'>{il.icon}</div>
+                                                    <div className='text-xl font-dosis'>{il.title}</div>
+                                                </Link>
+                                            ))
+                                        }
+
+                                        <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
+                                        <Link href="/" className={`flex items-center justify-center gap-3 py-3 hover:underline transition-all `}>
+                                            <div className='text-2xl text-primary'><FiLogOut /></div>
+                                            <div className='text-xl font-dosis'>Log Out</div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </Dropdown>
+                        </div>
+                    </div>
+                </div>
+                {isVisible && (
+                    <div className='w-full flex items-center justify-end mt-2'>
+                        <div className="h-auto w-fit px-4">
+                            <div className='w-[157px] border border-stone-900/20 rounded-md'>
+                                <DateDropdown selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown} navbar={true}></DateDropdown>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         )
     }
 
@@ -80,7 +181,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                                 <div className='w-full '>
                                     {
                                         projectList.map((pl, index) => (
-                                            <Link href={`?id=${pl.siteId}`} key={index} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
+                                            <Link key={index} href={`?id=${pl.siteId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
 
                                                 <div className='text-4xl text-primary'>
                                                     {
@@ -108,7 +209,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                         <div className='w-fit flex flex-col items-center gap-1 cursor-pointer tracking-wider text-primaryGray border-b-2 border-transparent hover:border-b-2 hover:border-primaryGray transition'>
                             <div onClick={() => { setOpenUserBar(!openUserBar) }} className='w-fit flex items-center justify-center gap-1 pl-2 h-[25px]'>
                                 <div className='font-dosis font-semibold text-1-5xl  '>
-                                    Tuana Analytics
+                                    Tuana
                                 </div>
                                 <div className='text-4xl  '>
                                     <RxCaretDown />
@@ -121,7 +222,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                                 <div className='w-full '>
                                     {
                                         itemList.map((il, index) => (
-                                            <Link href={il.slug} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
+                                            <Link href={il.slug} key={index} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
                                                 <div className='text-2xl text-primary'>{il.icon}</div>
                                                 <div className='text-xl font-dosis'>{il.title}</div>
                                             </Link>
