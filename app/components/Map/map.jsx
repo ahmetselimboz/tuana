@@ -4,55 +4,31 @@ import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 
 const geoUrl = '/countries.geo.json';
-const countryInfo = '/country.json'
 
-const WorldMap = () => {
+
+const WorldMap = ({ mergeData }) => {
+  console.log("🚀 ~ WorldMap ~ mergeData:", mergeData)
   const [tooltipContent, setTooltipContent] = useState("");
-  const [mergeData, setMergeData] = useState()
+  
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const mapContainerRef = useRef(null);
 
-  const countriesData = {
-    TR: { visitor: 5 },
-    CA: { visitor: 1 },
-    PL: { visitor: 1 },
-
-  };
-
-  useEffect(() => {
-    fetch(countryInfo)
-      .then(response => response.json())
-      .then(data => {
-        const mergedData = Object.keys(data).map((code) => {
-          return {
-            code,
-            ...data[code],
-            visitor: countriesData[code]?.visitor || 0 // Ziyaretçi verisi yoksa 0 olarak ekle
-          };
-
-        }, {});
 
 
-        setMergeData(mergedData)
-      })
-      .catch(error => {
-        console.error('Error fetching country data:', error);
-      });
-  }, []);
+  
 
 
 
   const handleMouseEnter = (geo) => {
     const countryName = geo.properties.name;
-    console.log("geo.properties: ", geo)
-
+  
     if (countryName) {
       const foundItem = mergeData.find((item) => countryName === item.name);
 
       if (foundItem) {
 
         setTooltipContent({ code: foundItem.code, image: foundItem.image, country: foundItem.name, visitor: foundItem.visitor });
-     
+
       } else {
         setTooltipContent(`${countryName}`);
       }
@@ -91,7 +67,7 @@ const WorldMap = () => {
               const countryData = mergeData.find((item) => name === item.name); // Ülke verisini bulun
               const visitors = countryData ? countryData.visitor : 0; // Ziyaretçi sayısını alın, yoksa 0 olarak ayarlayın
               const fillColor = visitors > 0 ? "#19ae9d" : "#D6D6DA"; // Ziyaretçi sayısı 0'dan büyükse maviye boya
-              
+
               return (
                 <Geography
                   key={geo.rsmKey}

@@ -78,7 +78,9 @@ const linecard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelected
 
             </div>
 
-            <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomDatePicker>
+            <div className="w-full lg:px-8 px-3 py-6 flex items-center justify-between">
+                <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomDatePicker>
+            </div>
             <div className="lg:px-4 my-auto">
                 <CustomLineChart key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomLineChart>
             </div>

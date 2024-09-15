@@ -14,8 +14,9 @@ import Dropdown from '@/app/components/Animation/dropdown'
 import DateDropdown from '@/app/components/Animation/datedropdown'
 import Menu from "@/app/components/Analytics/menu"
 import { HiMiniBars3 } from 'react-icons/hi2';
+import CustomDatePicker from '../Charts/customdatepicker';
 
-const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdown }) => {
+const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
 
     const [openAppBar, setOpenAppBar] = useState(false)
     const [openUserBar, setOpenUserBar] = useState(false)
@@ -38,14 +39,14 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
     useEffect(() => {
         const handleScroll = () => {
             if (width >= 1024) {
-               
+
                 if (window.scrollY > 400) {
                     setIsVisible(true);
                 } else {
                     setIsVisible(false);
                 }
             } else {
-                if (window.scrollY > 850) {
+                if (window.scrollY > 1070) {
                     setIsVisible(true);
                 } else {
                     setIsVisible(false);
@@ -72,7 +73,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                 <div className='w-full  px-2   '>
                     <div className='flex w-full'>
                         <div className='w-1/3 flex items-center  relative'>
-                            <HiMiniBars3 className='text-stone-900 text-2xl pl-2 w-fit' onClick={() => { setOpenSidebar(!openSidebar) }} />
+                            <HiMiniBars3 className='text-stone-900 text-2xl pl-2 w-fit' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
                             <Dropdown isOpen={openSidebar}>
                                 <div className={`min-w-[250px] h-fit absolute z-40 border border-stone-900/20 top-12 -left-5 rounded-md shadow-xl bg-main`}>
                                     <div className='w-full flex flex-col  px-6 py-8 gap-2'>
@@ -82,7 +83,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                             </Dropdown>
                         </div>
                         <div className='w-full flex flex-col items-center justify-center relative'>
-                            <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar) }}>
+                            <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar); setOpenSidebar(false); setOpenUserBar(false) }}>
                                 <div className='text-3xl text-primary'>
                                     <SiCodeforces />
                                 </div>
@@ -91,7 +92,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                                 </div>
                             </div>
                             <Dropdown isOpen={openAppBar} classw="flex items-center justify-center">
-                                <div className={` w-[350px] h-fit absolute z-30 border border-stone-900/20 top-10 rounded-md shadow-xl bg-main`}>
+                                <div className={` w-[350px] h-fit absolute z-30 border border-stone-900/20 top-8 rounded-md shadow-xl bg-main`}>
                                     <div className='w-full '>
                                         {
                                             projectList.map((pl, index) => (
@@ -116,11 +117,11 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                             </Dropdown>
                         </div>
                         <div className='w-1/3 flex items-center justify-end relative'>
-                            <div className={`w-fit flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
-                                <FaUser onClick={() => { setOpenUserBar(!openUserBar) }} className='w-fit flex items-center justify-center gap-1  h-[25px]' />
+                            <div onClick={() => { setOpenUserBar(!openUserBar); setOpenSidebar(false); setOpenAppBar(false) }} className={`w-fit flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
+                                <FaUser className='w-fit flex items-center justify-center gap-1  h-[25px]' />
                             </div>
                             <Dropdown isOpen={openUserBar}>
-                                <div className={`min-w-44 h-fit absolute z-40 border border-stone-900/20 top-12 right-0 rounded-md shadow-xl bg-main`}>
+                                <div className={`min-w-44 h-fit absolute -z-10 border border-stone-900/20 top-12 right-0 rounded-md shadow-xl bg-main`}>
                                     <div className='w-full '>
                                         {
                                             itemList.map((il, index) => (
@@ -143,11 +144,10 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, setSelectedDropdow
                     </div>
                 </div>
                 {isVisible && (
-                    <div className='w-full flex items-center justify-end mt-2'>
-                        <div className="h-auto w-fit px-4">
-                            <div className='w-[157px] border border-stone-900/20 rounded-md'>
-                                <DateDropdown selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown} navbar={true}></DateDropdown>
-                            </div>
+                    <div className='w-full flex items-center justify-end mt-2 relative -z-20'>
+                        <div className="h-auto w-full px-11 flex items-center justify-between">
+                            {/* <DateDropdown selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown} navbar={true}></DateDropdown> */}
+                            <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomDatePicker>
                         </div>
                     </div>
                 )}

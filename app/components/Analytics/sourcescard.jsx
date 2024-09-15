@@ -35,7 +35,7 @@ const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelec
 
                 <div className="w-full h-auto flex flex-col items-start gap-[0.65rem] mx-9 mt-[2.18rem]  ">
                     {
-                        sources.map((opt, index) => (
+                        sources.sort((a, b) => b.visitor - a.visitor).map((opt, index) => (
                             <div key={index} className="font-dosis font-medium text-lg w-full text-stone-900 flex items-center justify-between">
                                 <div className="">
                                     {opt.route}
@@ -48,8 +48,8 @@ const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelec
                     }
 
                 </div>
-                <div className="w-[98%] h-full flex items-center justify-center absolute">
-                    <CustomBarCharts barData={sources} height={350} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomBarCharts>
+                <div className="w-[98%] h-full flex items-center justify-center absolute mt-[37px]">
+                    <CustomBarCharts barHeight={"60%"} barData={sources} height={350} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomBarCharts>
                 </div>
             </div>
 

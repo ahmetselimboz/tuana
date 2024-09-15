@@ -48,8 +48,9 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, selectedDropdown, set
     };
 
     return (
-        <div className="w-full lg:px-8 px-3 py-6 flex items-center justify-between">
-            <div
+       
+        <>
+                <div
                 className="w-9 h-9 cursor-pointer bg-primaryGray/10 hover:bg-primaryGray/20 transition-all text-primary border border-primary rounded-md flex items-center justify-center text-3xl"
                 onClick={handlePrevDay}
             >
@@ -111,7 +112,7 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, selectedDropdown, set
             >
                 <RxCaretRight />
             </div>
-        </div>
+        </>
     );
 };
 

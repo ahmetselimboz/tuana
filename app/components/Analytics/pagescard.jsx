@@ -39,7 +39,7 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
             <div className="w-full h-auto flex items-center justify-between relative">
                 <div className="w-full h-full flex flex-col items-start gap-[0.78rem] mx-9 mt-[2.25rem]">
                     {
-                        pages.map((opt, index) => (
+                        pages.sort((a, b) => b.visitor - a.visitor).map((opt, index) => (
                             <div key={index} className="font-dosis font-medium text-lg w-full text-stone-900 flex items-center justify-between">
                                 <div className="">
                                     {opt.route}
@@ -52,8 +52,8 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
                     }
 
                 </div>
-                <div className="w-[98%] h-full flex items-center justify-center absolute">
-                    <CustomBarCharts barData={pages} height={450} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomBarCharts>
+                <div className="w-[98%] h-full flex items-center justify-center absolute mt-10">
+                    <CustomBarCharts barHeight={"60%"} barData={pages} height={450} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomBarCharts>
                 </div>
 
             </div>

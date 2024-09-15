@@ -25,11 +25,11 @@ const Analytics = () => {
   return (
     <>
       <div className=' w-full h-auto bg-main'>
-        <AuthenticatedNavbar selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown} />
+        <AuthenticatedNavbar selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown} />
         <div className="w-full h-20"></div>
         <div className="w-full h-full flex items-start relative mb-6">
           {
-            width <= 1024 ? (<div></div>):(<Sidebar></Sidebar>)
+            width <= 1024 ? (<div></div>) : (<Sidebar></Sidebar>)
           }
 
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
