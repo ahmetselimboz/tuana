@@ -13,5 +13,5 @@ COPY --from=builder /app/package.json /app/package-lock.json ./
 RUN npm install --only=production
 COPY --from=builder /app/.next /app/.next
 COPY --from=builder /app/public /app/public
-COPY --from=builder /app/next.config.js /app/next.config.js
+COPY --from=builder /app/next.config.mjs /app/next.config.mjs
 CMD ["npm", "start"]
