@@ -1,5 +1,5 @@
 # First stage: Build
-FROM node:16 AS builder
+FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # Second stage: Production
-FROM node:16
+FROM nginx:stable-alpine
 WORKDIR /app
 COPY --from=builder /app/package.json /app/package-lock.json ./
 RUN npm install --only=production
