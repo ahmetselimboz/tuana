@@ -10,7 +10,7 @@ RUN npm run build
 FROM nginx:stable-alpine
 WORKDIR /app
 COPY --from=builder /app/package.json /app/package-lock.json ./
-RUN npm install --only=production
+RUN npm install 
 COPY --from=builder /app/.next /app/.next
 COPY --from=builder /app/public /app/public
 COPY --from=builder /app/next.config.mjs /app/next.config.mjs
