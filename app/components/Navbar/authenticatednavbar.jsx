@@ -80,7 +80,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                                 </div>
                             </Dropdown>
                         </div>
-                        <div className='w-full flex flex-col items-center justify-center relative'>
+                        <div className='w-1/3 flex flex-col items-center justify-center relative'>
                             <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar); setOpenSidebar(false); setOpenUserBar(false) }}>
                                 <div className='text-3xl text-primary'>
                                     <SiCodeforces />

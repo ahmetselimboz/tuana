@@ -15,7 +15,7 @@
       }
 
       .cls-3, .cls-4 {
-        font-family: Dosis;
+        font-family: "Dosis", sans-serif;
       }
 
       .cls-4 {
