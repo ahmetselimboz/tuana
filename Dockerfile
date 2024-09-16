@@ -12,7 +12,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the application
-FROM node:stable-alpine
+FROM node:lts-alpine
 
 WORKDIR /app
 
