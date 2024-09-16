@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-
+"use client"
 import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
+// import Chart from "react-apexcharts";
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const LineChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
 
-    const date = selectedDate
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-   
+    const formattedDate = selectedDate
+        ? `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`
+        : "0000-00-00"; // Eğer `selectedDate` yoksa bir varsayılan tarih
 
-  
+
 
     const [chartData] = useState({
         series: [
@@ -19,9 +21,9 @@ const LineChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
                 data: [400, 380, 500, 650, 820, 100, 250], // Grafikteki değerler
                 color: "#19ae9d"
             },
-            
+
         ],
-     
+
         options: {
             chart: {
                 type: "area",
@@ -51,14 +53,14 @@ const LineChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
                 strokeDashArray: 3,
             },
             markers: {
-                size: 3, 
+                size: 3,
             },
             dataLabels: {
-                enabled: false, 
+                enabled: false,
             },
             fill: {
                 colors: ['#19ae9d']
-              }
+            }
         },
     });
 

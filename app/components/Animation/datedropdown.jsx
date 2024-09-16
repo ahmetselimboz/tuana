@@ -1,31 +1,30 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import Dropdown from '@/app/components/Animation/dropdown'; 
+import Dropdown from '@/app/components/Animation/dropdown';
 
 const DateDropdown = ({ selectedDate, setSelectedDate, setSelectedDropdown, navbar }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [isScrolled, setIsScrolled] = useState(false);
 
+
     useEffect(() => {
-        const handleScroll = () => {
-            if (!navbar) {
-                if (window.scrollY > 300) {
-                    if (isOpen) {
-                        setIsOpen(!isOpen);
-                    }
+        if (typeof window !== 'undefined') {  
+            const handleScroll = () => {
+                if (!navbar && window.scrollY > 300 && isOpen) {
+                    setIsOpen(false);  
                 }
-            }
-        };
+            };
 
-        window.addEventListener('scroll', handleScroll);
+            window.addEventListener('scroll', handleScroll);
 
-        // Cleanup function
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [isOpen]);
+            // Cleanup function
+            return () => {
+                window.removeEventListener('scroll', handleScroll);
+            };
+        }
+    }, [isOpen, navbar]); // Bağımlılık dizisine navbar eklenmiş
 
 
     const options = [
@@ -72,7 +71,7 @@ const DateDropdown = ({ selectedDate, setSelectedDate, setSelectedDropdown, navb
                                 onClick={() => {
                                     if (option.value) {
                                         setSelectedDate(option.value);
-                                        setSelectedDropdown(option.label); 
+                                        setSelectedDropdown(option.label);
                                     }
                                     toggleDropdown();
                                 }}

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import Chart from "react-apexcharts";
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown, barData, height, barHeight }) => {
     

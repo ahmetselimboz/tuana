@@ -1,7 +1,7 @@
 
 import useWidth from '@/app/hooks/useWidth'
 import { HiMiniBars3 } from 'react-icons/hi2'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Dropdown from '@/app/components/Animation/dropdown'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -12,6 +12,7 @@ const Navbar = () => {
     const { width } = useWidth()
     const pathname = usePathname()
 
+    
 
     const navMenu = [
         { title: "Why Tuana", url: '/why-tuana' },

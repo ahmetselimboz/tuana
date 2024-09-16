@@ -1,24 +1,30 @@
-"use client"
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 const useWidth = () => {
     const [windowDimensions, setWindowDimensions] = useState({
         width: undefined,
         height: undefined,
     });
+
     useEffect(() => {
-        function handleResize() {
-            setWindowDimensions({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            });
+        // Tarayıcı ortamında olup olmadığını kontrol et
+        if (typeof window !== 'undefined') {
+            function handleResize() {
+                setWindowDimensions({
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                });
+            }
+
+            // Sayfa yüklendiğinde boyutu al
+            handleResize();
+
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
         }
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []); // Empty array ensures that effect is only run on mount
+    }, []); // Boş bağımlılık dizisi, sadece bileşen mount edilirken çalışır
 
     return windowDimensions;
-}
+};
 
-export default useWidth
+export default useWidth;

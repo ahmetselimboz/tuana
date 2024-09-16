@@ -7,7 +7,7 @@ const geoUrl = '/countries.geo.json';
 
 
 const WorldMap = ({ mergeData }) => {
-  console.log("🚀 ~ WorldMap ~ mergeData:", mergeData)
+ 
   const [tooltipContent, setTooltipContent] = useState("");
   
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -42,18 +42,22 @@ const WorldMap = ({ mergeData }) => {
   };
 
   useEffect(() => {
-    const handleMouseMove = (event) => {
-      const x = event.clientX;
-      const y = event.clientY;
-      setMousePosition({ x: x, y: y });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [mousePosition]);
+    if (typeof window !== 'undefined') {  // Tarayıcıda olup olmadığını kontrol et
+      const handleMouseMove = (event) => {
+        const x = event.clientX;
+        const y = event.clientY;
+        setMousePosition({ x, y });
+      };
+  
+      window.addEventListener('mousemove', handleMouseMove);
+  
+      // Cleanup function
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
+    }
+  }, []); // Boş bağımlılık dizisi, sadece bileşen mount edilirken çalışır
+  
 
 
   return (

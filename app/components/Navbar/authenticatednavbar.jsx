@@ -35,35 +35,33 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
         { icon: <IoSettingsOutline />, title: "Settings", slug: "/settings" },
     ]
 
-
     useEffect(() => {
-        const handleScroll = () => {
-            if (width >= 1024) {
-
-                if (window.scrollY > 400) {
-                    setIsVisible(true);
+        if (typeof window !== 'undefined') {  // Tarayıcı ortamında olup olmadığını kontrol et
+            const handleScroll = () => {
+                if (width >= 1024) {
+                    if (window.scrollY > 400) {
+                        setIsVisible(true);
+                    } else {
+                        setIsVisible(false);
+                    }
                 } else {
-                    setIsVisible(false);
+                    if (window.scrollY > 1070) {
+                        setIsVisible(true);
+                    } else {
+                        setIsVisible(false);
+                    }
                 }
-            } else {
-                if (window.scrollY > 1070) {
-                    setIsVisible(true);
-                } else {
-                    setIsVisible(false);
-                }
-            }
+            };
 
+            window.addEventListener("scroll", handleScroll);
 
+            // Cleanup function
+            return () => {
+                window.removeEventListener("scroll", handleScroll);
+            };
+        }
+    }, [width]);  // 'width' bağımlı olduğu için, değiştiğinde effect tekrar çalışır
 
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [width]);
 
 
 

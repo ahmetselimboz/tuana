@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import Popup from "../popup";
 
 const PieChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {

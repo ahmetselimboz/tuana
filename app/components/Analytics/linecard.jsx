@@ -5,6 +5,7 @@ import DateDropdown from "@/app/components/Animation/datedropdown"
 import CustomDatePicker from "@/app/components/Charts/customdatepicker"
 import CustomLineChart from "@/app/components/Charts/customlinechart"
 
+
 const linecard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
 
     const [activeTab, setActiveTab] = useState(0);
