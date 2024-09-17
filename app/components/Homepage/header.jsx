@@ -7,7 +7,7 @@ const header = () => {
     <header className="w-full lg:h-full bg-main flex lg:flex-row flex-col  px-8">
     <div className="w-full ">
       <div className="flex flex-col lg:items-center items-start justify-center lg:h-full h-[300px] lg:mt-0 mt-10">
-        <div className="lg:w-5/6 w-full">
+        <div className="lg:w-5/6 w-full font-dosis">
           <img src="/wer.svg" alt="" />
         </div>
         <div className="lg:w-5/6 w-full lg:px-4 px-0 mt-2">
