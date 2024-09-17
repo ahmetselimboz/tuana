@@ -18,7 +18,8 @@ export default {
         secondary: "#14897c",
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
+        dosis: ["Dosis", "sans-serif"]
+       
       },
     },
   },

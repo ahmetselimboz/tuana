@@ -69,7 +69,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
         return (
             <div className='w-full flex flex-col fixed z-20 bg-main py-4'>
                 <div className='w-full  px-2   '>
-                    <div className='flex w-full'>
+                    <div className='flex items-center justify-between w-full'>
                         <div className='w-fit flex items-center  relative'>
                             <HiMiniBars3 className='text-stone-900 text-2xl pl-2 w-fit' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
                             <Dropdown isOpen={openSidebar}>
@@ -80,7 +80,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                                 </div>
                             </Dropdown>
                         </div>
-                        <div className='w-full flex flex-col items-center justify-center relative'>
+                        <div className='w-fit flex flex-col items-center justify-center relative'>
                             <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar); setOpenSidebar(false); setOpenUserBar(false) }}>
                                 <div className='text-3xl text-primary'>
                                     <SiCodeforces />
