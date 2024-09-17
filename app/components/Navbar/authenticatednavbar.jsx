@@ -70,7 +70,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
             <div className='w-full flex flex-col fixed z-20 bg-main py-4'>
                 <div className='w-full  px-2   '>
                     <div className='flex items-center justify-between w-full'>
-                        <div className='w-1/6 flex items-center  relative'>
+                        <div className='flex items-center  relative'>
                             <HiMiniBars3 className='text-stone-900 text-2xl pl-2 w-fit' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
                             <Dropdown isOpen={openSidebar}>
                                 <div className={`min-w-[250px] h-fit absolute z-40 border border-stone-900/20 top-12 -left-5 rounded-md shadow-xl bg-main`}>
@@ -80,7 +80,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                                 </div>
                             </Dropdown>
                         </div>
-                        <div className='w-1/6  flex flex-col items-center justify-center relative'>
+                        <div className='  flex flex-col items-center justify-center relative'>
                             <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar); setOpenSidebar(false); setOpenUserBar(false) }}>
                                 <div className='text-3xl text-primary'>
                                     <SiCodeforces />
@@ -114,7 +114,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                                 </div>
                             </Dropdown>
                         </div>
-                        <div className='w-1/6 flex items-center justify-end relative'>
+                        <div className='flex items-center justify-end relative'>
                             <div onClick={() => { setOpenUserBar(!openUserBar); setOpenSidebar(false); setOpenAppBar(false) }} className={`w-fit flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
                                 <FaUser className='w-fit flex items-center justify-center gap-1  h-[25px]' />
                             </div>
