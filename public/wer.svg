@@ -16,6 +16,10 @@
         fill: #19ae9d;
       }
 
+      .cls-3 .cls-4 {
+        font-family: "Dosis", sans-serif;
+      }
+
       .cls-3 {
         font-size: 107.71px;
       }

@@ -4,13 +4,13 @@ import Dropdown from '@/app/components/Animation/dropdown'
 
 const LanguageDropdown = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedLanguage, setSelectedLanguage] = useState('Türkçe');
+    const [selectedLanguage, setSelectedLanguage] = useState('English');
 
     const languages = [
-        { code: 'en', label: 'İngilizce', flag: '🇬🇧' },
-        { code: 'de', label: 'Almanca', flag: '🇩🇪' },
-        { code: 'fr', label: 'Fransızca', flag: '🇫🇷' },
-        { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
+        { code: 'en', label: 'English', flag: '🇬🇧' },
+        // { code: 'de', label: 'Almanca', flag: '🇩🇪' },
+        // { code: 'fr', label: 'Fransızca', flag: '🇫🇷' },
+        { code: 'tr', label: 'Turkish', flag: '🇹🇷' },
     ];
 
     const toggleDropdown = () => {
@@ -20,7 +20,7 @@ const LanguageDropdown = () => {
     const selectLanguage = (language) => {
         setSelectedLanguage(language);
         setIsOpen(false);
-        // Dil değişimi için burada bir aksiyon tetiklenebilir.
+       
     };
 
     return (
