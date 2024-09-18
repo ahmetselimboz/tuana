@@ -61,7 +61,7 @@ const Analytics = () => {
                     ) : (
                       <div className="w-[90%] h-full flex items-center justify-center  rounded-md overflow-hidden ">
                         <hr className="w-1/4 border-b-2 border-secondary/20 mx-2" />
-                        <TuanalyticsSvg classn={""}></TuanalyticsSvg>
+                        <TuanalyticsSvg classn={"w-2/4 drop-shadow-lg"}></TuanalyticsSvg>
                         <hr className="w-1/4 border-b-2 border-secondary/20 mx-2" />
                       </div>
                     )
