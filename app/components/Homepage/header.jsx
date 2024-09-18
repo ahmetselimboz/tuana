@@ -20,12 +20,12 @@ const header = () => {
                 <rect className="cls-2" x="1.95" y="2.56" width="247.05" height="120.74" rx="8.88" ry="8.88" />
               </g>
               <g id="tuana">
-                <text className="cls-4" transform="translate(13.26 107.34)">
+                <text className="cls-4 font-dosis" transform="translate(13.26 107.34)">
                   <tspan x="0" y="0">tuana</tspan>
                 </text>
               </g>
               <g id="lytics">
-                <text className="cls-3" transform="translate(249.46 107.29)">
+                <text className="cls-3 font-dosis" transform="translate(249.46 107.29)">
                   <tspan x="0" y="0">lytics</tspan>
                 </text>
               </g>

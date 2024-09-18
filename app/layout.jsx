@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={`${dosis.className} antialiased bg-main`}>
         {children}
@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
       </body>
       <Script async src="/track.js" />
 
-     
+
       <Script id="datalayer" strategy="lazyOnload">
         {`
     window.dataLayer = window.dataLayer || [];

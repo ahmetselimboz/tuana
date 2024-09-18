@@ -9,6 +9,7 @@ export default {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+
   theme: {
     extend: {
       colors: {
@@ -18,7 +19,7 @@ export default {
         secondary: "#14897c",
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
+        // inter: ["Inter", "sans-serif"],
         dosis: ["Dosis", "sans-serif"],
       },
     },
