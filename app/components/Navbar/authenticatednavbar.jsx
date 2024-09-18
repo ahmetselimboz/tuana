@@ -73,10 +73,10 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
 
     if (width <= 1024) {
         return (
-            <div id="auth-navbar" className='w-full flex flex-col sticky top-0 left-0 z-20 bg-main py-4'>
+            <div id="auth-navbar" className='w-full flex flex-col fixed top-0 left-0 z-20 bg-main py-4'>
 
-                <div className='flex items-center justify-between  px-2'>
-                    <div className='w-fit flex items-center relative ml-2'>
+                <div className='flex items-center justify-between relative w-full px-2'>
+                    <div className='w-fit flex items-center  ml-2'>
                         <HiMiniBars3 className='text-stone-900 text-2xl pl-2 w-fit' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
                         <Dropdown isOpen={openSidebar}>
                             <div className={`min-w-[250px] h-fit absolute z-40 border border-stone-900/20 top-12 -left-5 rounded-md shadow-xl bg-main`}>
@@ -86,7 +86,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                             </div>
                         </Dropdown>
                     </div>
-                    <div className=' w-fit  flex flex-col items-center justify-center relative'>
+                    <div className=' w-fit  flex flex-col items-center justify-center '>
                         <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar); setOpenSidebar(false); setOpenUserBar(false) }}>
                             <div className='text-3xl text-primary'>
                                 <SiCodeforces />
@@ -96,7 +96,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                             </div>
                         </div>
                         <Dropdown isOpen={openAppBar} classw="flex items-center justify-center">
-                            <div className={` w-[350px] h-fit absolute z-30 border border-stone-900/20 top-8 rounded-md shadow-xl bg-main`}>
+                            <div className={`  h-fit absolute z-30 border border-stone-900/20 top-8 rounded-md shadow-xl bg-main`}>
                                 <div className='w-full '>
                                     {
                                         projectList.map((pl, index) => (
@@ -120,7 +120,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                             </div>
                         </Dropdown>
                     </div>
-                    <div className='w-fit flex items-center justify-end relative'>
+                    <div className='w-fit flex items-center justify-end '>
                         <div onClick={() => { setOpenUserBar(!openUserBar); setOpenSidebar(false); setOpenAppBar(false) }} className={`w-fit flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
                             <FaUser className='w-fit flex items-center justify-center gap-1  h-[25px]' />
                         </div>
