@@ -66,7 +66,7 @@ const WorldMap = ({ mergeData }) => {
 
   return (
     <>
-      <ComposableMap projectionConfig={{}} className="h-full ">
+      <ComposableMap projectionConfig={{}} className="h-full lg:w-auto w-full">
         <Geographies geography={geoUrl} >
           {({ geographies }) =>
             geographies.map((geo) => {
