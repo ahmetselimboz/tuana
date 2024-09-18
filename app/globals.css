@@ -33,13 +33,7 @@
     @apply w-full h-screen;
   }
 
-  .cls-3 {
-    @apply font-dosis;
-  }
 
-  .cls-4 {
-    @apply font-dosis;
-  }
 }
 
 @keyframes blink {
@@ -92,9 +86,12 @@
   fill: #19ae9d;
 }
 
-
 .cls-3 {
   font-size: 107.71px;
+}
+
+.cls-3 .cls-4 {
+  font-family: "Dosis", sans-serif;
 }
 
 .cls-4 {

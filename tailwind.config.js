@@ -19,7 +19,7 @@ export default {
       },
       fontFamily: {
         // inter: ["Inter", "sans-serif"],
-        dosis: ["Dosis", "sans-serif"],
+        //dosis: ["Dosis", "sans-serif"],
       },
     },
   },

@@ -49,7 +49,7 @@ const locationcard = ({ selectedDate, setSelectedDate, selectedDropdown, setSele
 
     return (
         <div className="rounded-md shadow-xl border border-stone-900/20 bg-main w-full h-[483px] flex lg:flex-row flex-col p-2">
-            <div className="lg:w-4/6 w-full relative">
+            <div className="lg:w-4/6 w-full relative flex items-center justify-center">
                 <WorldMap mergeData={mergeData}></WorldMap>
             </div>
             <div className='lg:w-2/6 w-full h-[465px] py-5 overflow-hidden relative'>
