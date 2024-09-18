@@ -75,7 +75,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
         return (
             <div id="auth-navbar" className='w-full flex flex-col fixed z-20 bg-main py-4'>
 
-                <div className='flex items-center justify-between w-full px-2'>
+                <div className='flex items-center justify-between container mx-auto max-w-full px-2'>
                     <div className='w-fit flex items-center relative ml-2'>
                         <HiMiniBars3 className='text-stone-900 text-2xl pl-2 w-fit' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
                         <Dropdown isOpen={openSidebar}>
