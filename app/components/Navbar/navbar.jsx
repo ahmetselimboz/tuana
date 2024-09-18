@@ -28,7 +28,7 @@ const Navbar = () => {
                 <div className='flex w-full justify-between'>
                     <div className='w-1/2 flex items-center justify-around'>
                         <div className='w-full'>
-                            <Link href="/"> <img src="/tuana_medium_logo.png" alt="" className='h-[50px]' /></Link>
+                            <Link href="/"> <img src="/tuana_medium_logo.png" alt="" className='h-[40px]' /></Link>
                         </div>
 
                     </div>
@@ -36,14 +36,14 @@ const Navbar = () => {
 
                         <HiMiniBars3 className='text-stone-900 text-2xl' onClick={() => { setOpenMenu(!openMenu) }} />
                         <Dropdown isOpen={openMenu}>
-                            <div className={`min-w-[300px] h-fit absolute border border-stone-900/20 top-14 -right-2 rounded-md shadow-xl bg-main`}>
+                            <div className={`min-w-[220px] h-fit absolute border border-stone-900/20 top-14 -right-2 rounded-md shadow-xl bg-main`}>
                                 <div className='w-full flex flex-col  px-6 py-8 gap-2'>
                                     <div className='w-full flex flex-col items-center gap-2'>
-                                        <Link href="/login" className='text-xl min-w-32 text-center text-primary font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md hover:border-secondary hover:text-secondary transition-all '>Login</Link>
-                                        <Link href="/sign-in" className='text-xl min-w-32 text-center text-main font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Sign In</Link>
+                                        <Link href="/login" className='text-lg min-w-32 text-center text-primary font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md hover:border-secondary hover:text-secondary transition-all '>Login</Link>
+                                        <Link href="/sign-in" className='text-lg min-w-32 text-center text-main font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Sign In</Link>
                                     </div>
                                     <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  my-2' />
-                                    <div className='text-1-5xl font-medium flex flex-col gap-2 w-full items-start justify-center text-stone-900 '>
+                                    <div className='text-lg font-medium flex flex-col gap-2 w-full items-start justify-center text-stone-900 '>
                                         {
                                             navMenu.map((nav, index) => (
                                                 <Link href={nav.url} key={index} className="w-full rounded-md px-4 py-2 bg-black/5">

@@ -4,6 +4,7 @@ import { FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { LuDot } from 'react-icons/lu'
 import LanguageDropdown from './languagedropdown'
+import Tuanalyticssvg from "../Homepage/tuanalyticsSvg"
 
 const footer = () => {
     return (
@@ -12,7 +13,8 @@ const footer = () => {
             <div className="w-full h-full flex lg:flex-row flex-col">
                 <div className='lg:w-2/6 w-full h-full flex flex-col items-center justify-start'>
                     <div className='w-full  flex flex-col items-center mt-12 mb-6 px-4'>
-                        <img src="/wer.svg" alt="" className='w-fit h-[80px]' />
+                        
+                        <Tuanalyticssvg classn={"w-fit h-[80px]"}></Tuanalyticssvg>
                         <div className="font-dosis text-primaryGray text-xl ">
                             AI-based user behavior analysis platform
                         </div>
