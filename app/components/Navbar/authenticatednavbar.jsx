@@ -37,17 +37,23 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
 
     useEffect(() => {
         if (typeof window !== 'undefined') {  // Tarayıcı ortamında olup olmadığını kontrol et
+            const navbar = document.getElementById('auth-navbar');
             const handleScroll = () => {
                 if (width >= 1024) {
                     if (window.scrollY > 400) {
+                
                         setIsVisible(true);
+
                     } else {
                         setIsVisible(false);
                     }
                 } else {
                     if (window.scrollY > 1070) {
+            
+                        navbar.style.marginTop = '-51px';
                         setIsVisible(true);
                     } else {
+                        navbar.style.marginTop = '0px';
                         setIsVisible(false);
                     }
                 }
@@ -60,14 +66,14 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                 window.removeEventListener("scroll", handleScroll);
             };
         }
-    }, [width]);  // 'width' bağımlı olduğu için, değiştiğinde effect tekrar çalışır
+    }, [width]); 
 
 
 
 
     if (width <= 1024) {
         return (
-            <div className='w-full flex flex-col fixed z-20 bg-main py-4'>
+            <div id="auth-navbar" className='w-full flex flex-col fixed z-20 bg-main py-4'>
                 <div className='w-full  px-2   '>
                     <div className='flex items-center justify-between w-full'>
                         <div className='w-fit flex items-center relative ml-2'>

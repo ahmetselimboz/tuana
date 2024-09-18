@@ -12,7 +12,7 @@ import Sourcescard from "@/app/components/Analytics/sourcescard"
 import Languagecard from "@/app/components/Analytics/languagecard"
 import Fastcard from "@/app/components/Analytics/fastcard"
 import useWidth from '@/app/hooks/useWidth'
-
+import TuanalyticsSvg from "../../components/Homepage/tuanalyticsSvg"
 
 const Analytics = () => {
 
@@ -61,7 +61,7 @@ const Analytics = () => {
                     ) : (
                       <div className="w-[90%] h-full flex items-center justify-center  rounded-md overflow-hidden ">
                         <hr className="w-1/4 border-b-2 border-secondary/20 mx-2" />
-                        <img src="/wer.svg" alt="" className="w-2/4 drop-shadow-lg" />
+                        <TuanalyticsSvg classn={""}></TuanalyticsSvg>
                         <hr className="w-1/4 border-b-2 border-secondary/20 mx-2" />
                       </div>
                     )
