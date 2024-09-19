@@ -76,8 +76,8 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
             <div id="auth-navbar" className='w-full flex flex-col fixed top-0 left-0 z-20 bg-main py-4'>
 
                 <div className='flex items-center justify-between relative w-full px-2'>
-                    <div className='w-fit flex items-center  ml-2'>
-                        <HiMiniBars3 className='text-stone-900 text-2xl pl-2' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
+                    <div className='w-fit flex items-center justify-center ml-2'>
+                        <HiMiniBars3 className='text-stone-900 text-2xl ' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
                         <Dropdown isOpen={openSidebar}>
                             <div className={`min-w-[250px] h-fit absolute z-40 border border-stone-900/20 top-12 -left-5 rounded-md shadow-xl bg-main`}>
                                 <div className='w-full flex flex-col  px-6 py-8 gap-2'>
@@ -121,7 +121,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                         </Dropdown>
                     </div>
                     <div className='w-fit flex items-center justify-end '>
-                        <div onClick={() => { setOpenUserBar(!openUserBar); setOpenSidebar(false); setOpenAppBar(false) }} className={`w-fit flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
+                        <div onClick={() => { setOpenUserBar(!openUserBar); setOpenSidebar(false); setOpenAppBar(false) }} className={`w-[40px] h-[40px] flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
                             <FaUser className='flex items-center justify-center gap-1  h-[25px]' />
                         </div>
                         <Dropdown isOpen={openUserBar}>

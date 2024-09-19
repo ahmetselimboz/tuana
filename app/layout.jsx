@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
         {children}
 
       </body>
-      <Script async src="/track.js" />
+      <Script async src="https://minio-api.server.linatechnologies.com/script/track.js" />
 
 
       <Script id="datalayer" strategy="lazyOnload">
