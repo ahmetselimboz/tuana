@@ -5,20 +5,21 @@ import socket from '@/lib/socket/socket';
 
 const useCurrentUser = (appId) => {
   const [activeUsers, setActiveUsers] = useState([]);
-  
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!socket) return;
-  
+
     socket.emit("joinRoom", appId);
 
     socket.emit("getActiveUsers", appId)
 
     socket.on("activeUsers", (users) => {
-      
       setActiveUsers(users);
+      setTimeout(() => {
+        setLoading(false);
+      }, "1000")
     });
-
 
     return () => {
       socket.emit("leaveRoom", appId);
@@ -26,7 +27,7 @@ const useCurrentUser = (appId) => {
   }, [setActiveUsers]);
 
 
-  return { activeUsers };
+  return { activeUsers, loading };
 };
 
 export default useCurrentUser;

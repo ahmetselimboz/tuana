@@ -15,6 +15,7 @@ import useWidth from '@/app/hooks/useWidth'
 import TuanalyticsSvg from "../../components/Homepage/tuanalyticsSvg"
 import { useDispatch } from 'react-redux'
 import { setAppsSetting, setCurrentVisitor } from '@/lib/redux/features/appSettings/appsSlice'
+import Loading from '@/app/loading'
 
 const Analytics = () => {
 
@@ -25,7 +26,7 @@ const Analytics = () => {
   const { width } = useWidth()
 
   function SearchBarFallback() {
-    return <>placeholder</>
+    return <p>Loading...</p>
   }
 
   return (
@@ -49,7 +50,7 @@ const Analytics = () => {
             </div> */}
             </div>
             <Suspense >
-              <Fastcard fallback={<SearchBarFallback />} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
+              <Fastcard fallback={<Loading/>} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
             </Suspense>
             <Linecard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Linecard>
             <div className="w-full h-full flex items-center lg:flex-row flex-col gap-3 mb-12">

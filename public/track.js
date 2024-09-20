@@ -8,8 +8,8 @@
 
   scriptParser.onload = function () {
     script.onload = function () {
-      //const socket = io("https://server.tuanalytics.xyz");
-      const socket = io("http://localhost:4000");
+      const socket = io("https://server.tuanalytics.xyz");
+      //const socket = io("http://localhost:4000");
 
       var parser = new UAParser();
       var result = parser.getResult();

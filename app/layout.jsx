@@ -4,6 +4,8 @@ import Script from "next/script";
 import { Dosis } from 'next/font/google'
 import StoreProvider from "./providers/StoreProvider";
 import { SocketProvider } from "./providers/SocketProvider";
+import Loading from "./loading";
+import { Suspense } from "react";
 
 const dosis = Dosis({ subsets: ['latin'] })
 
@@ -24,11 +26,12 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={`${dosis.className} antialiased bg-main`}>
-        <StoreProvider>
-          {/* <SocketProvider>
-          </SocketProvider> */}
+        <Suspense fallback={<Loading />}>
+          <StoreProvider>
             {children}
-        </StoreProvider>
+          </StoreProvider>
+        </Suspense>
+
 
       </body>
 
@@ -43,7 +46,7 @@ export default function RootLayout({ children }) {
     track("js", new Date());
     track("config", "TNAKLYTP");`}
       </Script>
-      <Script async src={`${process.env.NEXT_PUBLIC_SCRIPT_URL}`} />
+      <Script async src="/track.js" />
     </html>
   );
 }
