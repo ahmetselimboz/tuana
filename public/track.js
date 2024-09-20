@@ -13,76 +13,94 @@
       //const socket = io("http://localhost:4000");
 
       var parser = new UAParser();
-
       var result = parser.getResult();
       delete result.ua;
       delete result.cpu;
 
-      const getIPAndLocation = async () => {
-        try {
-          const [ipResponse, locationResponse] = await Promise.all([
-            fetch("https://api.ipify.org?format=json"),
-            fetch(`https://ipinfo.io/json?token=51c3494912e936`),
-          ]);
+      function checkDataLayer() {
+        if (window.dataLayer && window.dataLayer.length > 1) {
+          const appId = window.dataLayer[1][1];
+         
 
-          const ipData = await ipResponse.json();
-          const locationData = await locationResponse.json();
-          const { country, regionName, countryCode, city, lat, lon } =
-            locationData;
-          window.localStorage.setItem("ip", ipData.ip);
-          return {
-            locationInfo: { country, countryCode, regionName, city, lat, lon },
+          const getIPAndLocation = async () => {
+            try {
+              const [ipResponse, locationResponse] = await Promise.all([
+                fetch("https://api.ipify.org?format=json"),
+                fetch(`https://ipinfo.io/json?token=51c3494912e936`),
+              ]);
+
+              const ipData = await ipResponse.json();
+              const locationData = await locationResponse.json();
+              const { country, regionName, countryCode, city, lat, lon } =
+                locationData;
+              window.localStorage.setItem("ip", ipData.ip);
+              return {
+                locationInfo: {
+                  country,
+                  countryCode,
+                  regionName,
+                  city,
+                  lat,
+                  lon,
+                },
+              };
+            } catch (error) {
+              console.error("IP veya konum alınırken hata oluştu:", error);
+              return { ip: null, locationInfo: {} };
+            }
           };
-        } catch (error) {
-          console.error("IP veya konum alınırken hata oluştu:", error);
-          return { ip: null, locationInfo: {} };
+
+          const trackEvent = async (eventType, eventData = {}) => {
+            const { locationInfo } = await getIPAndLocation();
+
+            const data = {
+              visitorId: null,
+              ip: window.localStorage.getItem("ip"),
+              appId: appId,
+              type: eventType,
+              data: eventData,
+              time: new Date().toISOString(),
+              url: location.href,
+              referrer: document.referrer || "Direct/None",
+              userDevice: result,
+              location: locationInfo,
+              screenResolution: `${window.screen.width}x${window.screen.height}`,
+              language: navigator.language || navigator.userLanguage,
+            };
+
+            socket.emit("trackEvent", data);
+          };
+
+          window.addEventListener("beforeunload", (event) => {
+            trackEvent("page_exit", { reason: "User leaving the page" });
+            // navigator.sendBeacon(
+            //   "http://localhost:4000/trackEvent",
+            //   JSON.stringify({
+            //     event: "disconnect",
+            //     time: new Date().toISOString(),
+            //   })
+            // );
+          });
+
+          const DOMContentLoaded = () => {
+            socket.emit("register", appId);
+
+            trackEvent("page_view", {
+              pageTitle: document.title,
+            });
+          };
+
+          // document.addEventListener("click", (e) => {
+          //   trackEvent("click", { element: e.target.tagName });
+          // });
+
+          DOMContentLoaded();
+        } else {
+          setTimeout(checkDataLayer, 100);
         }
-      };
+      }
 
-      const trackEvent = async (eventType, eventData = {}) => {
-        const { locationInfo } = await getIPAndLocation();
-
-        const data = {
-          visitorId: null,
-          ip: window.localStorage.getItem("ip"),
-          appId: window.dataLayer?.[1]?.["1"],
-          type: eventType,
-          data: eventData,
-          time: new Date().toISOString(),
-          url: location.href,
-          referrer: document.referrer || "Direct/None",
-          userDevice: result,
-          location: locationInfo,
-          screenResolution: `${window.screen.width}x${window.screen.height}`,
-          language: navigator.language || navigator.userLanguage,
-        };
-
-        socket.emit("trackEvent", data);
-      };
-
-      window.addEventListener("beforeunload", (event) => {
-        trackEvent("page_exit", { reason: "User leaving the page" });
-        // navigator.sendBeacon(
-        //   "http://localhost:4000/trackEvent",
-        //   JSON.stringify({
-        //     event: "disconnect",
-        //     time: new Date().toISOString(),
-        //   })
-        // );
-      });
-
-      const DOMContentLoaded = () => {
-        socket.emit("register");
-        trackEvent("page_view", {
-          pageTitle: document.title,
-        });
-      };
-
-      document.addEventListener("click", (e) => {
-        trackEvent("click", { element: e.target.tagName });
-      });
-
-      DOMContentLoaded();
+      checkDataLayer();
     };
     document.head.appendChild(script);
   };

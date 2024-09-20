@@ -26,8 +26,8 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
     const { width } = useWidth()
 
     const projectList = [
-        { type: "web", title: "www.tuanalytics.com", siteId: "TNAKLYTP" },
-        { type: "mobile", title: "TuanalyticsApp", siteId: "NBUKJLSX" },
+        { type: "web", title: "www.tuanalytics.com", appId: "TNAKLYTP" },
+        { type: "mobile", title: "TuanalyticsApp", appId: "NBUKJLSX" },
     ]
 
     const itemList = [
@@ -100,7 +100,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                                 <div className='w-full '>
                                     {
                                         projectList.map((pl, index) => (
-                                            <Link key={index} href={`?id=${pl.siteId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
+                                            <Link key={index} href={`?id=${pl.appId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
                                                 <div className='text-4xl text-primary'>
                                                     {
                                                         pl.type == "web" ? (<TbWorld />) : (<IoMdPhonePortrait />)
@@ -185,7 +185,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                                 <div className='w-full '>
                                     {
                                         projectList.map((pl, index) => (
-                                            <Link key={index} href={`?id=${pl.siteId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
+                                            <Link key={index} href={`?id=${pl.appId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
 
                                                 <div className='text-4xl text-primary'>
                                                     {
