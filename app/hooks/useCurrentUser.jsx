@@ -4,26 +4,27 @@ import { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 
 const useCurrentUser = (url, appId) => {
-  const socketRef = useRef(null);
-  const [activeUsers, setActiveUsers] = useState([]);
+    const socketRef = useRef(null);
+    const [activeUsers, setActiveUsers] = useState([]);
 
-  useEffect(() => {
+    useEffect(() => {
 
-    const socket = io(url);
-    socketRef.current = socket;
+        const socket = io(url);
+        socketRef.current = socket;
 
-    socket.emit('register', appId);
+        socket.emit('register', appId);
 
-    socket.on('activeUsers', (users) => {
-      setActiveUsers(users);
-    });
+        socket.on('activeUsers', (users) => {
+            setActiveUsers(users);
+        });
+        
 
-    return () => {
-      socket.disconnect();
-    };
-  }, [url, appId]);
+        return () => {
+            socket.disconnect();
+        };
+    }, [url, appId]);
 
-  return { activeUsers };
+    return { activeUsers };
 };
 
 export default useCurrentUser;
