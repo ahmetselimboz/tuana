@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 (function () {
   const script = document.createElement("script");
   script.src = "https://cdn.socket.io/4.7.5/socket.io.min.js";
@@ -83,11 +82,29 @@
           });
 
           const DOMContentLoaded = () => {
-            socket.emit("register", appId);
             trackEvent("page_view", {
               pageTitle: document.title,
             });
           };
+
+          function onDocumentReady(callback) {
+            if (
+              document.readyState === "complete" ||
+              document.readyState === "interactive"
+            ) {
+              // DOM tamamen yüklendiğinde veya hazır olduğunda
+
+              callback();
+            } else {
+              document.addEventListener("DOMContentLoaded", callback);
+            }
+          }
+
+          // Kullanım:
+          onDocumentReady(function () {
+            console.log("DOM ve framework tamamlandı.");
+            socket.emit("register", appId);
+          });
 
           // document.addEventListener("click", (e) => {
           //   trackEvent("click", { element: e.target.tagName });

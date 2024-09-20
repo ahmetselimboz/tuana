@@ -3,6 +3,7 @@ import "./globals.css";
 import Script from "next/script";
 import { Dosis } from 'next/font/google'
 import StoreProvider from "./providers/StoreProvider";
+import { SocketProvider } from "./providers/SocketProvider";
 
 const dosis = Dosis({ subsets: ['latin'] })
 
@@ -24,8 +25,9 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${dosis.className} antialiased bg-main`}>
         <StoreProvider>
-
-          {children}
+          {/* <SocketProvider>
+          </SocketProvider> */}
+            {children}
         </StoreProvider>
 
       </body>

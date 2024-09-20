@@ -14,7 +14,7 @@ import Fastcard from "@/app/components/Analytics/fastcard"
 import useWidth from '@/app/hooks/useWidth'
 import TuanalyticsSvg from "../../components/Homepage/tuanalyticsSvg"
 import { useDispatch } from 'react-redux'
-import { setAppsSetting } from '@/lib/redux/features/appSettings/appsSlice'
+import { setAppsSetting, setCurrentVisitor } from '@/lib/redux/features/appSettings/appsSlice'
 
 import useCurrentUser from '@/app/hooks/useCurrentUser'
 import { useSearchParams } from 'next/navigation'
