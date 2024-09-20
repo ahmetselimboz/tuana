@@ -29,10 +29,12 @@ const Analytics = () => {
 
   const dispatch = useDispatch()
 
- 
+  function SearchBarFallback() {
+    return <>placeholder</>
+  }
 
 
-  
+
   // useEffect(() => {
   //   dispatch(setAppsSetting(appId))
   // }, [])
@@ -58,8 +60,10 @@ const Analytics = () => {
               <input type="text" className="font-dosis  w-1/2 outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." />
             </div> */}
             </div>
+            <Suspense >
 
-            <Fastcard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
+              <Fastcard fallback={<SearchBarFallback />} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
+            </Suspense>
             <Linecard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Linecard>
             <div className="w-full h-full flex items-center lg:flex-row flex-col gap-3 mb-12">
               <div className="lg:w-1/2 w-full h-full ">
