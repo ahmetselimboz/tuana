@@ -16,9 +16,6 @@ import TuanalyticsSvg from "../../components/Homepage/tuanalyticsSvg"
 import { useDispatch } from 'react-redux'
 import { setAppsSetting, setCurrentVisitor } from '@/lib/redux/features/appSettings/appsSlice'
 
-import useCurrentUser from '@/app/hooks/useCurrentUser'
-import { useSearchParams } from 'next/navigation'
-
 const Analytics = () => {
 
 
@@ -26,7 +23,7 @@ const Analytics = () => {
   const [selectedDropdown, setSelectedDropdown] = useState(new Date() ? "today" : null);
   const [adsActive, setAdsActive] = useState(false)
   const { width } = useWidth()
-  
+
   function SearchBarFallback() {
     return <>placeholder</>
   }
