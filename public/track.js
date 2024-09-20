@@ -9,8 +9,8 @@
 
   scriptParser.onload = function () {
     script.onload = function () {
-      const socket = io("https://server.tuanalytics.xyz");
-      //const socket = io("http://localhost:4000");
+      //const socket = io("https://server.tuanalytics.xyz");
+      const socket = io("http://localhost:4000");
 
       var parser = new UAParser();
       var result = parser.getResult();
@@ -20,7 +20,6 @@
       function checkDataLayer() {
         if (window.dataLayer && window.dataLayer.length > 1) {
           const appId = window.dataLayer[1][1];
-         
 
           const getIPAndLocation = async () => {
             try {
@@ -73,6 +72,7 @@
 
           window.addEventListener("beforeunload", (event) => {
             trackEvent("page_exit", { reason: "User leaving the page" });
+            socket.emit("disconnect", appId);
             // navigator.sendBeacon(
             //   "http://localhost:4000/trackEvent",
             //   JSON.stringify({
@@ -84,7 +84,6 @@
 
           const DOMContentLoaded = () => {
             socket.emit("register", appId);
-
             trackEvent("page_view", {
               pageTitle: document.title,
             });

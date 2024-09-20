@@ -12,6 +12,11 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
+
+
+
+
   return (
     <html lang="en">
       <head>
@@ -19,6 +24,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${dosis.className} antialiased bg-main`}>
         <StoreProvider>
+
           {children}
         </StoreProvider>
 
@@ -35,7 +41,7 @@ export default function RootLayout({ children }) {
     track("js", new Date());
     track("config", "TNAKLYTP");`}
       </Script>
-      <Script async src="./track.js" />
+      <Script async src={`${process.env.NEXT_PUBLIC_SCRIPT_URL}`} />
     </html>
   );
 }

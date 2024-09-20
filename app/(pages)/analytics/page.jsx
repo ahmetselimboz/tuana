@@ -26,18 +26,17 @@ const Analytics = () => {
   const [selectedDropdown, setSelectedDropdown] = useState(new Date() ? "today" : null);
   const [adsActive, setAdsActive] = useState(false)
   const { width } = useWidth()
-
+  const params = useSearchParams()
+  const appId = params.get("id")
   const dispatch = useDispatch()
 
   function SearchBarFallback() {
     return <>placeholder</>
   }
 
-
-
-  // useEffect(() => {
-  //   dispatch(setAppsSetting(appId))
-  // }, [])
+  useEffect(() => {
+    dispatch(setAppsSetting(appId))
+  }, [])
 
 
   return (

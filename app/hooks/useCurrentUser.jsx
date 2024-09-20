@@ -1,30 +1,32 @@
+"use client"
+
+import { useEffect, useRef, useState } from 'react';
+import socket from '@/lib/socket/socket';
+
+const useCurrentUser = (appId) => {
+  const [activeUsers, setActiveUsers] = useState([]);
 
 
-import { useEffect, useState, useRef } from 'react';
-import io from 'socket.io-client';
+  useEffect(() => {
+    if (!socket) return;
+   
+    socket.emit("joinRoom", appId);
 
-const useCurrentUser = (url, appId) => {
-    const socketRef = useRef(null);
-    const [activeUsers, setActiveUsers] = useState([]);
+    socket.emit("getActiveUsers", appId)
 
-    useEffect(() => {
+    socket.on("activeUsers", (users) => {
+      console.log("Active Users received:", users);
+      setActiveUsers(users);
+    });
 
-        const socket = io(url);
-        socketRef.current = socket;
 
-        socket.emit('register', appId);
+    return () => {
+      socket.emit("leaveRoom", appId);
+    };
+  }, [setActiveUsers, appId]);
 
-        socket.on('activeUsers', (users) => {
-            setActiveUsers(users);
-        });
-        
 
-        return () => {
-            socket.disconnect();
-        };
-    }, [url, appId]);
-
-    return { activeUsers };
+  return { activeUsers };
 };
 
 export default useCurrentUser;
