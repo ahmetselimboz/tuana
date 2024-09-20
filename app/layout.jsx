@@ -31,20 +31,15 @@ export default function RootLayout({ children }) {
             {children}
           </StoreProvider>
         </Suspense>
-
-
       </body>
-
-
 
       <Script id="datalayer" strategy="lazyOnload">
         {`window.dataLayer = window.dataLayer || [];
-    function track() {
-      dataLayer.push(arguments);
-       
-    }
-    track("js", new Date());
-    track("config", "TNAKLYTP");`}
+          function track() {
+            dataLayer.push(arguments);
+          }
+          track("js", new Date());
+          track("config", "TNAKLYTP");`}
       </Script>
       <Script async src="/track.js" />
     </html>
