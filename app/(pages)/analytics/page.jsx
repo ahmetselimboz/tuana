@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import AuthenticatedNavbar from "@/app/components/Navbar/authenticatednavbar"
 import Footer from "@/app/components/Footer/footer"
 import Sidebar from "@/app/components/Analytics/sidebar"
