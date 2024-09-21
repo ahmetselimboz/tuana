@@ -10,7 +10,7 @@ import Pagescard from "@/app/components/Analytics/pagescard"
 import Locationcard from "@/app/components/Analytics/locationcard"
 import Sourcescard from "@/app/components/Analytics/sourcescard"
 import Languagecard from "@/app/components/Analytics/languagecard"
-import Fastcard from "@/app/components/Analytics/fastcard"
+import Fastcard from "@/app/components/Analytics/fastCard/fastcard"
 import useWidth from '@/app/hooks/useWidth'
 import TuanalyticsSvg from "../../components/Homepage/tuanalyticsSvg"
 import { useDispatch } from 'react-redux'
@@ -49,8 +49,8 @@ const Analytics = () => {
               <input type="text" className="font-dosis  w-1/2 outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." />
             </div> */}
             </div>
-            <Suspense >
-              <Fastcard fallback={<Loading/>} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
+            <Suspense fallback={<Loading/>}>
+              <Fastcard  selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
             </Suspense>
             <Linecard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Linecard>
             <div className="w-full h-full flex items-center lg:flex-row flex-col gap-3 mb-12">

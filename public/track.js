@@ -20,6 +20,14 @@
         if (window.dataLayer && window.dataLayer.length > 1) {
           const appId = window.dataLayer[1][1];
 
+          let userId = localStorage.getItem("userId");
+
+         
+          if (!userId) {
+            userId = crypto.randomUUID();
+            localStorage.setItem("userId", userId);
+          }
+
           const getIPAndLocation = async () => {
             try {
               const [ipResponse, locationResponse] = await Promise.all([
@@ -52,13 +60,13 @@
             const { locationInfo } = await getIPAndLocation();
 
             const data = {
-              visitorId: null,
+              visitorId: userId,
               ip: window.localStorage.getItem("ip"),
               appId: appId,
               type: eventType,
               data: eventData,
               time: new Date().toISOString(),
-              url: location.href,
+              url: location.pathname,
               referrer: document.referrer || "Direct/None",
               userDevice: result,
               location: locationInfo,
@@ -81,12 +89,6 @@
             // );
           });
 
-          const DOMContentLoaded = () => {
-            trackEvent("page_view", {
-              pageTitle: document.title,
-            });
-          };
-
           function onDocumentReady(callback) {
             if (
               document.readyState === "complete" ||
@@ -100,17 +102,33 @@
             }
           }
 
-          // Kullanım:
           onDocumentReady(function () {
             console.log("DOM ve framework tamamlandı.");
-            socket.emit("register", appId);
+            socket.emit("register", {
+              appId: appId,
+              visitorId: userId,
+            });
           });
 
           // document.addEventListener("click", (e) => {
           //   trackEvent("click", { element: e.target.tagName });
           // });
 
-          DOMContentLoaded();
+          const trackPageView = () => {
+            trackEvent("page_view", {
+              pageTitle: document.title,
+            });
+          };
+
+          trackPageView();
+
+          window.addEventListener("popstate", trackPageView);
+
+          const originalPushState = history.pushState;
+          history.pushState = function () {
+            originalPushState.apply(this, arguments);
+            trackPageView();
+          };
         } else {
           setTimeout(checkDataLayer, 100);
         }
