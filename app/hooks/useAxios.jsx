@@ -10,6 +10,12 @@ export const useAxios = () => {
     setLoading(true);
     setError(null);
     try {
+      // const config = {
+      //   method,
+      //   url: process.env.NEXT_PUBLIC_SERVER_URL + url,
+      //   data: body,
+      // };
+
       const config = {
         method,
         url: "https://server.tuanalytics.xyz" + url,

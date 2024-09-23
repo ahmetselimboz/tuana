@@ -13,13 +13,13 @@ const CurrentVisitor = () => {
 
     return (
         <div className="flex flex-col items-center justify-center lg:w-1/4 w-full lg:my-0 my-4">
+            <HiStatusOnline className="text-primary text-5xl animate-blink" />
+            <div className="text-primaryGray  font-dosis text-xl font-medium">Current Visitors</div>
             {
                 loading ? (
-                    <Loading />
+                    <Loading width="w-6" height="h-6"/>
                 ) : (
                     <>
-                        <HiStatusOnline className="text-primary text-5xl animate-blink" />
-                        <div className="text-primaryGray  font-dosis text-xl font-medium">Current Visitors</div>
                         <div className="text-primaryGray  font-dosis text-xl">{activeUsers?.length == undefined ? 0 : activeUsers?.length}</div>
                     </>
                 )
