@@ -18,8 +18,8 @@ import { setAppsSetting, setCurrentVisitor } from '@/lib/redux/features/appSetti
 import Loading from '@/app/loading'
 
 const Analytics = () => {
-  console.log("NEXT_PUBLIC_SERVER_URL: ", NEXT_PUBLIC_SERVER_URL);
-  console.log("NEXT_PUBLIC_SCRIPT_URL: ", NEXT_PUBLIC_SCRIPT_URL);
+  console.log("NEXT_PUBLIC_SERVER_URL: ", process.env.NEXT_PUBLIC_SERVER_URL);
+  console.log("NEXT_PUBLIC_SCRIPT_URL: ", process.env.NEXT_PUBLIC_SCRIPT_URL);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDropdown, setSelectedDropdown] = useState(new Date() ? "today" : null);

@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
           track("js", new Date());
           track("config", "TNAKLYTP");`}
       </Script>
-      <Script async src={`${NEXT_PUBLIC_SCRIPT_URL}`}/>
+      <Script async src={`${process.env.NEXT_PUBLIC_SCRIPT_URL}`}/>
     </html>
   );
 }
