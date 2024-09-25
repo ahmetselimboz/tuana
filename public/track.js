@@ -22,6 +22,9 @@
 
           let userId = localStorage.getItem("userId");
 
+          const localDate = new Date();
+          const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000).toISOString();
+        
          
           if (!userId) {
             userId = crypto.randomUUID();
@@ -65,7 +68,7 @@
               appId: appId,
               type: eventType,
               data: eventData,
-              time: new Date().toISOString(),
+              time: utcDate,
               url: location.pathname,
               referrer: document.referrer || "Direct/None",
               userDevice: result,

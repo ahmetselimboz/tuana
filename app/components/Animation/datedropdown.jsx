@@ -5,6 +5,7 @@ import Dropdown from '@/app/components/Animation/dropdown';
 import { useDispatch } from 'react-redux';
 import { setDropdown, setLastDate } from '@/lib/redux/features/dateSettings/dateSlice';
 import { useAppSelector } from '@/lib/redux/hooks';
+import {convertToUTC} from '../convertToUTC';
 
 const DateDropdown = ({  navbar, clw }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -75,8 +76,9 @@ const DateDropdown = ({  navbar, clw }) => {
                                 onClick={() => {
                                     if (option.value) {
                                         //setSelectedDate(option.value);
-                                        dispatch(setLastDate(option.value.toISOString()))
-                                        //setSelectedDropdown(option.label);
+                                        dispatch(setLastDate(convertToUTC(option.value)));
+                                       
+                                 
                                         dispatch(setDropdown(option.label))
                                     }
                                     toggleDropdown();

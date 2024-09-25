@@ -13,22 +13,14 @@ import Languagecard from "@/app/components/Analytics/languagecard"
 import Fastcard from "@/app/components/Analytics/fastCard/fastcard"
 import useWidth from '@/app/hooks/useWidth'
 import TuanalyticsSvg from "../../components/Homepage/tuanalyticsSvg"
-import { useDispatch } from 'react-redux'
-import { setAppsSetting, setCurrentVisitor } from '@/lib/redux/features/appSettings/appsSlice'
 import Loading from '@/app/loading'
 
 const Analytics = () => {
-  console.log("NEXT_PUBLIC_SERVER_URL: ", process.env.NEXT_PUBLIC_SERVER_URL);
-  console.log("NEXT_PUBLIC_SCRIPT_URL: ", process.env.NEXT_PUBLIC_SCRIPT_URL);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedDropdown, setSelectedDropdown] = useState(new Date() ? "today" : null);
   const [adsActive, setAdsActive] = useState(false)
   const { width } = useWidth()
-
-  function SearchBarFallback() {
-    return <p>Loading...</p>
-  }
 
   return (
     <>

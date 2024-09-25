@@ -14,6 +14,7 @@ const linecard = ({ selectedDate, setSelectedDate,  setSelectedDropdown }) => {
 
     const [activeTab, setActiveTab] = useState(0);
     const [dataValue, setDataValue] = useState(null)
+    const [dataChart, setDataChart] = useState([])
     const date = useAppSelector((state)=>state.dateSettings)
     const selectedDropdown = useAppSelector((state) => state.dateSettings.dropdown)
     const [seed, setSeed] = useState(1);
@@ -45,22 +46,31 @@ const linecard = ({ selectedDate, setSelectedDate,  setSelectedDropdown }) => {
 
     useEffect(() => {
         handleRequest()
-
+      
     }, [date.lastDate, date.firstDate])
+
+    const options = [
+        { label: "Total Visits", value: dataValue?.visitor?.totalVisitor.length },
+        { label: "Total Pageviews", value: dataValue?.visitor?.totalPage.length },
+        { label: "New Visitors", value: dataValue?.visitor?.newVisitors.length },
+        { label: "Visit Duration", value: dataValue?.visitor?.calculateDuration },
+    ];
+
+    const opti = [
+        { value: res?.visitor?.totalVisitor },
+        { value: res?.visitor?.totalPage },
+        { value: res?.visitor?.newVisitors },
+        { value: res?.visitor?.calculateDuration },
+    ];
+
 
     useEffect(() => {
         setDataValue(res)
-        console.log(dataValue);
+        setDataChart(opti)
+      
+        //console.log(dataValue);
+        //console.log("opti[1].value: ",opti[1].value);
     }, [res])
-
-    //console.log(selectedDate);
-
-    const options = [
-        { label: "Total Visits", value: dataValue?.visitor?.totalVisitor },
-        { label: "Total Pageviews", value: dataValue?.visitor?.totalPage },
-        { label: "New Visitors", value: dataValue?.visitor?.newVisitors },
-        { label: "Visit Duration", value: dataValue?.visitor?.calculateDuration },
-    ];
 
 
     return (
@@ -118,7 +128,7 @@ const linecard = ({ selectedDate, setSelectedDate,  setSelectedDropdown }) => {
                 <CustomDatePicker ></CustomDatePicker>
             </div>
             <div className="lg:px-4 my-auto">
-                <CustomLineChart key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomLineChart>
+                <CustomLineChart data={dataChart[activeTab]} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomLineChart>
             </div>
         </div>
     )

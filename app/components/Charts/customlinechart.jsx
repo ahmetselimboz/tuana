@@ -1,29 +1,38 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+
 "use client"
 import React, { useEffect, useState } from "react";
-// import Chart from "react-apexcharts";
 import dynamic from 'next/dynamic';
+import { useAppSelector } from "@/lib/redux/hooks";
+import {convertToUTC, createHourlyVisitorsArray, mergeData} from "../convertToUTC";
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-const LineChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+const LineChart = ({ data }) => {
+
+   
+
+    const selectedDate = new Date(useAppSelector((state) => state.dateSettings.lastDate))
+
+    const data2 = {
+        "0": 0,
+        "3": 0,
+        "6": 0,
+        "9": 0,
+        "12": 0,
+        "15": 0,
+        "18": 0,
+        "21": 0
+      };
 
     const formattedDate = selectedDate
         ? `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`
-        : "0000-00-00"; // Eğer `selectedDate` yoksa bir varsayılan tarih
+        : "0000-00-00"; 
 
+    const days = [`${formattedDate}T00:00:00.000Z`, `${formattedDate}T03:00:00.000Z`, `${formattedDate}T06:00:00.000Z`, `${formattedDate}T09:00:00.000Z`, `${formattedDate}T12:00:00.000Z`, `${formattedDate}T15:00:00.000Z`, `${formattedDate}T18:00:00.000Z`, `${formattedDate}T21:00:00.000Z`, `${formattedDate}T23:59:00.000Z`]
 
-
-    const [chartData] = useState({
-        series: [
-            {
-                name: "Value",
-                data: [400, 380, 500, 650, 820, 100, 250], // Grafikteki değerler
-                color: "#19ae9d"
-            },
-
-        ],
-
+    const [chartData, setChartData] = useState({
+        series: [],
         options: {
             chart: {
                 type: "area",
@@ -33,15 +42,15 @@ const LineChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
                 },
             },
             stroke: {
-                curve: "smooth", // Eğri görünümü
+                curve: "smooth", 
             },
             xaxis: {
                 type: 'datetime',
-                categories: [`${formattedDate}T00:00:00.000Z`, `${formattedDate}T03:00:00.000Z`, `${formattedDate}T06:00:00.000Z`, `${formattedDate}T09:00:00.000Z`, `${formattedDate}T12:00:00.000Z`, `${formattedDate}T15:00:00.000Z`, `${formattedDate}T18:00:00.000Z`, `${formattedDate}T21:00:00.000Z`, `${formattedDate}T23:59:00.000Z`]
+                categories: []
             },
             yaxis: {
                 min: 0,
-                max: 1000,
+                max: data?.value?.length < 100 ? 100 : 1000, 
             },
             tooltip: {
                 x: {
@@ -64,6 +73,69 @@ const LineChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
         },
     });
 
+    useEffect(() => {
+        
+ 
+        const timeSeriesData = data?.value?.map(visitor => {
+            const visitTime = new Date(visitor.date);
+            return {
+                time: visitTime,
+                value: visitor.new ? 1 : 0 
+            };
+        });
+
+        const groupedData = timeSeriesData?.reduce((acc, curr) => {
+            const visitTime =  new Date(curr.time);
+            const hour = visitTime.getHours();
+            acc[hour] = (acc[hour] || 0) + (curr.value || 1);
+            return acc;
+        }, {});
+        
+        let categories = null
+        if (groupedData && Object.keys(groupedData).length > 0) {
+            categories = Object.keys(groupedData).map(hour => {
+                const date = new Date();
+                date.setHours(parseInt(hour), 0, 0); 
+                return convertToUTC(date); 
+            });  
+        } else {
+            console.log("No data to process or groupedData is undefined.");
+        }
+
+        let seriesData =null
+        if (groupedData && Object.values(groupedData).length > 0) {
+            seriesData = mergeData(groupedData, data2); 
+            seriesData= Object.values(seriesData)
+        } else {
+            console.log("No data to process or groupedData is undefined.");
+        }
+
+        let combined = null
+
+        if (groupedData && Object.values(groupedData).length > 0) {
+            combined = [...Object.values(categories), ...days].sort((a, b) => {
+                return new Date(a) - new Date(b)
+            })
+        } else {
+            console.log("No data to process or groupedData is undefined.");
+        }
+
+        setChartData({
+            ...chartData,
+            series: [{
+                name: "Visits",
+                data: seriesData, 
+                color: "#19ae9d"
+            }],
+            options: {
+                ...chartData.options,
+                xaxis: {
+                    ...chartData.options.xaxis,
+                    categories: combined
+                }
+            }
+        });
+    }, [data]);
 
     return (
         <div className="line-chart">

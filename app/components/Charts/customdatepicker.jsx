@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { setFirstDate, setLastDate } from "@/lib/redux/features/dateSettings/dateSlice";
 import { useDispatch } from "react-redux";
+import {convertToUTC} from "../convertToUTC";
 
 const CustomDatePicker = () => {
 
@@ -19,7 +20,7 @@ const CustomDatePicker = () => {
   
     useEffect(() => {
         if (Dropdownfunc(selectedDropdown)) {
-            dispatch(setFirstDate(new Date().toISOString()))
+            dispatch(setFirstDate(convertToUTC(new Date())))
         }else{
             dispatch(setFirstDate(null))
         }
@@ -37,26 +38,26 @@ const CustomDatePicker = () => {
     }
 
     const handleDateChange = (date) => {
-        dispatch(setLastDate(date.toISOString()))
+        dispatch(setLastDate(convertToUTC(date)))
        
     };
     const handleRangeChange = (date) => {
   
-        dispatch(setFirstDate(date.toISOString()))
+        dispatch(setFirstDate(convertToUTC(date)))
       
     };
 
     const handlePrevDay = () => {
         const newDate = new Date(lastDate); 
         newDate.setDate(lastDate.getDate() - 1); 
-        dispatch(setLastDate(newDate.toISOString()))
+        dispatch(setLastDate(convertToUTC(newDate)))
     
     };
 
     const handleNextDay = () => {
         const newDate = new Date(lastDate); 
         newDate.setDate(lastDate.getDate() + 1); 
-        dispatch(setLastDate(newDate.toISOString()))
+        dispatch(setLastDate(convertToUTC(newDate) ))
     };
 
     return (
