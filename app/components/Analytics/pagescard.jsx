@@ -54,7 +54,7 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
         if (loading) {
             setPages(res?.data?.totalPage)
         }
-    }, [res])
+    }, [res, loading])
 
     if (!loading) {
         return <Loading></Loading>
@@ -83,7 +83,7 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
 
                 </div>
                 <div className="w-[98%]  flex items-center justify-center absolute top-0">
-                    <CustomBarCharts barHeight={"60%"} barData={pages} height={height - 15} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomBarCharts>
+                    <CustomBarCharts barHeight={"60%"} barData={pages} height={height - 15} key={seed}></CustomBarCharts>
                 </div>
 
             </div>

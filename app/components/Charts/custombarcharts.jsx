@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown, barData, height, barHeight }) => {
-    
-    const bars = barData?.sort((a, b) => b.visitor - a.visitor).map(item => item.visitor)|| []
-    const date = selectedDate;
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+const CustomBarCharts = ({ barData, height, barHeight }) => {
+
+    const bars = barData?.sort((a, b) => b.visitor - a.visitor).map(item => item.visitor) || []
 
 
 
@@ -16,7 +14,7 @@ const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setS
         chart: {
             type: 'bar',
             toolbar: {
-                show: false  
+                show: false
             }
         },
         plotOptions: {
@@ -35,30 +33,30 @@ const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setS
             enabled: false,
             textAnchor: 'start',
             style: {
-                fontFamily: 'Dosis, sans-serif',  
+                fontFamily: 'Dosis, sans-serif',
                 colors: ['#14897c'],
-              },
+            },
             formatter: function (val, opt) {
                 return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
             },
             offsetX: 0,
-           
+
         },
         stroke: {
             width: 1,
             colors: ['#14897c']
         },
         xaxis: {
-           
+
             axisBorder: {
                 show: false,
-              },
-              axisTicks: {
+            },
+            axisTicks: {
                 show: false,
-              },
-              labels: {
-                show: false, 
-              },
+            },
+            labels: {
+                show: false,
+            },
         },
         yaxis: {
             labels: {
@@ -67,8 +65,8 @@ const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setS
         },
 
         legend: {
-            show: false,  
-          },
+            show: false,
+        },
         tooltip: {
             theme: 'light',
             x: {
@@ -81,7 +79,7 @@ const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setS
                     }
                 },
                 formatter: function (val) {
-                    return val + " visitors";  
+                    return val + " visitors";
                 }
             }
         }
@@ -90,11 +88,13 @@ const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setS
     const [series] = useState([{
         data: bars ? bars : ["1", "1"]
     }]);
-
+    console.log("🚀 ~ CustomBarCharts ~ barData:", barData)
+    console.log("🚀 ~ CustomBarCharts ~ bars:", bars)
+    console.log("🚀 ~ CustomBarCharts ~ series:", series)
     return (
-        <div className="line-chart w-full h-auto">
-           
-            <Chart options={options} series={series} type="bar"  height={height}/>
+        <div className="line-chart w-full">
+
+            <Chart options={options} series={series} type="bar" height={height} />
         </div>
     );
 };
