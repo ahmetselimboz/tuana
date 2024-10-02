@@ -10,7 +10,7 @@ import Loading from '@/app/loading'
 import { useAppSelector } from '@/lib/redux/hooks'
 
 
-const linecard = ({ selectedDate, setSelectedDate,  setSelectedDropdown }) => {
+const linecard = () => {
 
     const [activeTab, setActiveTab] = useState(0);
     const [dataValue, setDataValue] = useState(null)
@@ -60,7 +60,7 @@ const linecard = ({ selectedDate, setSelectedDate,  setSelectedDropdown }) => {
         { value: res?.visitor?.totalVisitor },
         { value: res?.visitor?.totalPage },
         { value: res?.visitor?.newVisitors },
-        { value: res?.visitor?.calculateDuration },
+        { value: res?.duration?.calculateDuration },
     ];
 
 
@@ -68,8 +68,7 @@ const linecard = ({ selectedDate, setSelectedDate,  setSelectedDropdown }) => {
         setDataValue(res)
         setDataChart(opti)
       
-        //console.log(dataValue);
-        //console.log("opti[1].value: ",opti[1].value);
+    console.log(options)
     }, [res])
 
 
@@ -128,7 +127,7 @@ const linecard = ({ selectedDate, setSelectedDate,  setSelectedDropdown }) => {
                 <CustomDatePicker ></CustomDatePicker>
             </div>
             <div className="lg:px-4 my-auto">
-                <CustomLineChart data={dataChart[activeTab]} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomLineChart>
+                <CustomLineChart data={dataChart[activeTab]} key={seed}></CustomLineChart>
             </div>
         </div>
     )

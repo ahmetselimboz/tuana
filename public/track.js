@@ -23,9 +23,10 @@
           let userId = localStorage.getItem("userId");
 
           const localDate = new Date();
-          const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000).toISOString();
-        
-         
+          const utcDate = new Date(
+            localDate.getTime() - localDate.getTimezoneOffset() * 60000
+          ).toISOString();
+
           if (!userId) {
             userId = crypto.randomUUID();
             localStorage.setItem("userId", userId);

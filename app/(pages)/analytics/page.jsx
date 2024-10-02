@@ -43,10 +43,10 @@ const Analytics = () => {
             </div> */}
             </div>
             <Suspense fallback={<Loading width="w-14" height="h-14"/>}>
-              <Fastcard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
+              <Fastcard></Fastcard>
             </Suspense>
             <Suspense fallback={<Loading width="w-14" height="h-14"/>}>
-              <Linecard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Linecard>
+              <Linecard></Linecard>
             </Suspense>
             <div className="w-full h-full flex items-center lg:flex-row flex-col gap-3 mb-12">
               <div className="lg:w-1/2 w-full h-full ">

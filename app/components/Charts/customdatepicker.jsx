@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { setFirstDate, setLastDate } from "@/lib/redux/features/dateSettings/dateSlice";
 import { useDispatch } from "react-redux";
-import {convertToUTC} from "../convertToUTC";
+import {convertToLocal, convertToUTC} from "../convertToUTC";
 
 const CustomDatePicker = () => {
 
@@ -19,6 +19,7 @@ const CustomDatePicker = () => {
     const selectedDropdown = useAppSelector((state) => state.dateSettings.dropdown)
   
     useEffect(() => {
+        console.log(lastDate)
         if (Dropdownfunc(selectedDropdown)) {
             dispatch(setFirstDate(convertToUTC(new Date())))
         }else{

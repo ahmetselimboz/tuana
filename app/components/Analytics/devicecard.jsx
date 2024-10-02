@@ -2,11 +2,16 @@
 
 import React, { useEffect, useState } from 'react'
 import CustomPieChart from "@/app/components/Charts/custompiecharts"
+import { useSearchParams } from 'next/navigation';
+import { useAxios } from '@/app/hooks/useAxios';
+import { useAppSelector } from '@/lib/redux/hooks';
 
-const devicecard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+const devicecard = () => {
 
     const [activeDevices, setActiveDevices] = useState(0);
     const [seed, setSeed] = useState(1);
+    const date = useAppSelector((state) => state.dateSettings)
+    const [filteredBrowsers, setFilteredBrowsers] = useState({});
 
     const reset = () => {
         setSeed(Math.random());
@@ -14,17 +19,89 @@ const devicecard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelect
 
     useEffect(() => {
         reset()
-    }, [selectedDate]);
+    }, [date.lastDate]);
 
     const handleDeviceClick = (index) => {
         setActiveDevices(index);
     };
 
+
+
+    const params = useSearchParams()
+    const appId = params.get("id")
+
+    const { loading, res, error, sendRequest } = useAxios();
+
+    const handleRequest = async () => {
+        await sendRequest({
+            method: "POST",
+            url: `/api/apps/device-card?firstdate=${date.firstDate}&lastdate=${date.lastDate}`,
+            body: { appId: appId },
+        });
+    };
+
+    useEffect(() => {
+        handleRequest()
+
+    }, [date.lastDate, date.firstDate])
+
+
+    useEffect(() => {
+        setFilteredBrowsers({});
+        
+        if (res) {
+            let result = [];
+    
+            result = res?.data?.totalPage.reduce((acc, item) => {
+                let key = "";
+    
+                switch (activeDevices) {
+                    case 0: 
+                        key = item.userDevice.browser.name;
+                        break;
+                    case 1: 
+                        key = item.userDevice.os.name;
+                        break;
+                    case 2: 
+                        key = item.userDevice.device.type == null ? "Desktop" : item.userDevice.device.type;
+                        break;
+                    default:
+                        return acc;
+                }
+    
+                const existingItem = acc.find(obj => obj.device === key);
+    
+                if (existingItem) {
+                    existingItem.number += 1;
+                } else {
+                    acc.push({ device: key, number: 1 });
+                }
+    
+                return acc;
+            }, []);
+    
+            const devices = result.map(item => item.device);
+            console.log("🚀 ~ useEffect ~ devices:", devices);
+            const numbers = result.map(item => item.number);
+            console.log("🚀 ~ useEffect ~ numbers:", numbers);
+    
+            setFilteredBrowsers({
+                device: devices,
+                number: numbers
+            });
+        }else{
+            setFilteredBrowsers({
+                device: ["None"],
+                number: [0]
+            });
+        }
+    }, [activeDevices, res]);
+    
     const deviceMenu = [
         { label: "Browser" },
         { label: "OS" },
         { label: "Device" },
-      ]
+    ]
 
     return (
         <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[336px] bg-main  flex flex-col p-4 mb-8">
@@ -38,7 +115,7 @@ const devicecard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelect
 
             </div>
             <div className="w-full h-fit flex items-center justify-center ">
-                <CustomPieChart key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomPieChart>
+                <CustomPieChart data={filteredBrowsers} key={seed} ></CustomPieChart>
             </div>
 
         </div>

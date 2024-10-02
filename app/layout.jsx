@@ -6,6 +6,8 @@ import StoreProvider from "./providers/StoreProvider";
 import { SocketProvider } from "./providers/SocketProvider";
 import Loading from "./loading";
 import { Suspense } from "react";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import Error from "./error";
 
 const dosis = Dosis({ subsets: ['latin'] })
 
@@ -26,11 +28,13 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className={`${dosis.className} antialiased bg-main`}>
-        <Suspense fallback={<Loading />}>
-          <StoreProvider>
-            {children}
-          </StoreProvider>
-        </Suspense>
+        <ErrorBoundary fallback={<Error />}>
+          <Suspense fallback={<Loading />}>
+            <StoreProvider>
+              {children}
+            </StoreProvider>
+          </Suspense>
+        </ErrorBoundary>
       </body>
 
       <Script id="datalayer" strategy="lazyOnload">
@@ -41,7 +45,7 @@ export default function RootLayout({ children }) {
           track("js", new Date());
           track("config", "TNAKLYTP");`}
       </Script>
-      <Script async src={`${process.env.NEXT_PUBLIC_SCRIPT_URL}`}/>
-    </html>
+      <Script async src={`${process.env.NEXT_PUBLIC_SCRIPT_URL}`} />
+    </html >
   );
 }

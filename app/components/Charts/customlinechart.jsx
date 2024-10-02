@@ -5,34 +5,28 @@
 import React, { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import { useAppSelector } from "@/lib/redux/hooks";
-import {convertToUTC, createHourlyVisitorsArray, mergeData} from "../convertToUTC";
+import { convertToUTC, createHourlyVisitorsArray, mergeData } from "../convertToUTC";
+import useDayChart from "@/app/hooks/useDayChart";
+import Loading from "@/app/loading";
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const LineChart = ({ data }) => {
 
-   
+    const { loading, categories, seriesData, sendData } = useDayChart(data)
 
-    const selectedDate = new Date(useAppSelector((state) => state.dateSettings.lastDate))
+    const handleRequest = async () => {
+        await sendData({ data });
+    };
 
-    const data2 = {
-        "0": 0,
-        "3": 0,
-        "6": 0,
-        "9": 0,
-        "12": 0,
-        "15": 0,
-        "18": 0,
-        "21": 0
-      };
-
-    const formattedDate = selectedDate
-        ? `${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`
-        : "0000-00-00"; 
-
-    const days = [`${formattedDate}T00:00:00.000Z`, `${formattedDate}T03:00:00.000Z`, `${formattedDate}T06:00:00.000Z`, `${formattedDate}T09:00:00.000Z`, `${formattedDate}T12:00:00.000Z`, `${formattedDate}T15:00:00.000Z`, `${formattedDate}T18:00:00.000Z`, `${formattedDate}T21:00:00.000Z`, `${formattedDate}T23:59:00.000Z`]
+    useEffect(() => {
+        if (data) {
+            //console.log("🚀 ~ useEffect ~ data:", data)
+            handleRequest();
+            
+        }
+    }, [data])
 
     const [chartData, setChartData] = useState({
-        series: [],
         options: {
             chart: {
                 type: "area",
@@ -42,15 +36,14 @@ const LineChart = ({ data }) => {
                 },
             },
             stroke: {
-                curve: "smooth", 
+                curve: "smooth",
             },
             xaxis: {
                 type: 'datetime',
-                categories: []
+
             },
             yaxis: {
                 min: 0,
-                max: data?.value?.length < 100 ? 100 : 1000, 
             },
             tooltip: {
                 x: {
@@ -73,69 +66,36 @@ const LineChart = ({ data }) => {
         },
     });
 
+
     useEffect(() => {
-        
- 
-        const timeSeriesData = data?.value?.map(visitor => {
-            const visitTime = new Date(visitor.date);
-            return {
-                time: visitTime,
-                value: visitor.new ? 1 : 0 
-            };
-        });
-
-        const groupedData = timeSeriesData?.reduce((acc, curr) => {
-            const visitTime =  new Date(curr.time);
-            const hour = visitTime.getHours();
-            acc[hour] = (acc[hour] || 0) + (curr.value || 1);
-            return acc;
-        }, {});
-        
-        let categories = null
-        if (groupedData && Object.keys(groupedData).length > 0) {
-            categories = Object.keys(groupedData).map(hour => {
-                const date = new Date();
-                date.setHours(parseInt(hour), 0, 0); 
-                return convertToUTC(date); 
-            });  
-        } else {
-            console.log("No data to process or groupedData is undefined.");
-        }
-
-        let seriesData =null
-        if (groupedData && Object.values(groupedData).length > 0) {
-            seriesData = mergeData(groupedData, data2); 
-            seriesData= Object.values(seriesData)
-        } else {
-            console.log("No data to process or groupedData is undefined.");
-        }
-
-        let combined = null
-
-        if (groupedData && Object.values(groupedData).length > 0) {
-            combined = [...Object.values(categories), ...days].sort((a, b) => {
-                return new Date(a) - new Date(b)
-            })
-        } else {
-            console.log("No data to process or groupedData is undefined.");
-        }
-
+        console.log("🚀 ~ LineChart ~ seriesData:", seriesData);
+        console.log("🚀 ~ LineChart ~ categories:", categories);
+        console.log("🚀 ~ chartData before update:", chartData);
         setChartData({
             ...chartData,
             series: [{
                 name: "Visits",
-                data: seriesData, 
+                data: [0, 0],
                 color: "#19ae9d"
             }],
             options: {
                 ...chartData.options,
                 xaxis: {
                     ...chartData.options.xaxis,
-                    categories: combined
-                }
+                    categories: ["2024-10-01T00:00:00.000Z", "2024-10-01T23:59:59.999Z"]
+                },
+                yaxis: {
+                    ...chartData.options.yaxis,
+                    max: 100,
+                },
             }
         });
-    }, [data]);
+    }, [categories, seriesData]);
+    
+
+    if (!loading) {
+        return <Loading></Loading>
+    }
 
     return (
         <div className="line-chart">

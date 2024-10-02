@@ -1,7 +1,7 @@
 "use client"
 import useWidth from '@/app/hooks/useWidth';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { CiCirclePlus } from 'react-icons/ci'
 import { FaUser } from 'react-icons/fa'
 import { FiLogOut } from 'react-icons/fi'
@@ -22,6 +22,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
     const [openUserBar, setOpenUserBar] = useState(false)
     const [openSidebar, setOpenSidebar] = useState(false)
     const [isVisible, setIsVisible] = useState(false);
+    const authNavbar = useRef()
 
     const { width } = useWidth()
 
@@ -37,7 +38,8 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
 
     useEffect(() => {
         if (typeof window !== 'undefined') {  // Tarayıcı ortamında olup olmadığını kontrol et
-            const navbar = document.getElementById('auth-navbar');
+            const navbar = authNavbar.current
+
             const handleScroll = () => {
                 if (width >= 1024) {
                     if (window.scrollY > 400) {
@@ -73,7 +75,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
 
     if (width <= 1024) {
         return (
-            <div id="auth-navbar" className='w-full flex flex-col fixed top-0 left-0 z-20 bg-main py-4'>
+            <div id="auth-navbar" ref={authNavbar} className='w-full flex flex-col fixed top-0 left-0 z-20 bg-main py-4'>
 
                 <div className='flex items-center justify-between relative w-full px-2'>
                     <div className='w-fit flex items-center justify-center ml-2'>

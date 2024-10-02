@@ -5,16 +5,20 @@ import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import Popup from "../popup";
 
-const PieChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+const PieChart = ({ data }) => {
 
-    // const date = selectedDate
-    // const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedData, setSelectedData] = useState({ label: "", value: 0 });
+    const [dataValue, setDataValue] = useState({
+        device: ["None"],
+        number: [0]
+    })
 
 
-    const [chartData] = useState({
-        series: [44, 55, 41, 17, 15],
+
+
+    const [chartData, setChartData] = useState({
+        series: data.number,
         options: {
             chart: {
                 type: 'donut',
@@ -29,7 +33,7 @@ const PieChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelected
                     }
                 }
             },
-            series: [44, 55, 41, 17, 15], 
+            series: data.number,
             plotOptions: {
                 pie: {
                     donut: {
@@ -44,7 +48,7 @@ const PieChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelected
                                 color: '#666',
                                 offsetY: 16,
                                 formatter: function (val) {
-                                    return val; 
+                                    return val;
                                 }
                             },
                             total: {
@@ -63,31 +67,45 @@ const PieChart = ({ selectedDate, setSelectedDate, selectedDropdown, setSelected
                     }
                 }
             },
-            labels: ['Chrome', 'Safari', 'Firefox', 'Microsoft Edge', 'Yandex'], // Dilim isimleri
+            labels: data.device,
             responsive: [
                 {
                     breakpoint: 2000,
                     options: {
                         chart: {
-                       
-                            height:300
+
+                            height: 300
                         },
                         legend: {
                             position: 'bottom'
                         }
                     }
                 },
-              
+
             ]
         },
 
     });
 
+    useEffect(() => {
+        setChartData({
+            ...chartData,
+            series: data.number,
+            options: {
+                ...chartData.options,
+                series: data.number,
+                labels: data.device
+            }
+        });
+    }, [data])
+
+
+
     const closePopup = () => setIsPopupOpen(false);
 
     return (
         <div className="line-chart w-full h-full text-xl relative">
-            <Chart options={chartData.options} series={chartData.series} type="donut" height={280}/>
+            <Chart options={chartData.options} series={chartData.series} type="donut" height={280} />
             {isPopupOpen && (
                 <Popup isOpen={isPopupOpen} selectedData={selectedData} closePopup={closePopup}></Popup>
             )}
