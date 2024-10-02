@@ -6,7 +6,6 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown, barData, height, barHeight }) => {
     
     const bars = barData?.sort((a, b) => b.visitor - a.visitor).map(item => item.visitor)|| []
-
     const date = selectedDate;
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
@@ -89,7 +88,7 @@ const CustomBarCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setS
     });
 
     const [series] = useState([{
-        data: bars
+        data: bars ? bars : ["1", "1"]
     }]);
 
     return (

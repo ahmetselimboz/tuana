@@ -81,9 +81,9 @@ const devicecard = () => {
             }, []);
     
             const devices = result.map(item => item.device);
-            console.log("🚀 ~ useEffect ~ devices:", devices);
+           
             const numbers = result.map(item => item.number);
-            console.log("🚀 ~ useEffect ~ numbers:", numbers);
+          
     
             setFilteredBrowsers({
                 device: devices,

@@ -20,13 +20,19 @@ const LineChart = ({ data }) => {
 
     useEffect(() => {
         if (data) {
-            //console.log("🚀 ~ useEffect ~ data:", data)
+          //  console.log("🚀 ~ useEffect ~ data:", data)
+
             handleRequest();
-            
         }
     }, [data])
 
     const [chartData, setChartData] = useState({
+
+        series: [{
+            name: "Data",
+            data: [0, 0],
+            color: "#19ae9d"
+        }],
         options: {
             chart: {
                 type: "area",
@@ -40,10 +46,12 @@ const LineChart = ({ data }) => {
             },
             xaxis: {
                 type: 'datetime',
+                categories: ["2024-10-01T00:00:00.000Z", "2024-10-01T23:59:59.999Z"]
 
             },
             yaxis: {
                 min: 0,
+                max: 100,
             },
             tooltip: {
                 x: {
@@ -68,30 +76,31 @@ const LineChart = ({ data }) => {
 
 
     useEffect(() => {
-        console.log("🚀 ~ LineChart ~ seriesData:", seriesData);
-        console.log("🚀 ~ LineChart ~ categories:", categories);
-        console.log("🚀 ~ chartData before update:", chartData);
-        setChartData({
-            ...chartData,
+
+        //console.log("🚀 ~ LineChart ~ seriesData:", seriesData)
+      //  console.log("🚀 ~ LineChart ~ categories:", categories)
+      //  console.log("🚀 ~ LineChart ~ chartData:", chartData)
+        setChartData((prevData) => ({
+            ...prevData,
             series: [{
-                name: "Visits",
-                data: [0, 0],
-                color: "#19ae9d"
+                ...prevData.series[0],
+                name: data?.label,
+                data: seriesData
             }],
             options: {
-                ...chartData.options,
+                ...prevData.options,
                 xaxis: {
-                    ...chartData.options.xaxis,
-                    categories: ["2024-10-01T00:00:00.000Z", "2024-10-01T23:59:59.999Z"]
+                    ...prevData.options.xaxis,
+                    categories: categories
                 },
                 yaxis: {
-                    ...chartData.options.yaxis,
+                    ...prevData.options.yaxis,
                     max: 100,
-                },
+                }
             }
-        });
+        }));
     }, [categories, seriesData]);
-    
+
 
     if (!loading) {
         return <Loading></Loading>

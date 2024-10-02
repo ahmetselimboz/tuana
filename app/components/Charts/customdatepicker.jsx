@@ -19,7 +19,7 @@ const CustomDatePicker = () => {
     const selectedDropdown = useAppSelector((state) => state.dateSettings.dropdown)
   
     useEffect(() => {
-        console.log(lastDate)
+     
         if (Dropdownfunc(selectedDropdown)) {
             dispatch(setFirstDate(convertToUTC(new Date())))
         }else{
