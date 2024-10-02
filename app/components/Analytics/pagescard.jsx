@@ -15,7 +15,7 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
     const date = useAppSelector((state) => state.dateSettings)
     const [pages, setPages] = useState([
         { route: "/", visitor: "1" },
-        { route: "/", visitor: "1" }
+        { route: "/", visitor: "0" }
     ])
     useEffect(() => {
         if (divRef.current) {
@@ -47,7 +47,6 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
 
     useEffect(() => {
         handleRequest()
-
     }, [date.lastDate, date.firstDate])
 
     useEffect(() => {
@@ -57,7 +56,11 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
     }, [res, loading])
 
     if (!loading) {
-        return <Loading></Loading>
+        return (
+            <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[489px] bg-main  flex flex-col py-4">
+                <Loading></Loading>
+            </div>
+        )
     }
 
     return (
@@ -69,7 +72,7 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
             <div className="w-full h-auto flex items-center justify-between relative">
                 <div ref={divRef} className="w-full h-full flex flex-col items-start gap-[0.90rem] mx-9 mt-[74px]">
                     {
-                        pages.sort((a, b) => b.visitor - a.visitor).map((opt, index) => (
+                        pages?.sort((a, b) => b.visitor - a.visitor).map((opt, index) => (
                             <div key={index} className="font-dosis font-medium text-lg w-full text-stone-900 flex items-center justify-between">
                                 <div className="">
                                     {opt.route}

@@ -86,7 +86,7 @@ const CustomBarCharts = ({ barData, height, barHeight }) => {
     });
 
     const [series] = useState([{
-        data: bars ? bars : ["1", "1"]
+        data: bars 
     }]);
     console.log("🚀 ~ CustomBarCharts ~ barData:", barData)
     console.log("🚀 ~ CustomBarCharts ~ bars:", bars)

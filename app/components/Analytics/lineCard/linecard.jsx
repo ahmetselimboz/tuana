@@ -59,9 +59,24 @@ const linecard = () => {
 
     }, [date.lastDate, date.firstDate])
 
+    // const options = [
+    //     { label: "Total Visits", value: dataValue?.visitor?.totalVisitor?.length },
+    //     { label: "Total Pageviews", value: dataValue?.visitor?.totalPage?.length },
+    //     { label: "New Visitors", value: dataValue?.visitor?.newVisitors?.length },
+    //     { label: "Visit Duration", value: dataValue?.visitor?.calculateDuration },
+    // ];
+
+    // const opti = [
+    //     { value: res?.visitor?.totalVisitor },
+    //     { value: res?.visitor?.totalPage },
+    //     { value: res?.visitor?.newVisitors },
+    //     { value: res?.duration?.calculateDuration },
+    // ];
+
 
     useEffect(() => {
         if (loading) {
+            console.log("🚀 ~ useEffect ~ res:", res)
             setDataValue([
                 { label: "Total Visits", value: res?.visitor?.totalVisitor?.length },
                 { label: "Total Pageviews", value: res?.visitor?.totalPage?.length },
@@ -79,10 +94,14 @@ const linecard = () => {
 
     }, [res, loading])
 
-    if (!loading) {
-        return <Loading></Loading>
-    }
 
+    if (!loading) {
+        return (
+            <div className=" rounded-md shadow-xl border border-stone-900/20 bg-main w-full lg:h-[600px] flex flex-col mb-12">
+                <Loading></Loading>
+            </div>
+        )
+    }
 
     return (
         <div className=" rounded-md shadow-xl border border-stone-900/20 bg-main w-full lg:h-[600px] flex flex-col mb-12">
@@ -143,4 +162,4 @@ const linecard = () => {
     )
 }
 
-export default linecard
+export default linecard;

@@ -5,6 +5,7 @@ import CustomPieChart from "@/app/components/Charts/custompiecharts"
 import { useSearchParams } from 'next/navigation';
 import { useAxios } from '@/app/hooks/useAxios';
 import { useAppSelector } from '@/lib/redux/hooks';
+import Loading from '@/app/loading';
 
 const devicecard = () => {
 
@@ -48,60 +49,68 @@ const devicecard = () => {
 
     useEffect(() => {
         setFilteredBrowsers({});
-        
+
         if (res) {
             let result = [];
-    
+
             result = res?.data?.totalPage.reduce((acc, item) => {
                 let key = "";
-    
+
                 switch (activeDevices) {
-                    case 0: 
+                    case 0:
                         key = item.userDevice.browser.name;
                         break;
-                    case 1: 
+                    case 1:
                         key = item.userDevice.os.name;
                         break;
-                    case 2: 
+                    case 2:
                         key = item.userDevice.device.type == null ? "Desktop" : item.userDevice.device.type;
                         break;
                     default:
                         return acc;
                 }
-    
+
                 const existingItem = acc.find(obj => obj.device === key);
-    
+
                 if (existingItem) {
                     existingItem.number += 1;
                 } else {
                     acc.push({ device: key, number: 1 });
                 }
-    
+
                 return acc;
             }, []);
-    
+
             const devices = result.map(item => item.device);
-           
+
             const numbers = result.map(item => item.number);
-          
-    
+
+
             setFilteredBrowsers({
                 device: devices,
                 number: numbers
             });
-        }else{
+        } else {
             setFilteredBrowsers({
                 device: ["None"],
                 number: [0]
             });
         }
     }, [activeDevices, res]);
-    
+
     const deviceMenu = [
         { label: "Browser" },
         { label: "OS" },
         { label: "Device" },
     ]
+
+    if (!loading) {
+        return (
+            <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[336px] bg-main  flex flex-col p-4 mb-8">
+                <Loading></Loading>
+            </div>
+        )
+    }
 
     return (
         <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[336px] bg-main  flex flex-col p-4 mb-8">
