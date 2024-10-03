@@ -1,4 +1,3 @@
-import localFont from "next/font/local";
 import "./globals.css";
 import Script from "next/script";
 import { Dosis } from 'next/font/google'
@@ -14,8 +13,8 @@ const dosis = Dosis({ subsets: ['latin'] })
 export const metadata = {
   title: "Tuana | AI-Powered User Behavior Analytics Platform for Websites and Apps",
   description: "Tuana is an AI-powered platform providing real-time user behavior analytics for websites and apps, helping optimize user experience and performance.",
-  robots: "index, follow", 
-  author: "Ahmet Selim Boz", 
+  robots: "index, follow",
+  author: "Ahmet Selim Boz",
   publisher: "Lina Technologies",
   canonical: `${process.env.NEXT_PUBLIC_DOMAIN_URL}`,
   openGraph: {
@@ -25,7 +24,7 @@ export const metadata = {
     site_name: "Tuana",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_large_logo.png`, // Bir görsel linki ekleyin
+        url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_pp_logo.jpg`, // Bir görsel linki ekleyin
         width: 1200,
         height: 630,
         alt: "Tuana platform overview",
@@ -36,7 +35,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Tuana | AI-Powered User Behavior Analytics Platform",
     description: "Real-time user behavior analytics with AI-driven insights.",
-    image: `${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_large_logo.png`, // Twitter için görsel
+    image: `${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_pp_logo.jpg`, // Twitter için görsel
   },
 };
 
@@ -45,10 +44,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
+        <meta name="author" content="Ahmet Selim Boz" />
+        <meta name="publisher" content="Lina Technologies" />
+        <link rel="canonical" href={process.env.NEXT_PUBLIC_DOMAIN_URL} />
         <link rel="alternate" hrefLang="en" href={process.env.NEXT_PUBLIC_DOMAIN_URL} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <img src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_large_logo.png`} alt="Tuana user behavior analytics platform dashboard" />
-        <img src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_large_logo.png`}  alt="Analytics platform" loading="lazy" />
+        <img src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_pp_logo.jpg`} alt="Tuana user behavior analytics platform dashboard" />
+        <img src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_pp_logo.jpg`} alt="Analytics platform" loading="lazy" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -57,7 +59,7 @@ export default function RootLayout({ children }) {
               "@type": "WebApplication",
               "name": "Tuana",
               "description": "AI-powered user behavior analytics platform",
-              "url":  `${process.env.NEXT_PUBLIC_DOMAIN_URL}`,
+              "url": `${process.env.NEXT_PUBLIC_DOMAIN_URL}`,
               "applicationCategory": "BusinessApplication",
               "creator": {
                 "@type": "Organization",

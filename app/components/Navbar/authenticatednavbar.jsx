@@ -178,9 +178,9 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                             <div className='text-3xl text-primary'>
                                 <SiCodeforces />
                             </div>
-                            <div className='text-1-5xl font-medium font-dosis tracking-wider text-primaryGray hover:text-stone-900 transition-all'>
+                            <h4 className='text-1-5xl font-medium font-dosis tracking-wider text-primaryGray hover:text-stone-900 transition-all'>
                                 www.tuanalytics.com
-                            </div>
+                            </h4>
                         </div>
                         <Dropdown isOpen={openAppBar} classw="flex items-center justify-center">
                             <div className={` w-[350px] h-fit absolute border border-stone-900/20 top-10 rounded-md shadow-xl bg-main`}>
@@ -202,7 +202,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                                     <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
                                     <Link href="/add-project" className={`flex items-center justify-center gap-3 py-3 hover:underline transition-all px-8`}>
                                         <div className='text-4xl text-primary'><CiCirclePlus /></div>
-                                        <div className='text-xl font-dosis'>Add Project</div>
+                                        <h5 className='text-xl font-dosis'>Add Project</h5>
                                     </Link>
                                 </div>
                             </div>
@@ -214,9 +214,9 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
 
                         <div className='w-fit flex flex-col items-center gap-1 cursor-pointer tracking-wider text-primaryGray border-b-2 border-transparent hover:border-b-2 hover:border-primaryGray transition'>
                             <div onClick={() => { setOpenUserBar(!openUserBar) }} className='w-fit flex items-center justify-center gap-1 pl-2 h-[25px]'>
-                                <div className='font-dosis font-semibold text-1-5xl  '>
+                                <h6 className='font-dosis font-semibold text-1-5xl  '>
                                     Tuana
-                                </div>
+                                </h6>
                                 <div className='text-4xl  '>
                                     <RxCaretDown />
                                 </div>
