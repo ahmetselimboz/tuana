@@ -28,7 +28,7 @@ const Navbar = () => {
                 <div className='flex w-full justify-between'>
                     <div className='w-1/2 flex items-center justify-around'>
                         <div className='w-full'>
-                            <Link href="/"> <img src="/tuana_medium_logo.png" alt="" className='h-[40px]' /></Link>
+                            <Link href="/"> <img src="/tuana_medium_logo.png" alt="tuana_medium_logo.png" className='h-[40px]' /></Link>
                         </div>
 
                     </div>
@@ -71,7 +71,7 @@ const Navbar = () => {
             <div className='flex w-full'>
                 <div className='w-1/3 flex items-center justify-around'>
                     <div className='w-1/4'>
-                        <Link href="/"> <img src="/tuana_medium_logo.png" alt="" className='w-[90%]' /></Link>
+                        <Link href="/"> <img src="/tuana_medium_logo.png" alt="tuana_medium_logo.png" className='w-[90%]' /></Link>
                     </div>
                     <div className='w-1/4'>
 

@@ -15,9 +15,9 @@ const footer = () => {
                     <div className='w-full  flex flex-col items-center mt-12 mb-6 px-4'>
                         
                         <Tuanalyticssvg classn={"w-fit h-[80px]"}></Tuanalyticssvg>
-                        <div className="font-dosis text-primaryGray text-xl ">
+                        <h1 className="font-dosis text-primaryGray text-xl ">
                             AI-based user behavior analysis platform
-                        </div>
+                        </h1>
                     </div>
                     <div className='w-full  flex items-center justify-evenly px-4'>
                         <Link href="/" target='_blank' className='w-[50px] h-[50px] cursor-pointer rounded-full border-2 bg-main hover:bg-primary border-stone-900 hover:border-primaryGray text-primaryGray  hover:text-main transition-all flex items-center justify-center'>
@@ -44,15 +44,15 @@ const footer = () => {
                     </div>
                     <div className='w-full h-1/6 flex items-center  lg:flex-row flex-col px-8 lg:mb-0 mb-6'>
                         <div className='lg:w-1/2 w-full h-full flex flex-col items-center justify-center lg:mb-0 mb-4'>
-                            <div className='text-stone-900 font-dosis font-medium text-xl'>Your analytical data in your pocket! </div>
-                            <div className='text-stone-900 font-dosis font-semibold text-3xl'>Download Now!</div>
+                            <h2 className='text-stone-900 font-dosis font-medium text-xl'>Your analytical data in your pocket! </h2>
+                            <h2 className='text-stone-900 font-dosis font-semibold text-3xl'>Download Now!</h2>
                         </div>
                         <div className='lg:w-1/2 w-full h-full flex items-center justify-center gap-2'>
                             <Link href="/" target='_blank'>
-                                <img src="/GooglePlay.png" alt="" className='w-fit h-auto' />
+                                <img src="/GooglePlay.png" alt="GooglePlay.png" className='w-fit h-auto' />
                             </Link>
                             <Link href="/"  target='_blank'>
-                                <img src="/AppStore.png" alt="" className='w-fit h-auto' />
+                                <img src="/AppStore.png" alt="AppStore.png" className='w-fit h-auto' />
                             </Link>
                         </div>
                     </div>
@@ -61,9 +61,9 @@ const footer = () => {
             </div>
             <div className='w-full lg:h-[80px] h-full bg-primaryGray flex items-center lg:flex-row flex-col justify-between lg:px-6 lg:py-0 py-4'>
                 <div className='lg:w-2/6 w-full h-full flex items-center lg:justify-start justify-center'>
-                    <div className='text-main font-dosis'>
-                        &copy;&nbsp;{new Date().getFullYear()} Tuanalytics is a product of <Link href="https://linatechnologies.com" target='_blank' className='font-medium hover:underline transition-all'>Lina Technologies</Link>.
-                    </div>
+                    <h4 className='text-main font-dosis'>
+                        &copy;&nbsp;{new Date().getFullYear()} Tuanalytics is a product of <Link rel="nofollow" href="https://linatechnologies.com" target='_blank' className='font-medium hover:underline transition-all'>Lina Technologies</Link>.
+                    </h4>
 
                 </div>
                 <div className='lg:w-4/6 w-full flex items-center lg:flex-row flex-col-reverse lg:mt-0 mt-3'>

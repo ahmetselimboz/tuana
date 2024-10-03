@@ -14,7 +14,10 @@ const dosis = Dosis({ subsets: ['latin'] })
 export const metadata = {
   title: "Tuana | AI-Powered User Behavior Analytics Platform for Websites and Apps",
   description: "Tuana is an AI-powered platform providing real-time user behavior analytics for websites and apps, helping optimize user experience and performance.",
-  keywords: "user behavior analytics, AI analytics, website optimization, user tracking, AI-based insights, user experience optimization",
+  robots: "index, follow", 
+  author: "Ahmet Selim Boz", 
+  publisher: "Lina Technologies",
+  canonical: `${process.env.NEXT_PUBLIC_DOMAIN_URL}`,
   openGraph: {
     title: "Tuana | AI-Powered User Behavior Analytics Platform",
     description: "AI-powered platform providing real-time user behavior analytics for websites and apps.",
@@ -42,7 +45,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
-        <link rel="canonical" href={process.env.NEXT_PUBLIC_DOMAIN_URL} />
         <link rel="alternate" hrefLang="en" href={process.env.NEXT_PUBLIC_DOMAIN_URL} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <img src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_large_logo.png`} alt="Tuana user behavior analytics platform dashboard" />
