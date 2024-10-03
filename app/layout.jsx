@@ -3,7 +3,6 @@ import "./globals.css";
 import Script from "next/script";
 import { Dosis } from 'next/font/google'
 import StoreProvider from "./providers/StoreProvider";
-import { SocketProvider } from "./providers/SocketProvider";
 import Loading from "./loading";
 import { Suspense } from "react";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
@@ -17,10 +16,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
-
-
-
 
   return (
     <html lang="en">

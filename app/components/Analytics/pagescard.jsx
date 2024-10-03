@@ -7,7 +7,7 @@ import { useAxios } from '@/app/hooks/useAxios';
 import Loading from '@/app/loading';
 import { useAppSelector } from '@/lib/redux/hooks';
 
-const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+const pagescard = () => {
 
     const [seed, setSeed] = useState(1);
     const divRef = useRef(null);
@@ -17,26 +17,21 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
         { route: "/", visitor: "1" },
         { route: "/", visitor: "0" }
     ])
-    useEffect(() => {
-        if (divRef.current) {
-            setHeight(divRef.current.clientHeight);
-        }
-    }, [divRef.current]);
-
+    
     const reset = () => {
         setSeed(Math.random());
     }
-
+    
     useEffect(() => {
         reset()
     }, [date.lastDate]);
-
-
+    
+    
     const params = useSearchParams()
     const appId = params.get("id")
-
+    
     const { loading, res, error, sendRequest } = useAxios();
-
+    
     const handleRequest = async () => {
         await sendRequest({
             method: "POST",
@@ -44,17 +39,24 @@ const pagescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelecte
             body: { appId: appId },
         });
     };
-
+    
     useEffect(() => {
         handleRequest()
     }, [date.lastDate, date.firstDate])
-
+    
     useEffect(() => {
         if (loading) {
+            
             setPages(res?.data?.totalPage)
         }
     }, [res, loading])
-
+    
+    useEffect(() => {
+        if (divRef.current) {
+            setHeight(divRef.current.clientHeight);
+        }
+    }, [divRef.current, pages]);
+    
     if (!loading) {
         return (
             <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[489px] bg-main  flex flex-col py-4">

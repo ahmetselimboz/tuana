@@ -76,7 +76,7 @@ const linecard = () => {
 
     useEffect(() => {
         if (loading) {
-            console.log("🚀 ~ useEffect ~ res:", res)
+          
             setDataValue([
                 { label: "Total Visits", value: res?.visitor?.totalVisitor?.length },
                 { label: "Total Pageviews", value: res?.visitor?.totalPage?.length },

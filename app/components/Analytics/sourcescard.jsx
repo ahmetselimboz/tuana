@@ -1,10 +1,31 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import CustomBarCharts from "@/app/components/Charts/custombarcharts"
+import { useAxios } from '@/app/hooks/useAxios';
+import { useSearchParams } from 'next/navigation';
+import Loading from '@/app/loading';
+import { useAppSelector } from '@/lib/redux/hooks';
 
 const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
 
     const [seed, setSeed] = useState(1);
+    const date = useAppSelector((state) => state.dateSettings)
+    const divRef = useRef(null);
+    const [height, setHeight] = useState(0);
+    const [sources, setSources] = useState([
+        { route: "Direct/None", visitor: 1 },
+    ])
+
+    // const sources = [
+    //     { route: "Direct/None", visitor: "44" },
+    //     { route: "Google", visitor: "10" },
+    //     { route: "Github", visitor: "36" },
+    //     { route: "LinkedIn", visitor: "12" },
+    //     { route: "Twitter", visitor: "18" },
+    //     { route: "Yandex", visitor: "30" },
+    //     { route: "Bing", visitor: "42" },
+    //     { route: "Yahoo", visitor: "38" },
+    // ]
 
     const reset = () => {
         setSeed(Math.random());
@@ -12,18 +33,49 @@ const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelec
 
     useEffect(() => {
         reset()
-    }, [selectedDate]);
+    }, [date.lastDate]);
 
-    const sources = [
-        { route: "Direct/None", visitor: "44" },
-        { route: "Google", visitor: "10" },
-        { route: "Github", visitor: "36" },
-        { route: "LinkedIn", visitor: "12" },
-        { route: "Twitter", visitor: "18" },
-        { route: "Yandex", visitor: "30" },
-        { route: "Bing", visitor: "42" },
-        { route: "Yahoo", visitor: "38" },
-    ]
+
+    const params = useSearchParams()
+    const appId = params.get("id")
+
+    const { loading, res, error, sendRequest } = useAxios();
+
+    const handleRequest = async () => {
+        await sendRequest({
+            method: "POST",
+            url: `/api/apps/sources-card?firstdate=${date.firstDate}&lastdate=${date.lastDate}`,
+            body: { appId: appId },
+        });
+    };
+
+    useEffect(() => {
+        handleRequest()
+    }, [date.lastDate, date.firstDate])
+
+    useEffect(() => {
+        if (loading) {
+
+            setSources(res?.data?.totalSources)
+        }
+    }, [res, loading])
+
+    useEffect(() => {
+        if (divRef.current) {
+            setHeight(divRef.current.clientHeight);
+            
+        }
+    }, [divRef.current, sources]);
+
+
+
+    if (!loading) {
+        return (
+            <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[400px] bg-main  flex flex-col py-4">
+                <Loading></Loading>
+            </div>
+        )
+    }
 
     return (
         <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[400px] bg-main  flex flex-col py-4">
@@ -33,9 +85,9 @@ const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelec
             </div>
             <div className="w-full h-auto flex items-center justify-between relative">
 
-                <div className="w-full h-auto flex flex-col items-start gap-[0.65rem] mx-9 mt-[2.18rem]  ">
+                <div ref={divRef} className="w-full h-full flex flex-col items-start gap-[0.6rem] mx-9 mt-[4.5rem]">
                     {
-                        sources.sort((a, b) => b.visitor - a.visitor).map((opt, index) => (
+                        sources?.sort((a, b) => b.visitor - a.visitor).map((opt, index) => (
                             <div key={index} className="font-dosis font-medium text-lg w-full text-stone-900 flex items-center justify-between">
                                 <div className="">
                                     {opt.route}
@@ -48,8 +100,8 @@ const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelec
                     }
 
                 </div>
-                <div className="w-[98%] h-full flex items-center justify-center absolute mt-[37px]">
-                    <CustomBarCharts barHeight={"60%"} barData={sources} height={350} key={seed} selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomBarCharts>
+                <div className="w-[98%] flex items-center justify-center absolute top-0">
+                    <CustomBarCharts barHeight={"60%"} barData={sources} height={height-15 } key={seed} ></CustomBarCharts>
                 </div>
             </div>
 

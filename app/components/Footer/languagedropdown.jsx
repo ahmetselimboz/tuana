@@ -26,7 +26,7 @@ const LanguageDropdown = () => {
     return (
         <div className="relative inline-block text-left">
             <Dropdown isOpen={isOpen}>
-                <div className={`min-w-44 h-fit absolute border border-stone-900/20 lg:-top-36 -top-20 lg:right-0 -right-10 rounded-md shadow-xl bg-main`}>
+                <div className={`min-w-44 h-fit absolute border border-stone-900/20 lg:-top-20 -top-20 lg:right-0 -right-10 rounded-md shadow-xl bg-main`}>
                     <div className='w-full '>
                         {
                             languages.map((lang) => (

@@ -20,7 +20,6 @@ const LineChart = ({ data }) => {
 
     useEffect(() => {
         if (data) {
-          //  console.log("🚀 ~ useEffect ~ data:", data)
 
             handleRequest();
         }

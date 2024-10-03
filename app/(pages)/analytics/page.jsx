@@ -77,7 +77,7 @@ const Analytics = () => {
                   <hr className="border-b-2 border-primary w-1/3" />
 
                 </div>
-                <Pagescard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Pagescard>
+                <Pagescard ></Pagescard>
 
               </div>
 
@@ -88,7 +88,7 @@ const Analytics = () => {
                 <hr className="border-b-2 border-primary w-1/3" />
 
               </div>
-              <Locationcard selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown}></Locationcard>
+              <Locationcard></Locationcard>
             </div>
             <div className="w-full h-full flex items-center lg:flex-row flex-col gap-3 mb-12">
               <div className="lg:w-1/2 w-full h-full flex flex-col items-start justify-center lg:mb-0 mb-8">

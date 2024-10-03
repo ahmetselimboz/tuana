@@ -30,7 +30,7 @@ const WorldMap = ({ mergeData }) => {
       if (foundItem) {
 
         setTooltipContent({ code: foundItem.code, image: foundItem.image, country: foundItem.name, visitor: foundItem.visitor });
-
+      
       } else {
         setTooltipContent(`${countryName}`);
       }
