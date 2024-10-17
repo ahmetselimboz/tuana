@@ -32,7 +32,7 @@ const DateDropdown = ({  navbar, clw }) => {
 
 
     const options = [
-        { label: "Today", value: new Date() },
+        { label: "Today", value: new Date()},
         { label: "Yesterday", value: new Date(new Date().setDate(new Date().getDate() - 1)) },
         { label: "Realtime", value: null },
         { label: "Last 7 Days", value: new Date(new Date().setDate(new Date().getDate() - 7)) },
@@ -76,7 +76,7 @@ const DateDropdown = ({  navbar, clw }) => {
                                 onClick={() => {
                                     if (option.value) {
                                         //setSelectedDate(option.value);
-                                        dispatch(setLastDate(convertToUTC(option.value)));
+                                        dispatch(setLastDate(option.value));
                                        
                                  
                                         dispatch(setDropdown(option.label))

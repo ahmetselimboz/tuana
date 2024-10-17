@@ -8,117 +8,103 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { setFirstDate, setLastDate } from "@/lib/redux/features/dateSettings/dateSlice";
 import { useDispatch } from "react-redux";
-import {convertToLocal, convertToUTC} from "../convertToUTC";
 
 const CustomDatePicker = () => {
+    const dispatch = useDispatch();
+    
+    // Redux'tan alınan tarih stringlerini Date nesnesine çeviriyoruz
+    const lastDate = useAppSelector((state) => state.dateSettings.lastDate);
+    const firstDate = new Date(useAppSelector((state) => state.dateSettings.firstDate));
+    const selectedDropdown = useAppSelector((state) => state.dateSettings.dropdown);
 
-    //const [firstDate, setfirstDate] = useState(new Date())
-    const dispatch = useDispatch()
-    const lastDate = new Date(useAppSelector((state) => state.dateSettings.lastDate))
-    const firstDate = new Date(useAppSelector((state) => state.dateSettings.firstDate))
-    const selectedDropdown = useAppSelector((state) => state.dateSettings.dropdown)
-  
     useEffect(() => {
-     
         if (Dropdownfunc(selectedDropdown)) {
-            dispatch(setFirstDate(convertToUTC(new Date())))
-        }else{
-            dispatch(setFirstDate(null))
+            dispatch(setFirstDate(new Date().toISOString()));
+        } else {
+            dispatch(setFirstDate(null));
         }
-    }, [selectedDropdown])
+    }, [selectedDropdown]);
 
     const Dropdownfunc = (date) => {
-        if (date == "Last 7 Days") {
-           
-            return true
-        } else if (date == "Last 30 Days") {   return true }
-        else if (date == "Last Month") {   return true }
-        else if (date == "Last 12 Months") { return true }
-        else { return false }
-      
-    }
+        if (date === "Last 7 Days") {
+            return true;
+        } else if (date === "Last 30 Days") {
+            return true;
+        } else if (date === "Last Month") {
+            return true;
+        } else if (date === "Last 12 Months") {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     const handleDateChange = (date) => {
-        dispatch(setLastDate(convertToUTC(date)))
-       
+        dispatch(setLastDate(date.toISOString()));
     };
+
     const handleRangeChange = (date) => {
-  
-        dispatch(setFirstDate(convertToUTC(date)))
-      
+        dispatch(setFirstDate(date.toISOString()));
     };
 
     const handlePrevDay = () => {
-        const newDate = new Date(lastDate); 
-        newDate.setDate(lastDate.getDate() - 1); 
-        dispatch(setLastDate(convertToUTC(newDate)))
-    
+        const newDate = new Date(lastDate);
+        newDate.setDate(lastDate.getDate() - 1);
+        dispatch(setLastDate(newDate.toISOString()));
     };
 
     const handleNextDay = () => {
-        const newDate = new Date(lastDate); 
-        newDate.setDate(lastDate.getDate() + 1); 
-        dispatch(setLastDate(convertToUTC(newDate) ))
+        const newDate = new Date(lastDate);
+        newDate.setDate(lastDate.getDate() + 1);
+        dispatch(setLastDate(newDate.toISOString()));
     };
 
     return (
-       
         <>
-                <div
+            <div
                 className="w-9 h-9 cursor-pointer bg-primaryGray/10 hover:bg-primaryGray/20 transition-all text-primary border border-primary rounded-md flex items-center justify-center text-3xl"
                 onClick={handlePrevDay}
             >
                 <RxCaretLeft />
             </div>
             <div className="w-full flex flex-col items-center justify-center">
-
-
-                {
-                    Dropdownfunc(selectedDropdown) ? (
-                        <div className="w-full flex items-center justify-center gap-2">
-                            <DatePicker
-                                selected={lastDate}
-                                onChange={handleDateChange}
-                                dateFormat="EEE, dd MMM"
-                                customInput={
-                                    <div className="font-dosis text-1-5xl cursor-pointer">
-                                        {`=${format(lastDate, "EEE, dd MMM")}`}
-
-                                    </div>
-                                }
-
-                            />
-                            <div className="w-fit h-full flex items-center justify-center">-</div>
-                            <DatePicker
-                                selected={firstDate}
-                                onChange={handleRangeChange}
-                                dateFormat="EEE, dd MMM"
-                                customInput={
-                                    <div className="font-dosis text-1-5xl cursor-pointer">
-                                        {`${format(firstDate, "EEE, dd MMM")} =`}
-
-                                    </div>
-                                }
-
-                            />
-                        </div>
-                    ) : (<DatePicker
+                {Dropdownfunc(selectedDropdown) ? (
+                    <div className="w-full flex items-center justify-center gap-2">
+                        <DatePicker
+                            selected={lastDate}
+                            onChange={handleDateChange}
+                            dateFormat="EEE, dd MMM"
+                            customInput={
+                                <div className="font-dosis text-1-5xl cursor-pointer">
+                                    {`= ${format(lastDate, "EEE, dd MMM")}`}
+                                </div>
+                            }
+                        />
+                        <div className="w-fit h-full flex items-center justify-center">-</div>
+                        <DatePicker
+                            selected={firstDate}
+                            onChange={handleRangeChange}
+                            dateFormat="EEE, dd MMM"
+                            customInput={
+                                <div className="font-dosis text-1-5xl cursor-pointer">
+                                    {`${format(firstDate, "EEE, dd MMM")} =`}
+                                </div>
+                            }
+                        />
+                    </div>
+                ) : (
+                    <DatePicker
                         selected={lastDate}
                         onChange={handleDateChange}
                         dateFormat="EEE, dd MMM"
                         customInput={
                             <div className="font-dosis text-1-5xl cursor-pointer">
                                 {isToday(lastDate) ? "= Today =" : `= ${format(lastDate, "EEE, dd MMM")} =`}
-
                             </div>
                         }
-
-                    />)
-                }
-
-
+                    />
+                )}
                 <hr className="lg:w-4/6 w-5/6 mx-auto border-b-2 border-secondary/20 mt-2" />
-
             </div>
             <div
                 className="w-9 h-9 cursor-pointer bg-primaryGray/10 hover:bg-primaryGray/20 transition-all text-primary border border-primary rounded-md flex items-center justify-center text-3xl"

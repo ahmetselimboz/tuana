@@ -101,14 +101,12 @@ const PieChart = ({ data }) => {
 
 
 
-    const closePopup = () => setIsPopupOpen(false);
+
 
     return (
         <div className="line-chart w-full h-full text-xl relative">
             <Chart options={chartData.options} series={chartData.series} type="donut" height={280} />
-            {isPopupOpen && (
-                <Popup isOpen={isPopupOpen} selectedData={selectedData} closePopup={closePopup}></Popup>
-            )}
+           
         </div>
     );
 };

@@ -8,6 +8,8 @@ import { useSearchParams } from 'next/navigation'
 import { useAxios } from '@/app/hooks/useAxios'
 import Loading from '@/app/loading'
 import { useAppSelector } from '@/lib/redux/hooks'
+import LargeAIBtn from '../../Ai/LargeAIBtn'
+import SmallAIBtn from '../../Ai/SmallAIBtn'
 
 
 const linecard = () => {
@@ -76,18 +78,18 @@ const linecard = () => {
 
     useEffect(() => {
         if (loading) {
-          
+
             setDataValue([
                 { label: "Total Visits", value: res?.visitor?.totalVisitor?.length },
                 { label: "Total Pageviews", value: res?.visitor?.totalPage?.length },
                 { label: "New Visitors", value: res?.visitor?.newVisitors?.length },
-                { label: "Visit Duration", value: res?.visitor?.calculateDuration },
+                // { label: "Visit Duration", value: res?.visitor?.calculateDuration },
             ])
             setDataChart([
                 { label: "Total Visits", value: res?.visitor?.totalVisitor, status: false },
                 { label: "Total Pageviews", value: res?.visitor?.totalPage, status: false },
                 { label: "New Visitors", value: res?.visitor?.newVisitors, status: false },
-                { label: "Visit Duration", value: res?.duration?.calculateDuration, status: true },
+                // { label: "Visit Duration", value: res?.duration?.calculateDuration, status: true },
             ])
         }
 
@@ -104,11 +106,18 @@ const linecard = () => {
     }
 
     return (
-        <div className=" rounded-md shadow-xl border border-stone-900/20 bg-main w-full lg:h-[600px] flex flex-col mb-12">
-            <div className="lg:h-full h-fit lg:w-1/5 w-full flex lg:hidden   tabs-date  items-center justify-end px-2 lg:py-0 py-3">
+        <div className=" rounded-md shadow-xl border border-stone-900/20 bg-main w-full lg:h-[600px] flex flex-col mb-12 relative">
+            <div className='w-full h-[71px] flex items-center absolute lg:hidden '>
+            <SmallAIBtn></SmallAIBtn>
+            </div>
+            <div className="lg:h-full h-fit lg:w-1/5 w-full flex lg:hidden   tabs-date  items-center justify-start px-2 lg:py-0 py-3">
+                {/* <div className='w-full mb-4'>
+                    <LargeAIBtn></LargeAIBtn>
+                </div> */}
                 <div className='w-[160px] border border-stone-900/50 rounded-md'>
                     <DateDropdown></DateDropdown>
                 </div>
+                
             </div>
             <div className="flex items-center lg:flex-row lg:flex-nowrap flex-wrap justify-center w-full lg:h-[100px] h-fit lg:py-2 p-2">
                 {dataValue.map((opt, index) => (
@@ -140,6 +149,11 @@ const linecard = () => {
                         <hr className="lg:block hidden h-4/6 border-l border-stone-900/10 " />
                     </React.Fragment>
                 ))}
+                <hr className="lg:block hidden h-4/6 border-l border-stone-900/10 " />
+                <div className="lg:h-full h-fit lg:w-[200px] w-1/2 lg:flex hidden  tabs-date  items-center justify-center px-4 lg:py-0 py-3">
+                    <LargeAIBtn></LargeAIBtn>
+                </div>
+                <hr className="lg:block hidden h-4/6 border-l border-stone-900/10 " />
 
                 <hr className="lg:block hidden h-4/6 border-l border-stone-900/10 " />
                 <div className="lg:h-full h-fit lg:w-[200px] w-1/2 lg:flex hidden  tabs-date  items-center justify-center px-4 lg:py-0 py-3">

@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import Loading from '@/app/loading';
 import { useAppSelector } from '@/lib/redux/hooks';
 
-const sourcescard = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+const sourcescard = () => {
 
     const [seed, setSeed] = useState(1);
     const date = useAppSelector((state) => state.dateSettings)

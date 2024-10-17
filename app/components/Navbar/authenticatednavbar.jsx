@@ -16,7 +16,7 @@ import Menu from "@/app/components/Analytics/menu"
 import { HiMiniBars3 } from 'react-icons/hi2';
 import CustomDatePicker from '../Charts/customdatepicker';
 
-const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+const authenticatedNavbar = () => {
 
     const [openAppBar, setOpenAppBar] = useState(false)
     const [openUserBar, setOpenUserBar] = useState(false)
@@ -152,8 +152,8 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
                 {isVisible && (
                     <div className='w-full flex items-center justify-end mt-2 relative -z-20'>
                         <div className="h-auto w-full px-11 flex items-center justify-between">
-                            {/* <DateDropdown selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown} navbar={true}></DateDropdown> */}
-                            <CustomDatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></CustomDatePicker>
+
+                            <CustomDatePicker></CustomDatePicker>
                         </div>
                     </div>
                 )}
@@ -253,7 +253,7 @@ const authenticatedNavbar = ({ selectedDate, setSelectedDate, selectedDropdown, 
 
                         <div className='w-[157px] border border-stone-900/20 rounded-md'>
 
-                            <DateDropdown selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown} navbar={true}></DateDropdown>
+                            <DateDropdown navbar={true}></DateDropdown>
                         </div>
                     </div>
                 </div>
