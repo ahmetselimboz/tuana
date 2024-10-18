@@ -22,7 +22,7 @@ const header = () => {
           </div>
           <div className="lg:w-5/6 w-full lg:mt-4 mt-6">
             <div className='w-full flex items-center justify-start gap-5 lg:mx-6 mx-0'>
-              <Link href="/" className='lg:text-1-5xl text-lg text-primary font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md hover:border-secondary hover:text-secondary transition-all '>Get Started Free</Link>
+              <Link href="/sign-up" className='lg:text-1-5xl text-lg text-primary font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md hover:border-secondary hover:text-secondary transition-all '>Get Started Free</Link>
               <Link href="/analytics?id=TNAKLYTP" className='lg:text-1-5xl text-lg  text-main font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Live Demo</Link>
             </div>
           </div>

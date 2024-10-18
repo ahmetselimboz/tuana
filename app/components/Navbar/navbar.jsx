@@ -87,17 +87,13 @@ const Navbar = () => {
                             ))
                         }
 
-
-                        
-
-
                     </div>
                 </div>
 
                 <div className='w-1/3 flex items-center justify-end '>
                     <div className='w-fit flex items-center gap-5'>
                         <Link href="/login" className='text-xl text-center text-primary font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md hover:border-secondary hover:text-secondary transition-all '>Login</Link>
-                        <Link href="/sign-in" className='text-xl text-center text-main font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Sign In</Link>
+                        <Link href="/sign-up" className='text-xl text-center text-main font-semibold font-dosis tracking-wider px-4 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Sign up</Link>
                     </div>
 
                 </div>
