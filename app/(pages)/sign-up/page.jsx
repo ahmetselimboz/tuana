@@ -14,7 +14,7 @@ const Signup = () => {
 
     return (
         <div className='w-full bg-main h-full flex items-center'>
-            <div className='relative w-1/2 h-full flex flex-col items-center justify-start px-12 p-8'>
+            <div className='relative w-1/2 h-full lg:flex hidden flex-col items-center justify-start px-12 p-8'>
                 <div className='w-full h-[600px]  mt-26 overflow-hidden'>
                     <Image src="/signup2.svg" alt="login" className="w-full " width="800" height="800" />
                 </div>
@@ -25,9 +25,9 @@ const Signup = () => {
                 </div>
 
             </div>
-            <div className='border border-r-black/10 h-5/6'></div>
-            <div className='w-1/2 h-full flex items-center justify-center'>
-                <div className='relative w-1/2 rounded-md shadow-xl border border-stone-900/20 flex flex-col px-4 pt-12 pb-2'>
+            <div className='border border-r-black/10 h-5/6 lg:block hidden'></div>
+            <div className='lg:w-1/2 w-full h-full flex items-center justify-center lg:px-0 px-4'>
+                <div className='relative lg:w-1/2 w-full rounded-md shadow-xl border border-stone-900/20 flex flex-col px-4 pt-12 pb-2'>
                     <div className='w-full flex flex-col items-center mb-5'>
                         <div className='w-fit text-4xl text-primary font-semibold mb-2'>
                             Join Tuana!
@@ -159,15 +159,15 @@ const Signup = () => {
                         </div>
                     </div>
                 </div>
-                <div className='absolute top-0 right-5 mr-2 w-fit flex flex-row items-center mt-2'>
+                <div className='absolute top-0 lg:right-5 right-0 mr-2 w-fit flex lg:flex-row flex-col  lg:items-center items-end mt-2'>
                     <div className='text-primaryGray'>
                         Have an account?
                     </div>
-                    <Link href="/login" className='ml-2 lg:text-base text-lg text-primary font-semibold font-dosis tracking-wider px-4 py-1 border-2 border-primary rounded-md hover:border-secondary hover:text-secondary transition-all '>
+                    <Link href="/login" className='ml-2 lg:text-base lg:mt-0 mt-1 text-lg text-primary font-semibold font-dosis tracking-wider px-4 py-1 border-2 border-primary rounded-md hover:border-secondary hover:text-secondary transition-all '>
                         Login
                     </Link>
                 </div>
-                <div className='absolute top-0 left-8  w-fit flex flex-row items-center mt-1'>
+                <div className='absolute top-0 left-8  w-fit flex flex-row items-center lg:mt-1 mt-2'>
                     <div className='w-full'>
                         <Link href="/"> <img src="/tuana_medium_logo.png" alt="tuana_medium_logo.png" className='h-[45px]' /></Link>
                     </div>

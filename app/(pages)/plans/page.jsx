@@ -16,15 +16,15 @@ const Plans = () => {
     // },selectedPlan)
 
     return (
-        <div className='relative w-full h-full pt-8'>
+        <div className='relative w-full lg:h-full pt-8 lg:pb-0 pb-8'>
             <div className='w-full flex flex-col items-center justify-center'>
                 <div className='w-fit text-6xl font-medium text-primary mb-2'>
                     Plans
                 </div>
                 <hr className="border-b-2 border-primary w-1/3" />
             </div>
-            <div className='flex flex-row items-center justify-center px-10 pt-12 pb-4'>
-                <div className='w-1/3 h-full px-8 '>
+            <div className='flex lg:flex-row flex-col-reverse items-center justify-center px-10 pt-12 pb-4'>
+                <div className='lg:w-1/3 w-full h-full lg:px-8 lg:mb-0 mb-8'>
                     <div onClick={()=>{setSelectedPlan("free")}} className={`rounded-3xl shadow-xl border-4 px-4 pt-10 pb-4 ${selectedPlan == "free" ? "border-primary/100": "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
                         <div className='w-full mb-6'>
                             <div className='w-fit ml-4 text-5xl text-gray-800 font-semibold '>
@@ -79,7 +79,7 @@ const Plans = () => {
                     </div>
                 </div>
                 
-                <div className='w-1/3 h-full px-8 '>
+                <div className='lg:w-1/3 w-full h-full lg:px-8 lg:mb-0 mb-8'>
                     <div onClick={()=>{setSelectedPlan("pro")}} className={`rounded-3xl shadow-xl border-4 px-4 pt-10 pb-4 ${selectedPlan == "pro" ? "border-primary/100": "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
                         <div className='w-full mb-6'>
                             <div className='w-fit ml-4 text-5xl text-gray-800 font-semibold '>
@@ -133,13 +133,13 @@ const Plans = () => {
 
                     </div>
                 </div>
-                <div className='w-1/3 h-full px-8 '>
-                    <div onClick={()=>{setSelectedPlan("premium")}} className={`rounded-3xl shadow-xl border-4 px-4 pt-10 pb-4 ${selectedPlan == "premium" ? "border-primary/100": "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
-                        <div className='w-full mb-6 flex items-end justify-between'>
+                <div className='lg:w-1/3 w-full h-full lg:px-8 lg:mb-0 mb-8'>
+                    <div onClick={()=>{setSelectedPlan("premium")}} className={`rounded-3xl shadow-xl border-4 px-4 lg:pt-10 pt-4 pb-4 ${selectedPlan == "premium" ? "border-primary/100": "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
+                        <div className='w-full mb-6 flex lg:flex-row flex-col-reverse lg:items-end items-start justify-between'>
                             <div className='w-fit ml-4 text-5xl text-gray-800 font-semibold '>
                                 Premium
                             </div>
-                            <div className='w-fit text-base text-main rounded-full bg-primary px-3 mb-1'>
+                            <div className='w-fit text-base text-main rounded-full bg-primary px-3 lg:mb-1 mb-4'>
                                 Most Popular
                             </div>
                         </div>
@@ -183,7 +183,7 @@ const Plans = () => {
                         <div className='w-full ml-4 flex flex-row items-center mb-1'>
                             <IoMdCheckmark className="text-2xl text-primary mr-2" />
                             <div className='w-fit  text-lg text-primaryGray font-normal  flex items-center'>
-                                Chat + Ticket + Docs
+                                Ticket + Docs
                             </div>
                         </div>
 
