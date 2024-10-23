@@ -8,7 +8,7 @@ const ForgotPassword = () => {
         <div className='w-full bg-main h-full flex items-center'>
             <div className='relative w-1/2 h-full lg:flex hidden flex-col items-center justify-start px-12 p-8'>
                 <div className='w-full h-[600px]  mt-26 overflow-hidden'>
-                    <Image src="/forgotpassword.svg" alt="login" className="w-full " width="800" height="800" />
+                    <Image src="/forgotpassword.svg" alt="login" className="w-full " width="800" height="800" priority />
                 </div>
                 <div className='w-full mb-4 absolute bottom-8 right-0 z-10 mt-16 bg-gradient-to-b from-transparent via-main to-main flex items-center'>
                     <div className=' text-4xl text-primaryGray px-12 w-fit font-light mt-16 text-center font-dosis'>
@@ -21,7 +21,7 @@ const ForgotPassword = () => {
             <div className='lg:w-1/2 w-full h-full flex items-center justify-center lg:px-0 px-4'>
                 <div className='relative lg:w-1/2 w-full rounded-md shadow-xl border border-stone-900/20 flex flex-col px-4 pt-12 pb-2'>
                     <div className='w-full flex flex-col items-center mb-5'>
-                        <div className='w-fit text-4xl text-primary font-semibold mb-2 font-dosis'>
+                        <div className='w-fit lg:text-4xl text-3xl   text-primary font-semibold mb-2 font-dosis'>
                             Forgot Your Password?
                             <hr className="border-b-2 border-primary w-1/3" />
                         </div>
@@ -40,26 +40,7 @@ const ForgotPassword = () => {
                     <div className='w-full flex flex-col items-center mb-4'>
                         <button className='lg:text-lg text-lg  text-main font-medium font-dosis tracking-wider px-16 py-1 font-dosis border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Reset Password</button>
                     </div>
-                    {/* <div className='flex flex-col items-center mb-4'>
-                        <div className=' text-lg  mb-1 text-primaryGray '>
-                            or sign up with
-                        </div>
-                        <div className='flex flex-row items-center justify-evenly'>
-                            <div className='p-2 rounded-md shadow-xl border border-stone-900/20 flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-all'>
-                                <FcGoogle className='text-2xl' />
-                            </div>
-                        </div>
-                    </div> */}
-                    {/* <div className='w-full flex flex-col items-center mb-6'>
-                        <Link href="/forgot-password" className=' text-primaryGray hover:text-slate-900 transition-all'>Forgot Password?</Link>
-                    </div> */}
-                    {/* <div className='w-full flex flex-col items-center mb-4 '>
-                        <div className='font-light mb-1 text-primaryGray '>
-                            By signing up you agree to the
-                            <Link href="/terms-of-service" className='ml-1  hover:text-primary font-medium transition-all hover:underline'>Terms of Service</Link>
-
-                        </div>
-                    </div> */}
+       
                 </div>
                 <div className='absolute top-0 lg:right-5 right-0 mr-2 w-fit flex lg:flex-row flex-col lg:items-center items-end mt-2'>
                     <div className='text-primaryGray font-dosis'>

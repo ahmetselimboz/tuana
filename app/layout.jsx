@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import Error from "./error";
 import Head from "next/head";
+import { Toaster } from "@/components/ui/toaster";
 
 const dosis = Dosis({ subsets: ['latin'] })
 
@@ -77,6 +78,7 @@ export default function RootLayout({ children }) {
           <Suspense fallback={<Loading />}>
             <StoreProvider>
               {children}
+              <Toaster />
             </StoreProvider>
           </Suspense>
         </ErrorBoundary>

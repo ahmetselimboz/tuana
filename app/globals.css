@@ -7,10 +7,13 @@
   padding: 0;
   box-sizing: border-box;
   user-select: none;
-  font-family:"Dosis", sans-serif;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
+/* @layer base {
+  html {
+    font-family: "Dosis", sans-serif;
+  }
+} */
 
 @layer utilities {
   .nav-active {
@@ -35,8 +38,6 @@
   body {
     @apply w-full h-screen;
   }
-
-
 }
 
 @keyframes blink {
@@ -111,4 +112,10 @@
   stroke: #ededed;
   stroke-miterlimit: 100;
   stroke-width: 3px;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }

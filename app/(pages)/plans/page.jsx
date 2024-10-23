@@ -1,19 +1,73 @@
 "use client"
 
+import { useAxios } from '@/app/hooks/useAxios'
+import Loading from '@/app/loading'
+import { ToastAction } from '@/components/ui/toast'
+import { useToast } from '@/hooks/use-toast'
+import { useAppSelector } from '@/lib/redux/hooks'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { IoMdCheckmark } from 'react-icons/io'
+import { useDispatch } from 'react-redux'
 
 const Plans = () => {
 
     const [selectedPlan, setSelectedPlan] = useState("free")
 
-    // function changePlan(index) {
-    //     setSelectedPlan(index)
-    // }
+    
+    const { toast } = useToast()
+    const router = useRouter()
+    const { loading, res, error, sendRequest } = useAxios();
+  
+    const handleRequest = async (e) => {
+      try {
+        await sendRequest({
+          method: "POST",
+          url: `/api/user/set-plan`,
+          body: {
+            plan: e,
+          }
+        });
+      } catch (error) {
+        console.error("Request failed:", error);
+      }
+    };
+  
+    useEffect(() => {
+  
+      if (error !== null) {
+  
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: error?.message,
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      }
+  
+      if (res !== null) {
+  
+        toast({
+          variant: "default",
+          title: "Success",
+          description: "Plan selected!",
+        })
+  
+        if (res?.user?.plans === "free") {
+          router.push('/projects')
+        } else {
+          router.push('/payment')
+        }
+  
+      }
+  
+    }, [res, error])
 
-    // useEffect(()=>{
-    //     changePlan(selectedPlan)
-    // },selectedPlan)
+
+    if (loading) {
+        return <Loading></Loading>
+    }
+
 
     return (
         <div className='relative w-full lg:h-full pt-8 lg:pb-0 pb-8'>
@@ -192,7 +246,7 @@ const Plans = () => {
             </div>
             <div className='w-full flex items-center justify-center'>
                 <div className='w-full flex flex-col items-center mt-4'>
-                    <button className='lg:text-2xl text-lg  text-main font-medium font-dosis tracking-wider px-16 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Subscribe</button>
+                    <button onClick={()=>{handleRequest(selectedPlan)}} className='lg:text-2xl text-lg  text-main font-medium font-dosis tracking-wider px-16 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Subscribe</button>
                 </div>
             </div>
         </div>

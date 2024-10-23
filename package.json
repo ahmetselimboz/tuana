@@ -9,13 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-toast": "^1.2.2",
     "@react-spring/web": "^9.7.4",
     "@reduxjs/toolkit": "^2.2.7",
     "apexcharts": "^3.53.0",
     "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
-    "next": "14.2.10",
+    "formik": "^2.4.6",
+    "lucide-react": "^0.453.0",
+    "next": "^15.0.0",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
     "react-datepicker": "^7.3.0",
@@ -26,9 +32,12 @@
     "react-simple-maps": "^3.0.0",
     "react-tooltip": "^5.28.0",
     "socket.io-client": "^4.7.5",
+    "tailwind-merge": "^2.5.4",
     "tailwind-scrollbar": "^3.1.0",
+    "tailwindcss-animate": "^1.0.7",
     "timezone": "^1.0.23",
-    "utc": "^0.1.0"
+    "utc": "^0.1.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "postcss": "^8",

@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 import Parallax from "@/app/components/Homepage/parallax"
-import Image from 'next/image'
 import TuanalyticsSvg from "./tuanalyticsSvg"
 
 const header = () => {

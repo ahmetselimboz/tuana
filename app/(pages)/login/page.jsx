@@ -1,11 +1,79 @@
 "use client"
 
+import { useAxios } from '@/app/hooks/useAxios';
+import { ToastAction } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast';
+import { useFormik } from 'formik';
 import Image from 'next/image'
 import Link from 'next/link';
-import React, { useState } from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
+import { schema } from '@/app/Schemas/schema';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/lib/redux/features/userSettings/userSlice';
+import Loading from '@/app/loading';
 
 const Login = () => {
+
+
+    const { toast } = useToast()
+    const router = useRouter()
+    const { loading, res, error, sendRequest } = useAxios();
+
+    const handleRequest = async (e) => {
+        try {
+            await sendRequest({
+                method: "POST",
+                url: `/api/user/login`,
+                body: e,
+            });
+        } catch (error) {
+            console.error("Request failed:", error);
+        }
+    };
+
+    useEffect(() => {
+
+        if (error !== null) {
+            formik.setFieldValue('password', '');
+
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error?.message,
+                action: <ToastAction altText="Try again">Try again</ToastAction>,
+            })
+        }
+
+        if (res !== null) {
+           
+            // toast({
+            //     variant: "default",
+            //     title: "Success",
+            //     description: res?.message,
+            // })
+           
+            router.push('/redirect')
+        }
+
+    }, [res, error])
+
+
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+
+        onSubmit: async (values) => {
+            console.log(values);
+            handleRequest(values)
+        },
+    });
+
+
+    const { errors, touched, values, handleChange, handleSubmit } = formik;
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -13,10 +81,15 @@ const Login = () => {
         setIsPasswordVisible((prevState) => !prevState);
     }
 
+    if (loading) {
+        return <Loading></Loading>
+    }
+
+
     return (
-        <div className='w-full bg-main h-full flex items-center'>
+        <div className='w-full bg-main h-full flex items-center lg:my-0 my-12'>
             <div className='lg:w-1/2 w-full h-full flex items-center justify-center lg:px-0 px-4'>
-                <div className='relative  lg:w-1/2 w-full  rounded-md shadow-xl border border-stone-900/20 flex flex-col px-4 pt-12 pb-6'>
+                <form onSubmit={handleSubmit} className='relative  lg:w-1/2 w-full  rounded-md shadow-xl border border-stone-900/20 flex flex-col px-4 pt-12 pb-6'>
                     <div className='w-full flex flex-col items-center mb-5'>
                         <div className='w-fit text-4xl text-primary font-semibold mb-2'>
                             Welcome to Tuana!
@@ -30,12 +103,13 @@ const Login = () => {
                     <div className='w-full flex flex-col items-center mb-6'>
                         <div className=' w-full flex flex-col items-start mb-2 '>
                             <label htmlFor="email" className='ml-2 font-light text-primaryGray'>Email</label>
-                            <input type="email" placeholder='Enter email' id='email' className='w-full rounded-md border border-primaryGray/50 outline-none text-lg px-2 py-1' required />
+                            <input type="email" value={values.email} onChange={handleChange} placeholder='Enter email' id='email' name='email' className='w-full rounded-md border border-primaryGray/50 outline-none text-lg px-2 py-1' required />
+                            {touched.email && errors.email && <div className='text-red-600 text-sm'>{errors.email}</div>}
                         </div>
                         <div className='relative w-full flex flex-col items-start mb-2'>
                             <label htmlFor="password" className='ml-2 font-light text-primaryGray'>Password</label>
-                            <input type={isPasswordVisible ? "text" : "password"} placeholder='Enter password' id='password' className='w-full rounded-md border border-primaryGray/50 outline-none text-lg px-2 py-1' required />
-                            <button
+                            <input type={isPasswordVisible ? "text" : "password"} value={values.password} onChange={handleChange} name='password' placeholder='Enter password' id='password' className='w-full rounded-md border border-primaryGray/50 outline-none text-lg px-2 py-1' required />
+                            <button type='button'
                                 className="absolute h-auto bottom-2 right-0 flex items-center px-3 text-gray-600"
                                 onClick={togglePasswordVisibility}
                             >
@@ -81,7 +155,7 @@ const Login = () => {
 
                     </div>
                     <div className='w-full flex flex-col items-center mb-4'>
-                        <button className='lg:text-lg text-lg  text-main font-medium font-dosis tracking-wider px-16 py-1 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Log In</button>
+                        <button type='submit' className='lg:text-lg text-lg  text-main font-medium font-dosis tracking-wider px-16 py-1 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Log In</button>
                     </div>
                     <div className='flex flex-col items-center mb-4'>
                         <div className=' text-lg  mb-1 text-primaryGray '>
@@ -103,7 +177,7 @@ const Login = () => {
 
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className='absolute top-0 lg:right-1/2 right-0 mr-2 w-fit flex lg:flex-row flex-col lg:items-center items-end mt-2'>
                     <div className='text-primaryGray'>
                         You don't have an account?
@@ -121,7 +195,7 @@ const Login = () => {
             <div className='border border-r-black/10 h-5/6 lg:block hidden'></div>
             <div className='relative w-1/2 h-full lg:flex flex-col items-center justify-start px-12 p-8 hidden '>
                 <div className='w-full h-[600px]  mt-26 overflow-hidden'>
-                    <Image src="/login.svg" alt="login" className="w-full " width="800" height="800" />
+                    <Image src="/login.svg" alt="login" className="w-full " width="800" height="800" priority />
                 </div>
                 <div className='w-full mb-4 absolute bottom-8 right-0 z-10 mt-16 bg-gradient-to-b from-transparent via-main to-main flex items-center'>
                     <div className=' text-4xl text-primaryGray px-4 w-fit font-light mt-16 text-center'>
