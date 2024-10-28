@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 import { useAxios } from '@/app/hooks/useAxios'
 import { ToastAction } from '@/components/ui/toast'
 import { setUser } from '@/lib/redux/features/userSettings/userSlice'
+import UserBar from './Auth-Navbar/userbar'
 
 const ProfileNavbar = () => {
     const [openAppBar, setOpenAppBar] = useState(false)
@@ -93,31 +94,7 @@ const ProfileNavbar = () => {
                         <Link href="/"> <img src="/tuana_medium_logo.png" alt="tuana_medium_logo.png" className='w-[90%]' /></Link>
                     </div>
 
-                    <div className='w-fit flex items-center justify-end '>
-                        <div onClick={() => { setOpenUserBar(!openUserBar); setOpenSidebar(false); setOpenAppBar(false) }} className={`w-[40px] h-[40px] flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
-                            <FaUser className='flex items-center justify-center gap-1  h-[25px]' />
-                        </div>
-                        <Dropdown isOpen={openUserBar}>
-                            <div className={`min-w-44 h-fit absolute -z-10 border border-stone-900/20 top-12 right-0 rounded-md shadow-xl bg-main`}>
-                                <div className='w-full '>
-                                    {
-                                        itemList.map((il, index) => (
-                                            <Link href={il.slug} key={index} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
-                                                <div className='text-xl text-primary'>{il.icon}</div>
-                                                <div className='text-lg font-dosis'>{il.title}</div>
-                                            </Link>
-                                        ))
-                                    }
-
-                                    <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
-                                    <div onClick={() => { handleRequest() }} className={`cursor-pointer flex items-center justify-center gap-3 py-3 hover:underline transition-all `}>
-                                        <div className='text-xl text-primary'><FiLogOut /></div>
-                                        <div className='text-lg font-dosis'>Log Out</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Dropdown>
-                    </div>
+                    <UserBar setOpenUserBar={setOpenUserBar} setOpenSidebar={setOpenSidebar} setOpenAppBar={setOpenAppBar} openUserBar={openUserBar}></UserBar>
                 </div>
 
             </div>
@@ -140,42 +117,7 @@ const ProfileNavbar = () => {
 
                     </div>
 
-                    <div className='w-1/3 flex items-center justify-end relative'>
-
-
-                        <div className='w-fit flex flex-col items-center gap-1 cursor-pointer tracking-wider text-primaryGray border-b-2 border-transparent hover:border-b-2 hover:border-primaryGray transition'>
-                            <div onClick={() => { setOpenUserBar(!openUserBar) }} className='w-fit flex items-center justify-center gap-1 pl-2 h-[25px]'>
-                                <h6 className='font-dosis font-semibold text-1-5xl  '>
-                                    Tuana
-                                </h6>
-                                <div className='text-4xl  '>
-                                    <RxCaretDown />
-                                </div>
-                            </div>
-
-                        </div>
-                        <Dropdown isOpen={openUserBar}>
-                            <div className={`min-w-44 h-fit absolute border border-stone-900/20 top-14 right-3.5 rounded-md shadow-xl bg-main`}>
-                                <div className='w-full '>
-                                    {
-                                        itemList.map((il, index) => (
-                                            <Link href={il.slug} key={index} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
-                                                <div className='text-2xl text-primary'>{il.icon}</div>
-                                                <div className='text-xl font-dosis'>{il.title}</div>
-                                            </Link>
-                                        ))
-                                    }
-
-                                    <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
-                                    <div onClick={() => { handleRequest() }} className={`cursor-pointer flex items-center justify-center gap-3 py-3 hover:underline transition-all `}>
-                                        <div className='text-2xl text-primary'><FiLogOut /></div>
-                                        <div className='text-xl font-dosis'>Log Out</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Dropdown>
-
-                    </div>
+                    <UserBar setOpenUserBar={setOpenUserBar} setOpenSidebar={setOpenSidebar} setOpenAppBar={setOpenAppBar} openUserBar={openUserBar}></UserBar>
                 </div>
             </div>
 

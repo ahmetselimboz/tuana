@@ -9,10 +9,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
-import { schema } from '@/app/Schemas/schema';
-import { useDispatch } from 'react-redux';
-import { setUser } from '@/lib/redux/features/userSettings/userSlice';
 import Loading from '@/app/loading';
+import { loginschema } from '@/app/Schemas/loginschema';
 
 const Login = () => {
 
@@ -47,13 +45,13 @@ const Login = () => {
         }
 
         if (res !== null) {
-           
+
             // toast({
             //     variant: "default",
             //     title: "Success",
             //     description: res?.message,
             // })
-           
+
             router.push('/redirect')
         }
 
@@ -65,9 +63,11 @@ const Login = () => {
             email: "",
             password: "",
         },
-
+        validationSchema: loginschema,
+        validateOnChange: true,
+        validateOnBlur: true,
         onSubmit: async (values) => {
-            console.log(values);
+
             handleRequest(values)
         },
     });

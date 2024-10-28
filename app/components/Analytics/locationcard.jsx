@@ -88,7 +88,7 @@ const locationcard = () => {
         }
     }, [divRef.current, mergeData]);
 
-    if (!loading) {
+    if (loading) {
         return (
             <div className="rounded-md shadow-xl border border-stone-900/20 bg-main w-full h-[483px] flex lg:flex-row flex-col p-2">
                 <Loading></Loading>

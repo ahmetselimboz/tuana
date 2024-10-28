@@ -15,6 +15,8 @@ import DateDropdown from '@/app/components/Animation/datedropdown'
 import Menu from "@/app/components/Analytics/menu"
 import { HiMiniBars3 } from 'react-icons/hi2';
 import CustomDatePicker from '../Charts/customdatepicker';
+import ProjectList from './Auth-Navbar/projectlist';
+import UserBar from './Auth-Navbar/userbar';
 
 const authenticatedNavbar = () => {
 
@@ -26,18 +28,8 @@ const authenticatedNavbar = () => {
 
     const { width } = useWidth()
 
-    const projectList = [
-        { type: "web", title: "www.tuanalytics.com", appId: "TNAKLYTP" },
-        { type: "mobile", title: "TuanalyticsApp", appId: "NBUKJLSX" },
-    ]
-
-    const itemList = [
-        { icon: <FaUser />, title: "Profile", slug: "/profile" },
-        { icon: <IoSettingsOutline />, title: "Settings", slug: "/settings" },
-    ]
-
     useEffect(() => {
-        if (typeof window !== 'undefined') {  // Tarayıcı ortamında olup olmadığını kontrol et
+        if (typeof window !== 'undefined') {  
             const navbar = authNavbar.current
 
             const handleScroll = () => {
@@ -88,65 +80,8 @@ const authenticatedNavbar = () => {
                             </div>
                         </Dropdown>
                     </div>
-                    <div className=' w-fit  flex flex-col items-center justify-center '>
-                        <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar); setOpenSidebar(false); setOpenUserBar(false) }}>
-                            <div className='text-3xl text-primary'>
-                                <SiCodeforces />
-                            </div>
-                            <div className='text-1-5xl font-medium font-dosis tracking-wider text-primaryGray hover:text-stone-900 transition-all'>
-                                www.tuanalytics.com
-                            </div>
-                        </div>
-                        <Dropdown isOpen={openAppBar} classw="flex items-center justify-center">
-                            <div className={`  h-fit absolute z-30 border border-stone-900/20 top-8 rounded-md shadow-xl bg-main`}>
-                                <div className='w-full '>
-                                    {
-                                        projectList.map((pl, index) => (
-                                            <Link key={index} href={`?id=${pl.appId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
-                                                <div className='text-4xl text-primary'>
-                                                    {
-                                                        pl.type == "web" ? (<TbWorld />) : (<IoMdPhonePortrait />)
-                                                    }
-
-                                                </div>
-                                                <div className='text-lg font-dosis'>{pl.title}</div>
-                                            </Link>
-                                        ))
-                                    }
-                                    <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
-                                    <Link href="/add-project" className={`flex items-center justify-center gap-3 py-3 hover:underline transition-all px-8`}>
-                                        <div className='text-4xl text-primary'><CiCirclePlus /></div>
-                                        <div className='text-lg font-dosis'>Add Project</div>
-                                    </Link>
-                                </div>
-                            </div>
-                        </Dropdown>
-                    </div>
-                    <div className='w-fit flex items-center justify-end '>
-                        <div onClick={() => { setOpenUserBar(!openUserBar); setOpenSidebar(false); setOpenAppBar(false) }} className={`w-[40px] h-[40px] flex flex-col items-center justify-center gap-1 cursor-pointer tracking-wider text-primary border-b-2 border-transparent ${openUserBar ? "bg-black/10" : ""} transition-all p-2 rounded-md`}>
-                            <FaUser className='flex items-center justify-center gap-1  h-[25px]' />
-                        </div>
-                        <Dropdown isOpen={openUserBar}>
-                            <div className={`min-w-44 h-fit absolute -z-10 border border-stone-900/20 top-12 right-0 rounded-md shadow-xl bg-main`}>
-                                <div className='w-full '>
-                                    {
-                                        itemList.map((il, index) => (
-                                            <Link href={il.slug} key={index} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
-                                                <div className='text-xl text-primary'>{il.icon}</div>
-                                                <div className='text-lg font-dosis'>{il.title}</div>
-                                            </Link>
-                                        ))
-                                    }
-
-                                    <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
-                                    <Link href="/" className={`flex items-center justify-center gap-3 py-3 hover:underline transition-all `}>
-                                        <div className='text-xl text-primary'><FiLogOut /></div>
-                                        <div className='text-lg font-dosis'>Log Out</div>
-                                    </Link>
-                                </div>
-                            </div>
-                        </Dropdown>
-                    </div>
+                    <ProjectList setOpenAppBar={setOpenAppBar} openAppBar={openAppBar} setOpenUserBar={setOpenUserBar} setOpenSidebar={setOpenSidebar}></ProjectList>
+                    <UserBar setOpenUserBar={setOpenUserBar} setOpenSidebar={setOpenSidebar} setOpenAppBar={setOpenAppBar} openUserBar={openUserBar}></UserBar>
                 </div>
 
                 {isVisible && (
@@ -173,78 +108,9 @@ const authenticatedNavbar = () => {
 
                         </div>
                     </div>
-                    <div className='w-1/3 flex flex-col items-center justify-center relative'>
-                        <div className='w-fit flex justify-center items-center gap-3 cursor-pointer' onClick={() => { setOpenAppBar(!openAppBar) }}>
-                            <div className='text-3xl text-primary'>
-                                <SiCodeforces />
-                            </div>
-                            <h4 className='text-1-5xl font-medium font-dosis tracking-wider text-primaryGray hover:text-stone-900 transition-all'>
-                                www.tuanalytics.com
-                            </h4>
-                        </div>
-                        <Dropdown isOpen={openAppBar} classw="flex items-center justify-center">
-                            <div className={` w-[350px] h-fit absolute border border-stone-900/20 top-10 rounded-md shadow-xl bg-main`}>
-                                <div className='w-full '>
-                                    {
-                                        projectList.map((pl, index) => (
-                                            <Link key={index} href={`?id=${pl.appId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
-
-                                                <div className='text-4xl text-primary'>
-                                                    {
-                                                        pl.type == "web" ? (<TbWorld />) : (<IoMdPhonePortrait />)
-                                                    }
-
-                                                </div>
-                                                <div className='text-xl font-dosis'>{pl.title}</div>
-                                            </Link>
-                                        ))
-                                    }
-                                    <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
-                                    <Link href="/add-project" className={`flex items-center justify-center gap-3 py-3 hover:underline transition-all px-8`}>
-                                        <div className='text-4xl text-primary'><CiCirclePlus /></div>
-                                        <h5 className='text-xl font-dosis'>Add Project</h5>
-                                    </Link>
-                                </div>
-                            </div>
-                        </Dropdown>
-                    </div>
-
-                    <div className='w-1/3 flex items-center justify-end relative'>
-
-
-                        <div className='w-fit flex flex-col items-center gap-1 cursor-pointer tracking-wider text-primaryGray border-b-2 border-transparent hover:border-b-2 hover:border-primaryGray transition'>
-                            <div onClick={() => { setOpenUserBar(!openUserBar) }} className='w-fit flex items-center justify-center gap-1 pl-2 h-[25px]'>
-                                <h6 className='font-dosis font-semibold text-1-5xl  '>
-                                    Tuana
-                                </h6>
-                                <div className='text-4xl  '>
-                                    <RxCaretDown />
-                                </div>
-                            </div>
-
-                        </div>
-                        <Dropdown isOpen={openUserBar}>
-                            <div className={`min-w-44 h-fit absolute border border-stone-900/20 top-14 right-3.5 rounded-md shadow-xl bg-main`}>
-                                <div className='w-full '>
-                                    {
-                                        itemList.map((il, index) => (
-                                            <Link href={il.slug} key={index} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
-                                                <div className='text-2xl text-primary'>{il.icon}</div>
-                                                <div className='text-xl font-dosis'>{il.title}</div>
-                                            </Link>
-                                        ))
-                                    }
-
-                                    <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' />
-                                    <Link href="/" className={`flex items-center justify-center gap-3 py-3 hover:underline transition-all `}>
-                                        <div className='text-2xl text-primary'><FiLogOut /></div>
-                                        <div className='text-xl font-dosis'>Log Out</div>
-                                    </Link>
-                                </div>
-                            </div>
-                        </Dropdown>
-
-                    </div>
+                    <ProjectList setOpenAppBar={setOpenAppBar} openAppBar={openAppBar}></ProjectList>
+                    <UserBar  setOpenUserBar={setOpenUserBar} setOpenSidebar={setOpenSidebar} setOpenAppBar={setOpenAppBar} openUserBar={openUserBar}></UserBar>
+                   
                 </div>
             </div>
             {isVisible && (

@@ -30,7 +30,7 @@ const NewVisitor = () => {
             <FiUserPlus className="text-primary text-5xl " />
             <div className="text-primaryGray font-dosis text-xl font-medium">New Visitors</div>
             {
-                !loading ? (
+                loading ? (
                     <Loading width="w-6" height="h-6"/>
                 ) : (
                     <>

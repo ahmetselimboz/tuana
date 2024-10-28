@@ -30,10 +30,12 @@ export const useAxios = () => {
       // Hataları yönet, özellikle token yenileme durumu için
       setError({
         status: err.response?.status || 500,
-        message: err.response?.data?.error?.description || "Bir hata oluştu!",
+        message: err.response?.data?.error?.description || "Try again later!",
       });
     } finally {
-      setLoading(false); // İstek bittiğinde loading durumunu güncelle
+      setInterval(() => {
+        setLoading(false);
+      }, 1000) // İstek bittiğinde loading durumunu güncelle
     }
   };
 

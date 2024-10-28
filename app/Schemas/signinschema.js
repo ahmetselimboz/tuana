@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const schema = yup.object().shape({
+export const signinschema = yup.object().shape({
   name: yup.string().required("Firstname is required"),
   surname: yup.string().required("Lastname is required"),
   email: yup.string().required("Email is required").email("Invalid email"),
@@ -17,11 +17,4 @@ export const schema = yup.object().shape({
     )
     .required("Password is required"),
 
-  title: yup
-    .string()
-    .required("title is required")
-    .min(2, "The password must be at least 2 characters")
-    .max(20, "The password can be up to 20 characters"),
-
-  timezone: yup.string().required("Timezone is required"),
 });

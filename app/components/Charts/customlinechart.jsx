@@ -4,8 +4,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
-import { useAppSelector } from "@/lib/redux/hooks";
-import { convertToUTC, createHourlyVisitorsArray, mergeData } from "../convertToUTC";
 import useDayChart from "@/app/hooks/useDayChart";
 import Loading from "@/app/loading";
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -76,9 +74,6 @@ const LineChart = ({ data }) => {
 
     useEffect(() => {
 
-        //console.log("🚀 ~ LineChart ~ seriesData:", seriesData)
-      //  console.log("🚀 ~ LineChart ~ categories:", categories)
-      //  console.log("🚀 ~ LineChart ~ chartData:", chartData)
         setChartData((prevData) => ({
             ...prevData,
             series: [{

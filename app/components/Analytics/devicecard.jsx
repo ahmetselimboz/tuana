@@ -104,7 +104,7 @@ const devicecard = () => {
         { label: "Device" },
     ]
 
-    if (!loading) {
+    if (loading) {
         return (
             <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[336px] bg-main  flex flex-col p-4 mb-8">
                 <Loading></Loading>

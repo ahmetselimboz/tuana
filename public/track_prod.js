@@ -1,31 +1,29 @@
 (function () {
-  const script = document.createElement("script");
-  script.src = "https://cdn.socket.io/4.7.5/socket.io.min.js";
+  const IP_API_URL = "https://api.ipify.org?format=json";
+  const LOCATION_API_URL = "https://ipinfo.io/json?token=51c3494912e936";
 
-  const scriptParser = document.createElement("script");
-  scriptParser.src =
-    "https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js";
+  const loadScript = (src, callback) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.onload = callback;
+    document.head.appendChild(script);
+  };
 
-  scriptParser.onload = function () {
-    script.onload = function () {
+  // UAParser and Socket.IO are loaded sequentially for dependency
+  loadScript("https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js", () => {
+    loadScript("https://cdn.socket.io/4.7.5/socket.io.min.js", () => {
       const socket = io("https://server.tuanalytics.com");
-      //const socket = io("http://localhost:4000");
 
-      var parser = new UAParser();
-      var result = parser.getResult();
-      delete result.ua;
-      delete result.cpu;
+      const parser = new UAParser();
+      const deviceInfo = parser.getResult();
+      delete deviceInfo.ua;
+      delete deviceInfo.cpu;
 
       function checkDataLayer() {
         if (window.dataLayer && window.dataLayer.length > 1) {
           const appId = window.dataLayer[1][1];
-
           let userId = localStorage.getItem("userId");
-
-          const localDate = new Date();
-          const utcDate = new Date(
-            localDate.getTime() - localDate.getTimezoneOffset() * 60000
-          ).toISOString();
 
           if (!userId) {
             userId = crypto.randomUUID();
@@ -35,33 +33,41 @@
           const getIPAndLocation = async () => {
             try {
               const [ipResponse, locationResponse] = await Promise.all([
-                fetch("https://api.ipify.org?format=json"),
-                fetch(`https://ipinfo.io/json?token=51c3494912e936`),
+                fetch(IP_API_URL),
+                fetch(LOCATION_API_URL),
               ]);
+
+              if (!ipResponse.ok || !locationResponse.ok) throw new Error("API response error");
 
               const ipData = await ipResponse.json();
               const locationData = await locationResponse.json();
-              const { country, regionName, countryCode, city, lat, lon } =
-                locationData;
+
+              const { country, city, region, loc } = locationData;
+              const [lat, lon] = loc ? loc.split(",") : [null, null];
+
               window.localStorage.setItem("ip", ipData.ip);
+
               return {
                 locationInfo: {
                   country,
-                  countryCode,
-                  regionName,
+                  region,
                   city,
                   lat,
                   lon,
                 },
               };
             } catch (error) {
-              console.error("IP veya konum alınırken hata oluştu:", error);
+              console.error("Error fetching IP or location:", error);
               return { ip: null, locationInfo: {} };
             }
           };
 
           const trackEvent = async (eventType, eventData = {}) => {
             const { locationInfo } = await getIPAndLocation();
+            const localDate = new Date();
+            const utcDate = new Date(
+              localDate.getTime() - localDate.getTimezoneOffset() * 60000
+            ).toISOString();
 
             const data = {
               visitorId: userId,
@@ -72,7 +78,7 @@
               time: utcDate,
               url: location.pathname,
               referrer: document.referrer || "Direct/None",
-              userDevice: result,
+              userDevice: deviceInfo,
               location: locationInfo,
               screenResolution: `${window.screen.width}x${window.screen.height}`,
               language: navigator.language || navigator.userLanguage,
@@ -84,22 +90,10 @@
           window.addEventListener("beforeunload", (event) => {
             trackEvent("page_exit", { reason: "User leaving the page" });
             socket.emit("disconnect", appId);
-            // navigator.sendBeacon(
-            //   "http://localhost:4000/trackEvent",
-            //   JSON.stringify({
-            //     event: "disconnect",
-            //     time: new Date().toISOString(),
-            //   })
-            // );
           });
 
           function onDocumentReady(callback) {
-            if (
-              document.readyState === "complete" ||
-              document.readyState === "interactive"
-            ) {
-              // DOM tamamen yüklendiğinde veya hazır olduğunda
-
+            if (document.readyState === "complete" || document.readyState === "interactive") {
               callback();
             } else {
               document.addEventListener("DOMContentLoaded", callback);
@@ -107,25 +101,20 @@
           }
 
           onDocumentReady(function () {
-            console.log("DOM ve framework tamamlandı.");
+            console.log("DOM and framework loaded.");
             socket.emit("register", {
               appId: appId,
               visitorId: userId,
             });
           });
 
-          // document.addEventListener("click", (e) => {
-          //   trackEvent("click", { element: e.target.tagName });
-          // });
-
-          const trackPageView = () => {
+          const trackPageView = debounce(() => {
             trackEvent("page_view", {
               pageTitle: document.title,
             });
-          };
+          }, 300);
 
           trackPageView();
-
           window.addEventListener("popstate", trackPageView);
 
           const originalPushState = history.pushState;
@@ -139,9 +128,15 @@
       }
 
       checkDataLayer();
-    };
-    document.head.appendChild(script);
-  };
+    });
+  });
 
-  document.head.appendChild(scriptParser);
+  // Debounce function to prevent rapid event firing
+  function debounce(fn, delay) {
+    let timer;
+    return function () {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, arguments), delay);
+    };
+  }
 })();

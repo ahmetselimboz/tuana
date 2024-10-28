@@ -19,7 +19,7 @@ const linecard = () => {
         { label: "Total Visits", value: 0 },
         { label: "Total Pageviews", value: 0 },
         { label: "New Visitors", value: 0 },
-        { label: "Visit Duration", value: "0m 0s" },
+        // { label: "Visit Duration", value: "0m 0s" },
     ])
     const [dataChart, setDataChart] = useState([
         { value: 0 },
@@ -83,13 +83,13 @@ const linecard = () => {
                 { label: "Total Visits", value: res?.visitor?.totalVisitor?.length },
                 { label: "Total Pageviews", value: res?.visitor?.totalPage?.length },
                 { label: "New Visitors", value: res?.visitor?.newVisitors?.length },
-                // { label: "Visit Duration", value: res?.visitor?.calculateDuration },
+               
             ])
             setDataChart([
                 { label: "Total Visits", value: res?.visitor?.totalVisitor, status: false },
                 { label: "Total Pageviews", value: res?.visitor?.totalPage, status: false },
                 { label: "New Visitors", value: res?.visitor?.newVisitors, status: false },
-                // { label: "Visit Duration", value: res?.duration?.calculateDuration, status: true },
+                
             ])
         }
 
@@ -97,7 +97,7 @@ const linecard = () => {
     }, [res, loading])
 
 
-    if (!loading) {
+    if (loading) {
         return (
             <div className=" rounded-md shadow-xl border border-stone-900/20 bg-main w-full lg:h-[600px] flex flex-col mb-12">
                 <Loading></Loading>

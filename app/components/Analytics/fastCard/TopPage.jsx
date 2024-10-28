@@ -30,7 +30,7 @@ const TopPage = () => {
             <AiOutlineFundView className="text-primary text-5xl " />
             <div className="text-primaryGray  font-dosis text-xl font-medium">Top Viewed Page</div>
             {
-                !loading ? (
+                loading ? (
                     <Loading width="w-6" height="h-6"/>
                 ) : (
                     <>

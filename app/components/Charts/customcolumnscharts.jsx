@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const ColumnsCharts = ({data}) => {
-console.log("🚀 ~ ColumnsCharts ~ data:", data)
+//console.log("🚀 ~ ColumnsCharts ~ data:", data)
 
    
 

@@ -6,10 +6,10 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 import { useToast } from "@/hooks/use-toast"
-import {ToastAction } from '@/components/ui/toast';
+import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-import { schema } from '@/app/Schemas/schema';
+import { signinschema } from '@/app/Schemas/signinschema';
 import bcrypt from 'bcryptjs';
 import Loading from '@/app/loading';
 
@@ -46,13 +46,13 @@ const Signup = () => {
         }
 
         if (res !== null) {
-            formik.setFieldValue('password', '');
-            formik.setFieldValue('repassword', '');
+            formik.resetForm();
             toast({
                 variant: "default",
                 title: "Success",
                 description: res?.message,
             })
+
             router.push('/login')
         }
 
@@ -68,13 +68,15 @@ const Signup = () => {
             password: "",
             repassword: "",
         },
-        validationSchema: schema,
+        validationSchema: signinschema,
+        validateOnChange: true,
+        validateOnBlur: true,
         onSubmit: async (values) => {
-
+        
 
             if (values.password === values.repassword) {
                 delete values.repassword
-             
+
                 handleRequest(values)
             } else {
                 formik.setFieldValue('password', '');
@@ -90,9 +92,15 @@ const Signup = () => {
         },
     });
 
-    
+
     const { errors, touched, values, handleChange, handleSubmit } = formik;
 
+    useEffect(() => {
+        console.log("🚀 ~ Signup ~ values:", values)
+        console.log("🚀 ~ Signup ~ touched:", touched)
+        console.log("🚀 ~ Signup ~ errors:", errors)
+
+    }, [values, touched, errors])
 
 
 
@@ -100,12 +108,12 @@ const Signup = () => {
 
     function togglePasswordVisibility(index) {
         setIsPasswordVisible((prevState) => {
-            const updatedVisibility = [...prevState]; 
-            updatedVisibility[index] = !updatedVisibility[index]; 
-            return updatedVisibility; 
+            const updatedVisibility = [...prevState];
+            updatedVisibility[index] = !updatedVisibility[index];
+            return updatedVisibility;
         });
     }
- 
+
 
     if (loading) {
         return <Loading></Loading>

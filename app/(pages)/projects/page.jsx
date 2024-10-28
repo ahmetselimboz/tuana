@@ -13,14 +13,74 @@ import { TiPinOutline } from "react-icons/ti";
 import { MdPushPin } from "react-icons/md";
 import Image from 'next/image'
 import useWidth from '@/app/hooks/useWidth'
+import { useToast } from '@/hooks/use-toast'
+import { useRouter } from 'next/navigation'
+import { useAxios } from '@/app/hooks/useAxios'
+import { ToastAction } from '@/components/ui/toast'
+import Box from '@/app/components/Projects/box'
+import Loading from '@/app/loading'
 
 const Projects = () => {
 
     const [adsActive, setAdsActive] = useState(false)
-    const [openProjectSetting, setProjectSetting] = useState(false)
+
     const [openFilter, setOpenFilter] = useState(false)
+    const [appList, setAppList] = useState([])
 
     const { width } = useWidth()
+
+    const { toast } = useToast()
+    const router = useRouter()
+
+    const { loading, res, error, sendRequest } = useAxios();
+
+    const handleRequest = async (e) => {
+        try {
+
+            await sendRequest({
+                method: "GET",
+                url: `/api/user/get-project-list`,
+
+            });
+        } catch (error) {
+            console.error("Request failed:", error);
+        }
+    };
+
+    useEffect(() => {
+
+        if (error !== null) {
+
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error?.message,
+                action: <ToastAction altText="Try again">Try again</ToastAction>,
+            })
+        }
+
+        if (res !== null) {
+           
+            setAppList(res.list.apps)
+            // toast({
+            //     variant: "default",
+            //     title: "Success",
+            //     description: res?.message,
+            // })
+
+        }
+
+
+    }, [res, error])
+
+    useEffect(() => {
+        handleRequest()
+    }, [])
+
+    if (loading) {
+        return <Loading></Loading>
+    }
+
 
     return (
         <>
@@ -102,52 +162,12 @@ const Projects = () => {
                         </div>
                     </div>
                     <div className='w-full h-auto flex flex-col items-center my-6'>
-
-                        <div className='relative w-5/6 h-auto mb-4 px-4 py-8 flex lg:flex-row flex-col items-center justify-between rounded-md shadow-xl border border-stone-900/20 bg-main hover:border-primary transition-all'>
-                            <Link href="/analytics" className='flex items-center lg:justify-normal justify-center lg:w-4/6 w-full lg:mb-0 mb-4'>
-                                <div className='text-4xl text-primary'>
-                                    <TbWorld />
-                                </div>
-                                <div className='text-1-5xl font-medium font-dosis tracking-wider text-primaryGray  ml-2  transition-all'>
-                                    tuanalytics.com
-                                </div>
-                            </Link>
-                            <div className='relative flex items-center lg:justify-end justify-center  lg:w-2/6 w-full'>
-
-                                <div className='text-sm font-medium font-dosis tracking-wider text-primaryGray px-2 py-1 bg-gray-700/5 hover:bg-gray-800/10 rounded-md transition-all flex items-center'>
-                                    <div className='bg-green-500 w-3 h-3 rounded-full mr-1'></div>
-                                    Active
-                                </div>
-
-                                <div className='text-sm font-medium font-dosis tracking-wider text-primaryGray  ml-2 px-2 py-1 bg-gray-700/5 hover:bg-gray-800/10 rounded-md transition-all'>
-                                    May 14, 2024
-                                </div>
-                                <div onClick={() => { setProjectSetting(!openProjectSetting) }} className=' relative w-8 h-8 flex items-center justify-center cursor-pointer ml-4 text-2xl text-primaryGray hover:bg-black/5 p-1 rounded-full transition-all'>
-                                    <BsThreeDots />
-                                    <Dropdown isOpen={openProjectSetting}>
-                                        <div className={`min-w-32 h-fit absolute border border-stone-900/20 top-10 right-0 rounded-md shadow-xl bg-main`}>
-
-                                            {/* <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' /> */}
-                                            <Link href="#" className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10  transition-all px-4`}>
-                                                <div className='text-2xl text-primary'><CiSettings /></div>
-                                                <div className='text-base font-dosis'>Settings</div>
-
-                                            </Link>
-                                            <Link href="#" className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
-                                                <div className='text-2xl text-primary'><TiPinOutline /></div>
-                                                <div className='text-base font-dosis'>Pin</div>
-
-                                            </Link>
-                                        </div>
-                                    </Dropdown>
-                                </div>
-
-
-                            </div>
-                            <div className='absolute top-4 right-4 text-primary'>
-                                <MdPushPin />
-                            </div>
-                        </div>
+                        {
+                            appList?.map((item, index) => (
+                                <Box item={item} key={index} handleRequestttt={handleRequest}></Box>
+                            ))
+                        }
+                    
                     </div>
                 </div>
                 <div className='lg:block hidden w-1/6 h-full px-4'>
