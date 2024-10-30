@@ -9,11 +9,11 @@
   user-select: none;
 }
 
-/* @layer base {
+@layer base {
   html {
     font-family: "Dosis", sans-serif;
   }
-} */
+}
 
 @layer utilities {
   .nav-active {

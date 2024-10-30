@@ -13,6 +13,7 @@ import { signinschema } from '@/app/Schemas/signinschema';
 import bcrypt from 'bcryptjs';
 import Loading from '@/app/loading';
 
+
 const Signup = () => {
     const { toast } = useToast()
     const router = useRouter()
@@ -34,26 +35,29 @@ const Signup = () => {
 
     useEffect(() => {
 
-        if (error !== null) {
-            formik.setFieldValue('password', '');
-            formik.setFieldValue('repassword', '');
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
+
 
         if (res !== null) {
-            formik.resetForm();
-            toast({
-                variant: "default",
-                title: "Success",
-                description: res?.message,
-            })
 
-            router.push('/login')
+            if (res.code !== 200) {
+                formik.setFieldValue('password', '');
+                formik.setFieldValue('repassword', '');
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                formik.resetForm();
+                toast({
+                    variant: "default",
+                    title: "Success",
+                    description: res?.message,
+                })
+                router.push('/login')
+            }
+
         }
 
 
@@ -72,7 +76,7 @@ const Signup = () => {
         validateOnChange: true,
         validateOnBlur: true,
         onSubmit: async (values) => {
-        
+
 
             if (values.password === values.repassword) {
                 delete values.repassword
@@ -95,12 +99,12 @@ const Signup = () => {
 
     const { errors, touched, values, handleChange, handleSubmit } = formik;
 
-    useEffect(() => {
-        console.log("🚀 ~ Signup ~ values:", values)
-        console.log("🚀 ~ Signup ~ touched:", touched)
-        console.log("🚀 ~ Signup ~ errors:", errors)
+    // useEffect(() => {
+    //     console.log("🚀 ~ Signup ~ values:", values)
+    //     console.log("🚀 ~ Signup ~ touched:", touched)
+    //     console.log("🚀 ~ Signup ~ errors:", errors)
 
-    }, [values, touched, errors])
+    // }, [values, touched, errors])
 
 
 
@@ -269,7 +273,7 @@ const Signup = () => {
                             or sign up with
                         </div>
                         <div className='flex flex-row items-center justify-evenly'>
-                            <div className='p-2 rounded-md shadow-xl border border-stone-900/20 flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-all'>
+                            <div onClick={()=>{ window.location.href = "/api/auth/google"}} className='p-2 rounded-md shadow-xl border border-stone-900/20 flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-all'>
                                 <FcGoogle className='text-2xl' />
                             </div>
                         </div>

@@ -8,7 +8,7 @@ import { TbWorld } from 'react-icons/tb';
 const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, projectType }) => {
 
     const { toast } = useToast()
-    const { loading: loading, res: res, error: error, sendRequest: sendRequest } = useAxios();
+    const { loading, res, error, sendRequest } = useAxios();
     // const { loading: loading2, res: res2, error: error2, sendRequest: sendRequest2 } = useAxios();
 
 
@@ -25,7 +25,9 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
     };
 
 
-
+    // useEffect(() => {
+    //     console.log("🚀 ~ useEffect ~ res:", res)
+    // }, [res])
 
     const codeScript = ` <script>
     window.dataLayer = window.dataLayer || [];
@@ -56,7 +58,7 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
                     phase4: false
                 };
             });
-          
+
         }} className='relative lg:w-3/6 w-5/6 h-fit mb-4 px-10 py-8 flex flex-col  items-center justify-between rounded-md shadow-xl border border-stone-900/20 bg-main  transition-all'>
             <div className='w-full flex items-center mb-8'>
                 <div onClick={() => { setProjectType("Web") }} className={`w-1/3 flex items-center justify-center rounded-md border-2 ${projectType == "Web" ? "border-primary shadow-md" : "border-primaryGray/50"} px-2 py-1 mr-2 cursor-pointer`}>
@@ -90,7 +92,7 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
                             }} placeholder='Enter domain' name='domain' id='domain' className='w-full rounded-md border border-primaryGray/50 outline-none text-lg px-2 py-1' required />
 
                             {
-                                res?.status ? (
+                                res?.code == 200 ? (
                                     <div className='text-green-600 text-sm'>{res?.message}</div>
                                 ) : (<div className='text-red-600 text-sm'>{res?.message}</div>)
                             }

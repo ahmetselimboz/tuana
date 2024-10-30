@@ -4,63 +4,65 @@ import { useAxios } from '@/app/hooks/useAxios'
 import Loading from '@/app/loading'
 import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/hooks/use-toast'
-import { useAppSelector } from '@/lib/redux/hooks'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { IoMdCheckmark } from 'react-icons/io'
-import { useDispatch } from 'react-redux'
 
 const Plans = () => {
 
     const [selectedPlan, setSelectedPlan] = useState("free")
 
-    
+
     const { toast } = useToast()
     const router = useRouter()
     const { loading, res, error, sendRequest } = useAxios();
-  
+
     const handleRequest = async (e) => {
-      try {
-        await sendRequest({
-          method: "POST",
-          url: `/api/user/set-plan`,
-          body: {
-            plan: e,
-          }
-        });
-      } catch (error) {
-        console.error("Request failed:", error);
-      }
-    };
-  
-    useEffect(() => {
-  
-      if (error !== null) {
-  
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: error?.message,
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        })
-      }
-  
-      if (res !== null) {
-  
-        toast({
-          variant: "default",
-          title: "Success",
-          description: "Plan selected!",
-        })
-  
-        if (res?.user?.plans === "free") {
-          router.push('/projects')
-        } else {
-          router.push('/payment')
+        try {
+            await sendRequest({
+                method: "POST",
+                url: `/api/user/set-plan`,
+                body: {
+                    plan: e,
+                }
+            });
+        } catch (error) {
+            console.error("Request failed:", error);
         }
-  
-      }
-  
+    };
+
+    useEffect(() => {
+
+        if (res !== null) {
+
+
+            if (res.code !== 200) {
+
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                toast({
+                    variant: "default",
+                    title: "Success",
+                    description: "Plan selected!",
+                })
+
+                if (res?.user?.plans === "free") {
+                    router.push('/projects')
+                } else {
+                    router.push('/payment')
+                }
+            }
+
+
+
+
+        }
+
     }, [res, error])
 
 
@@ -79,7 +81,7 @@ const Plans = () => {
             </div>
             <div className='flex lg:flex-row flex-col-reverse items-center justify-center px-10 pt-12 pb-4'>
                 <div className='lg:w-1/3 w-full h-full lg:px-8 lg:mb-0 mb-8'>
-                    <div onClick={()=>{setSelectedPlan("free")}} className={`rounded-3xl shadow-xl border-4 px-4 pt-10 pb-4 ${selectedPlan == "free" ? "border-primary/100": "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
+                    <div onClick={() => { setSelectedPlan("free") }} className={`rounded-3xl shadow-xl border-4 px-4 pt-10 pb-4 ${selectedPlan == "free" ? "border-primary/100" : "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
                         <div className='w-full mb-6'>
                             <div className='w-fit ml-4 text-5xl text-gray-800 font-semibold '>
                                 Free
@@ -132,9 +134,9 @@ const Plans = () => {
 
                     </div>
                 </div>
-                
+
                 <div className='lg:w-1/3 w-full h-full lg:px-8 lg:mb-0 mb-8'>
-                    <div onClick={()=>{setSelectedPlan("pro")}} className={`rounded-3xl shadow-xl border-4 px-4 pt-10 pb-4 ${selectedPlan == "pro" ? "border-primary/100": "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
+                    <div onClick={() => { setSelectedPlan("pro") }} className={`rounded-3xl shadow-xl border-4 px-4 pt-10 pb-4 ${selectedPlan == "pro" ? "border-primary/100" : "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
                         <div className='w-full mb-6'>
                             <div className='w-fit ml-4 text-5xl text-gray-800 font-semibold '>
                                 Pro
@@ -188,7 +190,7 @@ const Plans = () => {
                     </div>
                 </div>
                 <div className='lg:w-1/3 w-full h-full lg:px-8 lg:mb-0 mb-8'>
-                    <div onClick={()=>{setSelectedPlan("premium")}} className={`rounded-3xl shadow-xl border-4 px-4 lg:pt-10 pt-4 pb-4 ${selectedPlan == "premium" ? "border-primary/100": "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
+                    <div onClick={() => { setSelectedPlan("premium") }} className={`rounded-3xl shadow-xl border-4 px-4 lg:pt-10 pt-4 pb-4 ${selectedPlan == "premium" ? "border-primary/100" : "border-primary/20"}  flex flex-col h-full hover:border-primary/100 cursor-pointer transition-all`}>
                         <div className='w-full mb-6 flex lg:flex-row flex-col-reverse lg:items-end items-start justify-between'>
                             <div className='w-fit ml-4 text-5xl text-gray-800 font-semibold '>
                                 Premium
@@ -246,7 +248,7 @@ const Plans = () => {
             </div>
             <div className='w-full flex items-center justify-center'>
                 <div className='w-full flex flex-col items-center mt-4'>
-                    <button onClick={()=>{handleRequest(selectedPlan)}} className='lg:text-2xl text-lg  text-main font-medium font-dosis tracking-wider px-16 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Subscribe</button>
+                    <button onClick={() => { handleRequest(selectedPlan) }} className='lg:text-2xl text-lg  text-main font-medium font-dosis tracking-wider px-16 py-2 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Subscribe</button>
                 </div>
             </div>
         </div>

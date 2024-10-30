@@ -49,24 +49,28 @@ const Projects = () => {
 
     useEffect(() => {
 
-        if (error !== null) {
-
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
 
         if (res !== null) {
-           
-            setAppList(res.list.apps)
-            // toast({
-            //     variant: "default",
-            //     title: "Success",
-            //     description: res?.message,
-            // })
+
+
+            if (res.code !== 200) {
+
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                setAppList(res.list.apps)
+                // toast({
+                //     variant: "default",
+                //     title: "Success",
+                //     description: res?.message,
+                // })
+            }
+
+
 
         }
 
@@ -167,7 +171,7 @@ const Projects = () => {
                                 <Box item={item} key={index} handleRequestttt={handleRequest}></Box>
                             ))
                         }
-                    
+
                     </div>
                 </div>
                 <div className='lg:block hidden w-1/6 h-full px-4'>

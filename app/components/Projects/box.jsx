@@ -18,7 +18,7 @@ const Box = ({ item, handleRequestttt }) => {
 
     const [openProjectSetting, setProjectSetting] = useState(false)
     const [projectDate, setProjectDate] = useState(null)
-    
+
 
 
     const { toast } = useToast()
@@ -32,7 +32,7 @@ const Box = ({ item, handleRequestttt }) => {
             await sendRequest({
                 method: "POST",
                 url: `/api/user/toggle-pin`,
-                body: { appId: item.appId.appId  },
+                body: { appId: item.appId.appId },
             });
         } catch (error) {
             console.error("Request failed:", error);
@@ -41,23 +41,26 @@ const Box = ({ item, handleRequestttt }) => {
 
     useEffect(() => {
 
-        if (error !== null) {
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
+
 
         if (res !== null) {
-    
-            toast({
-                variant: "default",
-                title: "Success",
-                description: res?.message,
-            })
-            handleRequestttt()
+            if (res.code !== 200) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                toast({
+                    variant: "default",
+                    title: "Success",
+                    description: res?.message,
+                })
+                handleRequestttt()
+            }
+
+
         }
     }, [res, error])
 
@@ -72,7 +75,7 @@ const Box = ({ item, handleRequestttt }) => {
             day: "numeric",
         });
         setProjectDate(formattedDate)
-      
+
 
     }, [item])
 
@@ -133,13 +136,13 @@ const Box = ({ item, handleRequestttt }) => {
                             </Link>
                             {
                                 item?.appId?.pin ? (
-                                    <div onClick={()=>{handleRequest();}} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
-                                        <div className='text-2xl text-primary'><LuPinOff  /></div>
+                                    <div onClick={() => { handleRequest(); }} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
+                                        <div className='text-2xl text-primary'><LuPinOff /></div>
                                         <div className='text-base font-dosis'>Remove Pin</div>
 
                                     </div>
-                                ) : (<div onClick={()=>{handleRequest()}} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
-                                    <div className='text-2xl text-primary'><LuPin  /></div>
+                                ) : (<div onClick={() => { handleRequest() }} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-4`}>
+                                    <div className='text-2xl text-primary'><LuPin /></div>
                                     <div className='text-base font-dosis'>Pin</div>
 
                                 </div>)

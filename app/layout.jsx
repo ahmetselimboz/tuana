@@ -9,6 +9,7 @@ import Error from "./error";
 import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 
+
 const dosis = Dosis({ subsets: ['latin'] })
 
 export const metadata = {
@@ -50,10 +51,10 @@ export default function RootLayout({ children }) {
         <link rel="canonical" href={process.env.NEXT_PUBLIC_DOMAIN_URL} />
         <link rel="alternate" hrefLang="en" href={process.env.NEXT_PUBLIC_DOMAIN_URL} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
+
         <img src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_pp_logo.jpg`} alt="Tuana user behavior analytics platform dashboard" />
         <img src={`${process.env.NEXT_PUBLIC_DOMAIN_URL}tuana_pp_logo.jpg`} alt="Analytics platform" loading="lazy" />
-        
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -71,13 +72,14 @@ export default function RootLayout({ children }) {
             }),
           }}
         />
-        
+
       </Head>
       <body className={`${dosis.className} antialiased bg-main`}>
         <ErrorBoundary fallback={<Error />}>
           <Suspense fallback={<Loading />}>
+
             <StoreProvider>
-              {children}
+            {children}
               <Toaster />
             </StoreProvider>
           </Suspense>

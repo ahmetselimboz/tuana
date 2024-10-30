@@ -46,26 +46,30 @@ const ProfileNavbar = () => {
 
     useEffect(() => {
 
-        if (error !== null) {
-
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
 
         if (res !== null) {
 
-            toast({
-                variant: "default",
-                title: "Success",
-                description: res?.message,
-            })
+            if (res.code !== 200) {
 
-            dispatch(setUser({}))
-            router.push('/')
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                toast({
+                    variant: "default",
+                    title: "Success",
+                    description: res?.message,
+                })
+
+                dispatch(setUser({}))
+                router.push('/')
+            }
+
+
+
         }
 
     }, [res, error])

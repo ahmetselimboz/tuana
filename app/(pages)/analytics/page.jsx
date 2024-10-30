@@ -48,33 +48,31 @@ const Analytics = () => {
 
   useEffect(() => {
 
-    if (error !== null) {
 
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error?.message,
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      })
-    }
 
     if (res !== null) {
-      setUserInfo(res2?.user?.name)
+      if (res.code !== 200) {
+
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: res?.message,
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      } else {
+        setUserInfo(res?.user?.name)
+      }
     }
 
   }, [res, error])
 
   useEffect(() => {
     if (id !== "TNAKLYTP") {
-      handleRequest2()
+      handleRequest()
     } else {
       setUserInfo("Tuana")
     }
   }, [])
-
-  useEffect(() => {
-    console.log("🚀 ~ Analytics ~ loading:", loading)
-  }, [loading])
 
   if (loading) {
     return <Loading></Loading>
@@ -89,7 +87,6 @@ const Analytics = () => {
           {
             width <= 1024 ? (<div></div>) : (<Sidebar></Sidebar>)
           }
-
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
             <div className="w-full flex items-center justify-between lg:flex-row flex-col my-3">
               <div className="lg:w-1/2 w-full flex flex-col my-3 mx-2">

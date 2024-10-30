@@ -32,24 +32,23 @@ const Verifying = ({ setStage, appDetails }) => {
 
     useEffect(() => {
 
-        if (error !== null) {
-
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-
-        }
-
         if (res !== null) {
-            setStatus(true)
-            toast({
-                variant: "default",
-                title: "Success",
-                description: res?.message,
-            })
+            if (res.code !== 200) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                setStatus(true)
+                toast({
+                    variant: "default",
+                    title: "Success",
+                    description: res?.message,
+                })
+            }
+
         }
     }, [res, error])
 
@@ -77,25 +76,30 @@ const Verifying = ({ setStage, appDetails }) => {
 
     useEffect(() => {
 
-        if (error2 !== null) {
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error2?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
+
 
         if (res2 !== null) {
-            setStage((prevState) => {
-                return {
-                    ...prevState,
-                    phase3: true,
-                    phase4: false
-                };
-            });
 
-            router.push(`/analytics?id=${appDetails.appId}`)
+            if (res2.code !== 200) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res2?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                setStage((prevState) => {
+                    return {
+                        ...prevState,
+                        phase3: true,
+                        phase4: false
+                    };
+                });
+
+                router.push(`/analytics?id=${appDetails.appId}`)
+            }
+
+
         }
 
     }, [res2, error2])
@@ -178,7 +182,7 @@ const Verifying = ({ setStage, appDetails }) => {
                                     phase4: null
                                 };
                             });
-                            
+
                         }} className={`lg:text-lg text-lg ${!status ? "" : ""} text-main font-medium font-dosis tracking-wider px-16 py-1 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all`}>Restart</button>
 
                     ) : (

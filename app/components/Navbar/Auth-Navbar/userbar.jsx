@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 import { useAxios } from '@/app/hooks/useAxios'
 import { ToastAction } from '@/components/ui/toast'
+import { setUser } from '@/lib/redux/features/userSettings/userSlice'
 
 const UserBar = ({ setOpenUserBar, setOpenSidebar, setOpenAppBar, openUserBar }) => {
 
@@ -20,7 +21,7 @@ const UserBar = ({ setOpenUserBar, setOpenSidebar, setOpenAppBar, openUserBar })
     const dispatch = useDispatch()
     const params = useSearchParams()
     const id = params.get("id")
-    const [userInfo, setUserInfo]=useState("")
+    const [userInfo, setUserInfo] = useState("")
 
     const { loading: loading, res: res, error: error, sendRequest: sendRequest } = useAxios();
     const { loading: loading2, res: res2, error: error2, sendRequest: sendRequest2 } = useAxios();
@@ -38,26 +39,30 @@ const UserBar = ({ setOpenUserBar, setOpenSidebar, setOpenAppBar, openUserBar })
 
     useEffect(() => {
 
-        if (error !== null) {
 
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
 
         if (res !== null) {
 
-            toast({
-                variant: "default",
-                title: "Success",
-                description: res?.message,
-            })
+            if (res.code !== 200) {
 
-            dispatch(setUser({}))
-            router.push('/')
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            } else {
+                toast({
+                    variant: "default",
+                    title: "Success",
+                    description: res?.message,
+                })
+
+                dispatch(setUser({}))
+                router.push('/')
+            }
+
+
         }
 
     }, [res, error])
@@ -76,12 +81,9 @@ const UserBar = ({ setOpenUserBar, setOpenSidebar, setOpenAppBar, openUserBar })
 
     useEffect(() => {
 
-        if (error2 !== null) {
-       
-        }
-
+  
         if (res2 !== null) {
-        
+
             setUserInfo(res2?.user?.name)
 
         }
@@ -91,7 +93,7 @@ const UserBar = ({ setOpenUserBar, setOpenSidebar, setOpenAppBar, openUserBar })
     useEffect(() => {
         if (id !== "TNAKLYTP") {
             handleRequest2()
-        }else{
+        } else {
             setUserInfo("Tuana")
         }
     }, [])

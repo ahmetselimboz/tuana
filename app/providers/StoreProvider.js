@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useRef } from "react";
 import { Provider, useDispatch } from "react-redux";
 import { makeStore } from "../../lib/redux/store";
@@ -6,17 +7,16 @@ import { useAppSelector } from "@/lib/redux/hooks";
 import { useAxios } from "../hooks/useAxios";
 import { useToast } from "@/hooks/use-toast";
 import { setUser } from "@/lib/redux/features/userSettings/userSlice";
+import { SessionProvider } from "next-auth/react";
 
 export default function StoreProvider({ children }) {
   const storeRef = useRef();
 
-  
-  const { toast } = useToast()
+  const { toast } = useToast();
   // const dispatch = useDispatch  ()
   // const token = localStorage.getItem('accessToken')
   // const { loading, res, error, sendRequest } = useAxios();
 
-  
   if (!storeRef.current) {
     storeRef.current = makeStore();
   }
@@ -55,7 +55,10 @@ export default function StoreProvider({ children }) {
   //     handleRequest()
   //   }
   // }, [token])
-  
 
-  return <Provider store={storeRef.current}>{children}</Provider>;
+  return (
+    <Provider store={storeRef.current}>
+      {children}
+    </Provider>
+  );
 }

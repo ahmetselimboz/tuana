@@ -33,26 +33,22 @@ const Login = () => {
 
     useEffect(() => {
 
-        if (error !== null) {
-            formik.setFieldValue('password', '');
-
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
-
         if (res !== null) {
+            console.log("🚀 ~ useEffect ~ res:", res)
 
-            // toast({
-            //     variant: "default",
-            //     title: "Success",
-            //     description: res?.message,
-            // })
+            if (res.code !== 200) {
+                formik.setFieldValue('password', '');
 
-            router.push('/redirect')
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            }else{
+                router.push('/redirect')
+            }
+
         }
 
     }, [res, error])
@@ -162,7 +158,7 @@ const Login = () => {
                             or log in with
                         </div>
                         <div className='flex flex-row items-center justify-evenly'>
-                            <div className='p-2 rounded-md shadow-xl border border-stone-900/20 flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-all'>
+                            <div onClick={()=>{ window.location.href = "/api/auth/google"}} className='p-2 rounded-md shadow-xl border border-stone-900/20 flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-all'>
                                 <FcGoogle className='text-2xl' />
                             </div>
                         </div>

@@ -23,10 +23,7 @@ const ProjectDetails = ({setAppDetails, setStage}) => {
 
     useEffect(() => {
 
-        if (error !== null) {
-
-        }
-
+    
         if (res !== null) {
             setStage((prevState) => ({
                 ...prevState,

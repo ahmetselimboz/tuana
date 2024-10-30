@@ -37,20 +37,22 @@ const ProjectList = ({ setOpenAppBar, openAppBar, setOpenUserBar, setOpenSidebar
 
     useEffect(() => {
 
-        if (error !== null) {
-
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                description: error?.message,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            })
-        }
 
         if (res !== null) {
-           
-            setAppList(res.list.apps.filter((item) => item.appId.appId !== id))
-            setCurrentApp(res.list.apps.filter((item) => item.appId.appId === id))
+
+            if (res.code !== 200) {
+
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: res?.message,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                })
+            }else{
+                setAppList(res.list.apps.filter((item) => item.appId.appId !== id))
+                setCurrentApp(res.list.apps.filter((item) => item.appId.appId === id))
+            }
+
 
         }
 
