@@ -2,16 +2,17 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 export function middleware(req) {
-  const cookies = req.headers.get("cookie") || "";
-  const token =
-    cookies
-      .split("; ")
-      .find((c) => c.startsWith("accessToken="))
-      ?.split("=")[1] || null;
+  const cookieHeader = req.headers.get("cookie") || "";
+  const cookies = Object.fromEntries(
+    cookieHeader.split("; ").map(c => {
+      const [name, ...rest] = c.split("=");
+      return [name, rest.join("=")];
+    })
+  );
+  const token = cookies.accessToken || null;
 
   console.log("🚀 ~ middleware ~ token:", token);
-  const allCookies = req.cookies.getAll();
-  console.log("🚀 ~ middleware ~ allCookies:", allCookies);
+  console.log("🚀 ~ middleware ~ allCookies:", cookies);
 
   const protectedRoutes = [
     "/plans",
