@@ -3,19 +3,11 @@ import { cookies } from "next/headers";
 import { getCookie } from 'cookies-next';
 
 export function middleware(req) {
-  const res = NextResponse.next();
-  const cookieHeader = req.headers.get("cookie") || "";
-  const cookies = Object.fromEntries(
-    cookieHeader.split("; ").map(c => {
-      const [name, ...rest] = c.split("=");
-      return [name, rest.join("=")];
-    })
-  );
-  const token = cookies.accessToken || null;
-  const cookie =  getCookie('accessToken', { req, res })
-  console.log("🚀 ~ middleware ~ cookie:", cookie)
+  const cookieStore = cookies(); 
+  const token = cookieStore.get('accessToken')?.value || null;
+
   console.log("🚀 ~ middleware ~ token:", token);
-  console.log("🚀 ~ middleware ~ allCookies:", cookies);
+  console.log("Headers:", req.headers);
 
   const protectedRoutes = [
     "/plans",
