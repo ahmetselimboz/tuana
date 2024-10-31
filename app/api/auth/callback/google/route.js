@@ -41,17 +41,15 @@ export async function GET(request) {
         method: "POST",
         url: "/api/user/google-sign-up",
         data: { data: data },
-        headers: {
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
       };
 
       const res = await api(config);
+      console.log("🚀 ~ GET ~ res:", res)
 
       const user = res.data.data.user;
 
       if (!user) {
-        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/error`);
+        return NextResponse.redirect(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/`);
       }
 
       const accessToken = jwt.sign(
