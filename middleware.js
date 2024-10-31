@@ -3,10 +3,12 @@ import { cookies } from "next/headers";
 
 export function middleware(req) {
   
-  const token = req.cookies.get("accessToken")
+  const cookies = req.headers.get("cookie");
+  const token = cookies
+    ? cookies.split("; ").find((c) => c.startsWith("accessToken="))?.split("=")[1]
+    : null;
 
   console.log("🚀 ~ middleware ~ token:", token);
-  
 
   const protectedRoutes = ["/plans", "/projects", "/add-project", "/redirect", "/analytics"];
   const unProtectedRoutes = ["/login", "/sign-up", "/email-confirmed", "/forgot-password"];
