@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { getCookie } from 'cookies-next';
 
 export function middleware(req) {
+  const res = NextResponse.next();
   const cookieHeader = req.headers.get("cookie") || "";
   const cookies = Object.fromEntries(
     cookieHeader.split("; ").map(c => {
@@ -10,7 +12,8 @@ export function middleware(req) {
     })
   );
   const token = cookies.accessToken || null;
-
+  const cookie =  getCookie('accessToken', { req, res })
+  console.log("🚀 ~ middleware ~ cookie:", cookie)
   console.log("🚀 ~ middleware ~ token:", token);
   console.log("🚀 ~ middleware ~ allCookies:", cookies);
 
