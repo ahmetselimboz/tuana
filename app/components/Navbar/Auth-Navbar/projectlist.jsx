@@ -27,7 +27,7 @@ const ProjectList = ({ setOpenAppBar, openAppBar, setOpenUserBar, setOpenSidebar
 
             await sendRequest({
                 method: "GET",
-                url: `/api/user/get-project-list`,
+                url: `/api/apps/get-project-list`,
 
             });
         } catch (error) {

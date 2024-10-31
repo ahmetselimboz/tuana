@@ -39,7 +39,7 @@ const Projects = () => {
 
             await sendRequest({
                 method: "GET",
-                url: `/api/user/get-project-list`,
+                url: `/api/apps/get-project-list`,
 
             });
         } catch (error) {

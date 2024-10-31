@@ -13,7 +13,7 @@ const ProjectDetails = ({setAppDetails, setStage}) => {
         try {
             await sendRequest({
                 method: "GET",
-                url: `/api/user/get-appid`,
+                url: `/api/apps/get-appid`,
 
             });
         } catch (error) {

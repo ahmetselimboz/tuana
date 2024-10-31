@@ -31,7 +31,7 @@ const Box = ({ item, handleRequestttt }) => {
 
             await sendRequest({
                 method: "POST",
-                url: `/api/user/toggle-pin`,
+                url: `/api/apps/toggle-pin`,
                 body: { appId: item.appId.appId },
             });
         } catch (error) {

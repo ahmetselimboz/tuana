@@ -7,7 +7,6 @@ export function middleware(req) {
   const token = cookieStore.get('accessToken')?.value || null;
 
   console.log("🚀 ~ middleware ~ token:", token);
-  console.log("Headers:", req.headers);
 
   const protectedRoutes = [
     "/plans",

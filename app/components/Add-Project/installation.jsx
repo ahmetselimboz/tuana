@@ -16,7 +16,7 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
         try {
             await sendRequest({
                 method: "POST",
-                url: `/api/user/exist-domain`,
+                url: `/api/apps/exist-domain`,
                 body: { domain: e }
             });
         } catch (error) {

@@ -20,7 +20,7 @@ const Verifying = ({ setStage, appDetails }) => {
         try {
             await sendRequest({
                 method: "POST",
-                url: `/api/user/verify`,
+                url: `/api/apps/verify`,
                 body: { appId: appDetails.appId, domain: appDetails.domain }
             });
         } catch (error) {
@@ -65,7 +65,7 @@ const Verifying = ({ setStage, appDetails }) => {
         try {
             await sendRequest2({
                 method: "POST",
-                url: `/api/user/create-project`,
+                url: `/api/apps/create-project`,
                 body: appDetails
             });
         } catch (error) {
