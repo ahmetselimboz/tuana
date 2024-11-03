@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getCookie } from 'cookies-next';
 
-export function middleware(req) {
+export async function middleware(req) {
   const cookieStore = cookies(); 
-  const token = cookieStore.get('accessToken')?.value || null;
+  const token = (await cookieStore.get('accessToken'))?.value || req.cookies.accessToken;
 
   console.log("🚀 ~ middleware ~ token:", token);
 

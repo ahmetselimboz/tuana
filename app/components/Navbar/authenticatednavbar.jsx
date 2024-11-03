@@ -2,14 +2,6 @@
 import useWidth from '@/app/hooks/useWidth';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react'
-import { CiCirclePlus } from 'react-icons/ci'
-import { FaUser } from 'react-icons/fa'
-import { FiLogOut } from 'react-icons/fi'
-import { IoMdPhonePortrait } from 'react-icons/io'
-import { IoSettingsOutline } from 'react-icons/io5'
-import { RxCaretDown } from 'react-icons/rx'
-import { SiCodeforces } from 'react-icons/si'
-import { TbWorld } from 'react-icons/tb'
 import Dropdown from '@/app/components/Animation/dropdown'
 import DateDropdown from '@/app/components/Animation/datedropdown'
 import Menu from "@/app/components/Analytics/menu"
