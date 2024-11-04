@@ -17,12 +17,16 @@ import {
 import ScaleUpOnScroll from "../Animation/ScaleUpOnScroll";
 import SlideInFromLeft from "../Animation/SlideInFromLeft";
 import SlideUpOnScroll from "../Animation/SlideUpOnScroll";
+import { LampDemo } from "../Animation/Lamp";
+
+import ThreeDCard from "./ThreeDCard";
 
 export function BentoGridDemo() {
     return (
         <div className="overflow-hidden">
-            <div className="w-full  flex items-center justify-start mb-8 ml-10">
-                <div className="relative w-4/5 h-[200px] flex items-center justify-center ml-12">
+
+            <div className="w-full  flex items-center justify-start  ml-10 bg-transparent mb-12">
+                <div className="relative w-full h-[200px] flex items-center justify-center ml-12">
                     <SlideUpOnScroll className='relative z-10 w-fit pr-8 bg-main'>
                         <div className='text-primaryGray text-7xl mr-3 inline-block'>
                             Why
@@ -42,9 +46,20 @@ export function BentoGridDemo() {
                     </div>
                 </div>
             </div>
+            {/* <TextGenerateEffectDemo></TextGenerateEffectDemo> */}
 
+            <ThreeDCard></ThreeDCard>
+            <div className="w-full  flex items-center justify-start bg-transparent ">
+                <div className="relative w-full h-[100px] flex items-center justify-center">
+                    <SlideUpOnScroll className='relative z-10 w-fit  bg-main'>
+                        <div className='text-primaryGray text-4xl  inline-block'>
+                            ... And More
+                        </div>
 
+                    </SlideUpOnScroll>
 
+                </div>
+            </div>
             <BentoGrid className="max-w-4xl mx-auto">
                 {items.map((item, i) => (
 
@@ -66,14 +81,15 @@ export function BentoGridDemo() {
 const Skeleton = ({ icon }) => (
     <div
         className="flex items-center justify-center flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100">
-        {icon}
+  
     </div>
 );
 const items = [
     {
         title: "Instant Insights",
         description: "Monitor user actions in real-time with immediate feedback.",
-        header: <Skeleton icon={<IconEye className="h-16 w-16 text-primary" />} />,
+        header: <Skeleton/>,
+        icon: <IconEye className="h-4 w-4 text-neutral-500" />,
 
     },
     {

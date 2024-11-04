@@ -2,11 +2,11 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const SlideUpOnScroll = ({ children, className }) => {
+  
   const { ref, inView } = useInView({
     triggerOnce: true, // Sadece ilk defa görünümde olduğunda çalışsın
     threshold: 0.4, // Görünümün %10'u ekranda olunca tetiklenir
   });
-
   return (
     <motion.div
       ref={ref}
