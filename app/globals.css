@@ -19,7 +19,9 @@
   .nav-active {
     @apply text-stone-900;
   }
-
+  .bg-custom-gradient {
+    background: linear-gradient(180deg, var(--slate-800), var(--slate-900));
+  }
   .text-1-5xl {
     font-size: 21px; /* 20px */
     line-height: 30px; /* 28px */
