@@ -20,6 +20,7 @@ import SlideUpOnScroll from "../Animation/SlideUpOnScroll";
 import { LampDemo } from "../Animation/Lamp";
 
 import ThreeDCard from "./ThreeDCard";
+import { FeaturesSectionDemo } from "../Animation/FeaturesSectionDemo";
 
 export function BentoGridDemo() {
     return (
@@ -60,7 +61,7 @@ export function BentoGridDemo() {
 
                 </div>
             </div>
-            <BentoGrid className="max-w-4xl mx-auto">
+            {/* <BentoGrid className="max-w-4xl mx-auto">
                 {items.map((item, i) => (
 
                     <BentoGridItem
@@ -73,7 +74,8 @@ export function BentoGridDemo() {
                         className={i === 3 || i === 6 ? "md:col-span-2" : ""} />
 
                 ))}
-            </BentoGrid>
+            </BentoGrid> */}
+            <FeaturesSectionDemo></FeaturesSectionDemo>
 
         </div>
     );

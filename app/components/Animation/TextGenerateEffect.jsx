@@ -18,7 +18,7 @@ export const TextGenerateEffect = ({
     threshold: 0.4,
   });
 
-  let wordsArray = words.split(" ");
+  let wordsArray = words.split(' ');
 
   useEffect(() => {
     if (inView) {
@@ -67,7 +67,9 @@ export const TextGenerateEffect = ({
         </div>
         <div className="dark:text-white w-5/6 rounded-tl-none bg-primary rounded-xl px-4 py-6 text-main text-base font-medium leading-snug tracking-wide">
           {renderWords()}
-        
+          <div className="flex items-center justify-end">
+            <button onClick={()=>{setGenerateField(false)}} className="bg-main text-primary hover:bg-gray-200 hover:text-secondary rounded-full px-4 py-2 ">Thanks!</button>
+          </div>
         </div>
       </div>
     </div>

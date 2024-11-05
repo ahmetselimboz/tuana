@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CardBody, CardContainer, CardItem } from "../../../../components/ui/3d-card";
 import Link from "next/link";
 import Loading from "@/app/loading";
@@ -19,12 +19,13 @@ Try Tuana, because together we can discover what users expect and what can be do
 
 `;
 
-//const paragraphs = words.trim().split('\n\n');
+const wordsString = String(words);
+const paragraphs = wordsString.split('\n\n');
 
 export function TextGenerateEffectDemo({setGenerateField}) {
     return (
         <>
-            <TextGenerateEffect duration={1} filter={false} words={words} setGenerateField={setGenerateField}/>
+            <TextGenerateEffect duration={0.2} filter={false} words={words} setGenerateField={setGenerateField}/>
         </>
     );
 }
@@ -35,7 +36,8 @@ export function ThreeDCardFirstV2() {
 
     const generateText = () => {
         setLoading(true)
-        setInterval(() => {
+        console.log("tesssstttsts");
+        setTimeout(() => {
             setGenerateField(true)
             setLoading(false)
         }, 1000)
@@ -54,7 +56,7 @@ export function ThreeDCardFirstV2() {
                             {
 
                                 generateField ? (
-                                    <CardItem translateZ="100" className="w-full h-fit mt-4 flex items-center justify-center absolute top-0 left-0">
+                                    <CardItem translateZ="100" className="w-[570px]  h-fit mt-4 flex items-center justify-center absolute top-0 left-0">
                                         <TextGenerateEffectDemo setGenerateField={setGenerateField}></TextGenerateEffectDemo>
                                        
 

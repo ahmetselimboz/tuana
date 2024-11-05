@@ -48,6 +48,11 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
         }));
     }, [projectType])
 
+    useEffect(()=>{
+       
+        console.log("🚀 ~ useEffect ~ res:", res)
+    },[res])
+
 
     return (
         <form onSubmit={(e) => {
@@ -109,7 +114,7 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
                                 placeholder="Enter code"
                                 name="code"
                                 id="code"
-                                className={`w-full rounded-md border border-primaryGray/50 outline-none text-base px-2 py-1 ${!res?.status ? "pointer-events-none text-black/30" : "cursor-text"}`}
+                                className={`w-full rounded-md border border-primaryGray/50 outline-none text-base px-2 py-1 ${res?.code !== 200 ? "pointer-events-none text-black/30" : "cursor-text"}`}
                                 value={codeScript}
                                 disabled
                             />
@@ -120,7 +125,7 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
             }
 
             <div className='w-full flex flex-col items-center'>
-                <button type='submit' className={`lg:text-lg text-lg ${!res?.status ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} text-main font-medium font-dosis tracking-wider px-16 py-1 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all`}>Verify Installation</button>
+                <button type='submit' className={`lg:text-lg text-lg ${res?.code !== 200 ? "opacity-50 cursor-not-allowed pointer-events-none" : ""} text-main font-medium font-dosis tracking-wider px-16 py-1 border-2 border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all`}>Verify Installation</button>
             </div>
         </form>
     )
