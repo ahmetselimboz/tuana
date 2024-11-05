@@ -19,9 +19,6 @@ Try Tuana, because together we can discover what users expect and what can be do
 
 `;
 
-const wordsString = String(words);
-const paragraphs = wordsString.split('\n\n');
-
 export function TextGenerateEffectDemo({setGenerateField}) {
     return (
         <>
@@ -36,7 +33,7 @@ export function ThreeDCardFirstV2() {
 
     const generateText = () => {
         setLoading(true)
-        console.log("tesssstttsts");
+       
         setTimeout(() => {
             setGenerateField(true)
             setLoading(false)
