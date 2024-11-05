@@ -24,9 +24,9 @@ const PCAndPhone = () => {
           </SlideInFromLeft>
         </div>
       </div>
-      <SlideUpOnScroll className='w-5/6'>
+      <SlideUpOnScroll className='w-4/6'>
       
-        <Image src="/pc_and_phone.png" alt="pc_and_phone" className="w-full drop-shadow-2xl" width="1200" height="1200" priority />
+        <Image src="/Tuana_PC_And_Phone.png" alt="pc_and_phone" className="w-full drop-shadow-2xl" width="2000" height="1500" priority />
       </SlideUpOnScroll>
     </div>
   )
