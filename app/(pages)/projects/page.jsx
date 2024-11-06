@@ -62,7 +62,8 @@ const Projects = () => {
                     action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
             } else {
-                setAppList(res.list.apps)
+                setAppList(res.list)
+                console.log("🚀 ~ useEffect ~ res.list:", res.list)
                 // toast({
                 //     variant: "default",
                 //     title: "Success",

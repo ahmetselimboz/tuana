@@ -49,8 +49,8 @@ const ProjectList = ({ setOpenAppBar, openAppBar, setOpenUserBar, setOpenSidebar
                     action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
             }else{
-                setAppList(res.list.apps.filter((item) => item.appId.appId !== id))
-                setCurrentApp(res.list.apps.filter((item) => item.appId.appId === id))
+                setAppList(res.list.filter((item) => item.appId.appId !== id))
+                setCurrentApp(res.list.filter((item) => item.appId.appId === id))
             }
 
 

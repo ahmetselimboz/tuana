@@ -35,8 +35,14 @@ const pagescard = () => {
     const handleRequest = async () => {
         await sendRequest({
             method: "POST",
-            url: `/api/apps/page-card?firstdate=${date.firstDate}&lastdate=${date.lastDate}`,
-            body: { appId: appId },
+            url: `/api/apps/page-card`,
+            body: { 
+                appId: appId,
+                query: {
+                    firstdate: date.firstDate,
+                    lastdate:  date.lastDate
+                }
+             },
         });
     };
     

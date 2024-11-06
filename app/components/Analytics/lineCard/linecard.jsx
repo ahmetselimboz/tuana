@@ -51,8 +51,14 @@ const linecard = () => {
     const handleRequest = async () => {
         await sendRequest({
             method: "POST",
-            url: `/api/apps/line-card?firstdate=${date.firstDate}&lastdate=${date.lastDate}`,
-            body: { appId: appId },
+            url: `/api/apps/line-card`,
+            body: { 
+                appId: appId,
+                query: {
+                    firstdate: date.firstDate,
+                    lastdate:  date.lastDate
+                }
+             },
         });
     };
 
@@ -136,7 +142,7 @@ const linecard = () => {
                                 {opt.label}
                             </div>
                             {
-                                !loading ? (
+                                loading ? (
                                     <Loading width="w-8" height="h-8"></Loading>
                                 ) : (
                                     <div className="text-primaryGray font-semibold text-center text-2xl">

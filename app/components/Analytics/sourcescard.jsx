@@ -44,8 +44,14 @@ const sourcescard = () => {
     const handleRequest = async () => {
         await sendRequest({
             method: "POST",
-            url: `/api/apps/sources-card?firstdate=${date.firstDate}&lastdate=${date.lastDate}`,
-            body: { appId: appId },
+            url: `/api/apps/sources-card`,
+            body: {
+                appId: appId,
+                query: {
+                    firstdate: date.firstDate,
+                    lastdate: date.lastDate
+                }
+            },
         });
     };
 
@@ -63,7 +69,7 @@ const sourcescard = () => {
     useEffect(() => {
         if (divRef.current) {
             setHeight(divRef.current.clientHeight);
-            
+
         }
     }, [divRef.current, sources]);
 
@@ -101,7 +107,7 @@ const sourcescard = () => {
 
                 </div>
                 <div className="w-[98%] flex items-center justify-center absolute top-0">
-                    <CustomBarCharts barHeight={"60%"} barData={sources} height={height-15 } key={seed} ></CustomBarCharts>
+                    <CustomBarCharts barHeight={"60%"} barData={sources} height={height - 15} key={seed} ></CustomBarCharts>
                 </div>
             </div>
 

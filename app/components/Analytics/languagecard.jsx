@@ -33,8 +33,14 @@ const languagecard = () => {
     const handleRequest = async () => {
         await sendRequest({
             method: "POST",
-            url: `/api/apps/languages-card?firstdate=${date.firstDate}&lastdate=${date.lastDate}`,
-            body: { appId: appId },
+            url: `/api/apps/languages-card`,
+            body: {
+                appId: appId,
+                query: {
+                    firstdate: date.firstDate,
+                    lastdate: date.lastDate
+                }
+            },
         });
     };
 
@@ -46,7 +52,7 @@ const languagecard = () => {
         if (loading) {
 
             setLanguages(res?.data)
-           
+
         }
     }, [res, loading])
 

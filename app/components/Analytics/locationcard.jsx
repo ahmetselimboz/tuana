@@ -36,8 +36,14 @@ const locationcard = () => {
     const handleRequest = async () => {
         await sendRequest({
             method: "POST",
-            url: `/api/apps/location-card?firstdate=${date.firstDate}&lastdate=${date.lastDate}`,
-            body: { appId: appId },
+            url: `/api/apps/location-card`,
+            body: { 
+                appId: appId,
+                query: {
+                    firstdate: date.firstDate,
+                    lastdate:  date.lastDate
+                }
+            },
         });
     };
 

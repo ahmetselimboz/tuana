@@ -17,7 +17,7 @@
         const URL = "http://localhost:4000"; // Or production URL
         //const URL = "https://server.tuanalytics.xyz"
         const socket = io(URL);
-
+        let appId = ""
         const parser = new UAParser();
         const deviceInfo = parser.getResult();
         delete deviceInfo.ua;
@@ -27,6 +27,12 @@
           userId: crypto.randomUUID(), // Random, session-based ID
           deviceInfo: deviceInfo,
         };
+        console.log(window)
+        console.log(window?.dataLayer)
+        if (window?.dataLayer && window?.dataLayer?.length > 1) {
+          console.log(window.dataLayer)
+          appId = window.dataLayer[1][1];
+        }
 
         const getMinimalLocationInfo = async () => {
           try {
@@ -51,7 +57,7 @@
 
           const data = {
             visitorId: sessionData.userId,
-            appId: window.dataLayer?.[1]?.[1] || "UnknownApp",
+            appId: appId || "UnknownApp",
             type: eventType,
             data: eventData,
             time: utcDate,
@@ -76,11 +82,12 @@
             document.addEventListener("DOMContentLoaded", callback);
           }
         }
+       
 
         onDocumentReady(() => {
           console.log("DOM and framework loaded.");
           socket.emit("register", {
-            appId: window.dataLayer?.[1]?.[1] || "UnknownApp",
+            appId: appId || "UnknownApp",
             visitorId: sessionData.userId,
           });
         });

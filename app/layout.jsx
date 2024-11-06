@@ -79,7 +79,7 @@ export default function RootLayout({ children }) {
           <Suspense fallback={<Loading />}>
 
             <StoreProvider>
-            {children}
+              {children}
               <Toaster />
             </StoreProvider>
           </Suspense>
@@ -87,12 +87,12 @@ export default function RootLayout({ children }) {
       </body>
 
       <Script id="datalayer" strategy="lazyOnload">
-        {`window.dataLayer = window.dataLayer || [];
-          function track() {
-            dataLayer.push(arguments);
-          }
-          track("js", new Date());
-          track("config", "TNAKLYTP");`}
+        {`    window.dataLayer = window.dataLayer || [];
+    function track() {
+      dataLayer.push(arguments);
+    }
+    track("domain", "localhost:3000");
+    track("config", "TNAKLYTP");`}
       </Script>
       <Script async src={`${process.env.NEXT_PUBLIC_SCRIPT_URL}`} />
     </html >
