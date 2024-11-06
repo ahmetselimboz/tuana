@@ -44,7 +44,7 @@ export function ThreeDCardFirstV2() {
 
     return (
         (
-            <div className="flex lg:flex-row flex-col">
+            <div className="flex lg:flex-row flex-col relative z-10">
                 <SlideInFromLeft>
                     <CardContainer className="inter-var  ">
                         <CardBody
@@ -53,7 +53,7 @@ export function ThreeDCardFirstV2() {
                             {
 
                                 generateField ? (
-                                    <CardItem translateZ="100" className="w-[570px]  h-fit mt-4 flex items-center justify-center absolute top-0 left-0">
+                                    <CardItem translateZ="100" className="lg:w-[570px]   w-full h-fit lg:mt-4 flex items-center justify-center absolute top-0 left-0">
                                         <TextGenerateEffectDemo setGenerateField={setGenerateField}></TextGenerateEffectDemo>
                                        
 
