@@ -10,8 +10,8 @@ const SlideInFromLeft = ({ children, className, delay = 0 }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ x: -300, opacity: 0, scale: 1 }}
-      animate={inView ? { x: 0, opacity: 1, scale: 1 } : { x: -300, opacity: 0, scale: 1 }}
+      initial={{ x: -100, opacity: 0, scale: 1 }}
+      animate={inView ? { x: 0, opacity: 1, scale: 1 } : { x: -100, opacity: 0, scale: 1 }}
       transition={{ type: "spring", stiffness: 200, damping: 40, delay: delay }}
       className={className}
     >

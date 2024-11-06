@@ -102,10 +102,11 @@ const ScrollLockSlideCards = () => {
                     {cards.map((item, index) => (
                         <div
                             key={index}
+                            className='lg:py-24 lg:px-48 px-8'
                             style={{
                                 minWidth: `${width}px`,
                                 height: '100vh',
-                                padding: '6rem 12rem',
+                               
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',

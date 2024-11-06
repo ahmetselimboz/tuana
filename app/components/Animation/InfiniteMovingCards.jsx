@@ -43,14 +43,14 @@ export function InfiniteMovingCardsDemo() {
             <div className="w-full  flex items-center justify-start   bg-transparent mt-32">
                 <div className="relative w-full h-auto flex items-center justify-center ">
                     <SlideUpOnScroll className='relative z-10 w-fit  bg-main'>
-                        <div className='text-primary font-medium text-6xl inline-block'>
+                        <div className='text-primary font-medium lg:text-6xl text-4xl inline-block text-center'>
                             Hey, people seem to love us too! 😊
                         </div>
                     </SlideUpOnScroll>
 
                 </div>
             </div>
-            <div className="h-[40rem] rounded-md flex flex-col antialiased  dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+            <div className="h-[40rem] relative z-10 rounded-md flex flex-col antialiased  dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center  overflow-hidden">
                 <InfiniteMovingCards
                     items={testimonials}
                     direction="right"

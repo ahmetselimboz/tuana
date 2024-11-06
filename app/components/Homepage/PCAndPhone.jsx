@@ -9,22 +9,22 @@ const PCAndPhone = () => {
   return (
     <div className='w-full h-auto py-8 px-10 flex flex-col items-center mb-12'>
       <div className='w-full flex flex-col items-center mb-10'>
-        <ScaleUpOnScroll className='w-fit flex items-start justify-center mb-8'>
-          <div className='text-primaryGray text-7xl mr-3'>
+        <ScaleUpOnScroll className='w-fit flex items-start justify-center lg:text-7xl text-5xl mb-8'>
+          <div className='text-primaryGray  mr-3'>
             Meet
           </div>
-          <div className='text-primary font-medium text-7xl'>
+          <div className='text-primary font-medium '>
             Tuana!
           </div>
         </ScaleUpOnScroll>
-        <div className='w-3/6 flex items-start justify-center'>
-          <SlideInFromLeft className='text-primaryGray font-light text-2xl text-center'>
+        <div className='lg:w-3/6 w-full flex items-start justify-center'>
+          <SlideInFromLeft className='text-primaryGray font-light lg:text-2xl text-xl text-center'>
           Tuana helps you understand your users’ behaviors, providing precise insights with AI support. Discover the steps to improve user experience and take your business to the next level!
 
           </SlideInFromLeft>
         </div>
       </div>
-      <SlideUpOnScroll className='w-4/6'>
+      <SlideUpOnScroll className='lg:w-4/6 w-full'>
       
         <Image src="/Tuana_PC_And_Phone.png" alt="pc_and_phone" className="w-full drop-shadow-2xl" width="2000" height="1500" priority />
       </SlideUpOnScroll>

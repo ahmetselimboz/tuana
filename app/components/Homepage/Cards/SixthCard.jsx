@@ -4,7 +4,7 @@ import { IoIosArrowDown } from 'react-icons/io'
 
 const SixthCard = () => {
     return (
-        <div className='relative rounded-2xl shadow-xl border-4 border-primary w-full h-full bg-primary/5  flex flex-col justify-center p-4'>
+        <div className='relative rounded-2xl shadow-xl border-4 border-primary w-full lg:h-full bg-primary/5  flex flex-col justify-center p-4'>
             <div className='w-full h-auto flex items-center justify-center p-12 overflow-hidden'>
                 <div className='w-2/6 h-full flex items-center justify-center'>
                     <Image src="/tuana_medium_logo.png" alt="tuana_medium_logo" className="w-full " width="800" height="800" priority />

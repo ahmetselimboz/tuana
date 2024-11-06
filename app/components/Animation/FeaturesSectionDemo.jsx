@@ -73,7 +73,7 @@ export function FeaturesSectionDemo() {
     
     return (
         (<div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  relative z-10 py-4 px-16 max-w-7xl mx-auto mb-16">
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  relative z-10 py-4 lg:px-16 px-8 max-w-7xl mx-auto mb-16">
             {features.map((feature, index) => (
                 <ScaleUpOnScroll key={feature.title}>
                     <Feature key={feature.title} {...feature} index={index} />

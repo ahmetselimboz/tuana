@@ -27,13 +27,13 @@ export function BentoGridDemo() {
     return (
         <div className="overflow-hidden">
 
-            <div className="w-full  flex items-center justify-start  ml-10 bg-transparent mb-12">
-                <div className="relative w-full h-[200px] flex items-center justify-center ml-12">
-                    <SlideUpOnScroll className='relative z-10 w-fit pr-8 bg-main'>
-                        <div className='text-primaryGray text-7xl mr-3 inline-block'>
+            <div className="w-full  flex items-center justify-start  lg:ml-10 bg-transparent mb-12">
+                <div className="relative w-full lg:h-[200px] h-[100px] flex items-center justify-center lg:ml-12">
+                    <SlideUpOnScroll className='relative z-10 lg:text-7xl text-4xl w-fit lg:pr-8 pr-4 bg-main'>
+                        <div className='text-primaryGray mr-3 inline-block'>
                             Why
                         </div>
-                        <div className='text-primary font-medium text-7xl inline-block'>
+                        <div className='text-primary font-medium inline-block'>
                             Tuana?
                         </div>
                     </SlideUpOnScroll>
@@ -41,7 +41,7 @@ export function BentoGridDemo() {
 
                     </ScaleUpOnScroll>
                     <div className='relative z-0 w-fit flex items-start justify-center '>
-                        <SlideInFromLeft delay={0.8} className='text-primaryGray font-light text-2xl text-center'>
+                        <SlideInFromLeft delay={0.8} className='text-primaryGray font-light lg:text-2xl text-lg text-center'>
                             Because why not?
 
                         </SlideInFromLeft>
@@ -51,8 +51,8 @@ export function BentoGridDemo() {
             {/* <TextGenerateEffectDemo></TextGenerateEffectDemo> */}
 
             <ThreeDCard></ThreeDCard>
-            <div className="w-full  flex items-center justify-start bg-transparent ">
-                <div className="relative w-full h-[100px] flex items-center justify-center">
+            <div className="w-full  flex items-center justify-start bg-transparent lg:mt-0 mt-8">
+                <div className="relative w-full lg:h-[100px] flex items-center justify-center">
                     <SlideUpOnScroll className='relative z-10 w-fit  bg-main'>
                         <div className='text-primaryGray text-4xl  inline-block'>
                             ... And More
