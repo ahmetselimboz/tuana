@@ -119,7 +119,7 @@ const Verifying = ({ setStage, appDetails }) => {
                     )
                 }
                 {
-                    res2.code !== 200 ? (
+                    res2?.code !== 200 ? (
                         <div className='text-4xl text-primaryGray mb-4'>
                             Verification Failed!
                         </div>
@@ -150,7 +150,7 @@ const Verifying = ({ setStage, appDetails }) => {
                 }
 
                 {
-                    res2.code !== 200 ? (
+                    res2?.code !== 200 ? (
                         <div>
                             <MdErrorOutline className="text-red-600 text-6xl" />
                         </div>
