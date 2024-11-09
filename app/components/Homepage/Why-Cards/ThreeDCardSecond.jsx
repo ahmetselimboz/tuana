@@ -51,7 +51,7 @@ export function ThreeDCardSecond() {
                 <SlideInFromRight>
                     <CardContainer className="inter-var lg:mt-0 mt-8 ">
                         <CardBody
-                            className=" relative h-[500px]  bg-transparent group/card flex items-center justify-center transition-all dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2]  lg:w-auto w-full  sm:w-[30rem]  rounded-xl   ">
+                            className=" relative h-[500px]  bg-transparent group/card flex items-center justify-center transition-all dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2]  w-full lg:w-[30rem]  rounded-xl   ">
                             <Image
                                 src="/Tuana_Phone.png"
                                 height="1000"

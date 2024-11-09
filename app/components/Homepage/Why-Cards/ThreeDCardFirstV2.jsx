@@ -48,7 +48,7 @@ export function ThreeDCardFirstV2() {
                 <SlideInFromLeft>
                     <CardContainer className="inter-var  ">
                         <CardBody
-                            className={`${generateField ? "bg-transparent w-full   sm:w-[30rem] h-auto  p-6":"bg-gray-50 border-primary/20 group/card shadow-xl hover:shadow-2xl transition-all dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2]  lg:w-auto w-full sm:w-[30rem] h-auto rounded-xl p-6 border"} relative `}>
+                            className={`${generateField ? "bg-transparent w-full   sm:w-[30rem] h-auto  p-6":"bg-gray-50 border-primary/20 group/card shadow-xl hover:shadow-2xl transition-all dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2]   w-full lg:w-[30rem] h-auto rounded-xl p-6 border"} relative `}>
 
                             {
 

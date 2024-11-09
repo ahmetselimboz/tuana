@@ -40,7 +40,7 @@ export function ThreeDCardThird() {
                 <SlideInFromLeft>
                     <CardContainer className="inter-var  ">
                         <CardBody
-                            className="bg-transparent relative  group/card  transition-all dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2]  lg:w-auto w-full sm:w-[30rem] h-fit rounded-xl    ">
+                            className="bg-transparent relative  group/card  transition-all dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2]  w-full lg:w-[30rem] h-fit rounded-xl    ">
 
                             <Image
                                 src="/gdpr.png"

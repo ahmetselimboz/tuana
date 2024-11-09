@@ -119,7 +119,7 @@ const Verifying = ({ setStage, appDetails }) => {
                     )
                 }
                 {
-                    res2?.code !== 200 ? (
+                    res?.code !== 200 && res !== null ? (
                         <div className='text-4xl text-primaryGray mb-4'>
                             Verification Failed!
                         </div>
@@ -150,7 +150,7 @@ const Verifying = ({ setStage, appDetails }) => {
                 }
 
                 {
-                    res2?.code !== 200 ? (
+                    res?.code !== 200 && res !== null ? (
                         <div>
                             <MdErrorOutline className="text-red-600 text-6xl" />
                         </div>
@@ -173,7 +173,7 @@ const Verifying = ({ setStage, appDetails }) => {
             </div>
             <div className='w-full flex flex-col items-center'>
                 {
-                    error ? (
+                    res?.code !== 200 && res !== null ? (
                         <button onClick={() => {
                             setStage((prevState) => {
                                 return {
