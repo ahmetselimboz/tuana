@@ -11,6 +11,7 @@ const CurrentVisitor = () => {
 
     const { activeUsers, loading } = useCurrentUser(appId);
 
+
     return (
         <div className="flex flex-col items-center justify-center lg:w-1/4 w-full lg:my-0 my-4">
             <HiStatusOnline className="text-primary text-5xl animate-blink" />
@@ -20,7 +21,7 @@ const CurrentVisitor = () => {
                     <Loading width="w-6" height="h-6"/>
                 ) : (
                     <>
-                        <div className="text-primaryGray  font-dosis text-xl">{activeUsers?.length == undefined ? 0 : activeUsers?.length}</div>
+                        <div className="text-primaryGray  font-dosis text-xl">{activeUsers == undefined ? 0 : activeUsers}</div>
                     </>
                 )
             }
