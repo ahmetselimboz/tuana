@@ -123,10 +123,10 @@ const Box = ({ item, handleRequestttt }) => {
                 <div className='text-sm font-medium font-dosis tracking-wider text-primaryGray  ml-2 px-2 py-1 bg-gray-700/5 hover:bg-gray-800/10 rounded-md transition-all'>
                     {projectDate}
                 </div>
-                <div onClick={() => { setProjectSetting(!openProjectSetting) }} className=' relative w-8 h-8 flex items-center justify-center cursor-pointer ml-4 text-2xl text-primaryGray hover:bg-black/5 p-1 rounded-full transition-all'>
+                <div onClick={() => { setProjectSetting(!openProjectSetting) }} className=' relative z-10 w-8 h-8 flex items-center justify-center cursor-pointer ml-4 text-2xl text-primaryGray hover:bg-black/5 p-1 rounded-full transition-all'>
                     <BsThreeDots />
                     <Dropdown isOpen={openProjectSetting}>
-                        <div className={`min-w-36 h-fit absolute border border-stone-900/20 top-10 right-0 rounded-md shadow-xl bg-main`}>
+                        <div className={`min-w-36 h-fit absolute z-50 border border-stone-900/20 top-10 right-0 rounded-md shadow-xl bg-main`}>
 
                             {/* <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  mt-4' /> */}
                             <Link href="#" className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10  transition-all px-4`}>

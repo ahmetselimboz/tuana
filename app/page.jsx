@@ -7,6 +7,7 @@ import LineDesign from "@/app/components/Homepage/linedesign"
 import ScrollLockSlideCards from "./components/Homepage/ScrollLockSlideCards";
 import PCAndPhone from "./components/Homepage/PCAndPhone";
 import { BentoGridDemo } from "./components/Homepage/Grid";
+import TryIt from "./components/Homepage/TryIt";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <ScrollLockSlideCards></ScrollLockSlideCards>
         <PCAndPhone></PCAndPhone>
         <BentoGridDemo></BentoGridDemo>
+        <TryIt></TryIt>
         <div className="w-full h-auto ">
           <Footer></Footer>
         </div>

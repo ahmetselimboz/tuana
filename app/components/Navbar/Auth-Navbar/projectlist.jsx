@@ -135,7 +135,7 @@ const ProjectList = ({ setOpenAppBar, openAppBar, setOpenUserBar, setOpenSidebar
                         }
                         {
                             appList?.map((pl, index) => (
-                                <Link key={index} href={`?id=${pl?.appId?.appId}`} className={`flex items-center justify-start gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
+                                <Link key={index} href={`?id=${pl?.appId?.appId}`} className={`flex items-center justify-start w-full gap-3 py-3 hover:bg-black/10 transition-all px-8`}>
 
                                     <div className='text-4xl text-primary'>
                                         {

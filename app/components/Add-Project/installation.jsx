@@ -49,9 +49,9 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
     }, [projectType])
 
     useEffect(()=>{
-       
-        console.log("🚀 ~ useEffect ~ res:", res)
-    },[res])
+
+        handleRequest(appDetails.domain)
+    },[])
 
 
     return (
@@ -114,7 +114,7 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
                                 placeholder="Enter code"
                                 name="code"
                                 id="code"
-                                className={`w-full rounded-md border border-primaryGray/50 outline-none text-base px-2 py-1 ${res?.code !== 200 ? "pointer-events-none text-black/30" : "cursor-text"}`}
+                                className={`w-full rounded-md border border-primaryGray/50 outline-none text-base px-2 py-1 ${res?.code == 200 ? "cursor-text" : "pointer-events-none text-black/30"}`}
                                 value={codeScript}
                                 disabled
                             />

@@ -10,6 +10,7 @@ const CurrentVisitor = () => {
     const appId = params.get("id")
 
     const { activeUsers, loading } = useCurrentUser(appId);
+    console.log("🚀 ~ CurrentVisitor ~ activeUsers:", activeUsers)
 
 
     return (

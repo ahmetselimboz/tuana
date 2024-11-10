@@ -1,4 +1,5 @@
 (function () {
+  const IP_API_URL = "https://api.ipify.org?format=json";
   const LOCATION_API_URL = "https://ipinfo.io/json?token=51c3494912e936";
 
   const loadScript = (src, callback) => {
@@ -14,102 +15,134 @@
     "https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js",
     () => {
       loadScript("https://cdn.socket.io/4.7.5/socket.io.min.js", () => {
-        const URL = "http://localhost:4000"; // Or production URL
-        //const URL = "https://server.tuanalytics.xyz"
+        //const URL = "https://server.tuanalytics.xyz";
+        const URL = "http://localhost:4000"
+
         const socket = io(URL);
-        let appId = ""
+        let appId = "";
         const parser = new UAParser();
         const deviceInfo = parser.getResult();
         delete deviceInfo.ua;
         delete deviceInfo.cpu;
 
-        const sessionData = {
-          userId: crypto.randomUUID(), // Random, session-based ID
-          deviceInfo: deviceInfo,
-        };
-        console.log(window)
-        console.log(window?.dataLayer)
-        if (window?.dataLayer && window?.dataLayer?.length > 1) {
-          console.log(window.dataLayer)
-          appId = window.dataLayer[1][1];
-        }
+        function checkDataLayer() {
+          if (window.dataLayer && window.dataLayer.length > 1) {
+            window.dataLayer.forEach((element, index) => {
+              console.log(element[0]);
+              if (element[0] == "config") {
+                appId = element[1];
+              }
+            });
+            console.log("🚀 ~ window.dataLayer.forEach ~ appId:", appId);
+            let userId = localStorage.getItem("userId");
 
-        const getMinimalLocationInfo = async () => {
-          try {
-            const response = await fetch(LOCATION_API_URL);
-            if (!response.ok) throw new Error("Location API response error");
+            if (!userId) {
+              userId = crypto.randomUUID();
+              localStorage.setItem("userId", userId);
+            }
 
-            const locationData = await response.json();
-            // Sadece ülke bilgisini alıyoruz
-            return { country: locationData.country || "Unknown" };
-          } catch (error) {
-            console.error("Error fetching location:", error);
-            return { country: "Unknown" };
-          }
-        };
+            const getIPAndLocation = async () => {
+              try {
+                const [ipResponse, locationResponse] = await Promise.all([
+                  fetch(IP_API_URL),
+                  fetch(LOCATION_API_URL),
+                ]);
 
-        const trackEvent = async (eventType, eventData = {}) => {
-          const locationInfo = await getMinimalLocationInfo();
-          const localDate = new Date();
-          const utcDate = new Date(
-            localDate.getTime() - localDate.getTimezoneOffset() * 60000
-          ).toISOString();
+                if (!ipResponse.ok || !locationResponse.ok)
+                  throw new Error("API response error");
 
-          const data = {
-            visitorId: sessionData.userId,
-            appId: appId || "UnknownApp",
-            type: eventType,
-            data: eventData,
-            time: utcDate,
-            url: location.pathname,
-            referrer: document.referrer || "Direct/None",
-            userDevice: sessionData.deviceInfo,
-            location: locationInfo, // Minimal location info (country only)
-            screenResolution: `${window.screen.width}x${window.screen.height}`,
-            language: navigator.language || navigator.userLanguage,
-          };
+                const ipData = await ipResponse.json();
+                const locationData = await locationResponse.json();
 
-          socket.emit("trackEvent", data);
-        };
+                const { country, city, region, loc } = locationData;
+                const [lat, lon] = loc ? loc.split(",") : [null, null];
 
-        function onDocumentReady(callback) {
-          if (
-            document.readyState === "complete" ||
-            document.readyState === "interactive"
-          ) {
-            callback();
+                window.localStorage.setItem("ip", ipData.ip);
+
+                return {
+                  locationInfo: {
+                    country,
+                    region,
+                    city,
+                    lat,
+                    lon,
+                  },
+                };
+              } catch (error) {
+                console.error("Error fetching IP or location:", error);
+                return { ip: null, locationInfo: {} };
+              }
+            };
+
+            const trackEvent = async (eventType, eventData = {}) => {
+              const { locationInfo } = await getIPAndLocation();
+              const localDate = new Date();
+              const utcDate = new Date(
+                localDate.getTime() - localDate.getTimezoneOffset() * 60000
+              ).toISOString();
+
+              const data = {
+                visitorId: userId,
+                ip: window.localStorage.getItem("ip"),
+                appId: appId,
+                type: eventType,
+                data: eventData,
+                time: utcDate,
+                url: location.pathname,
+                referrer: document.referrer || "Direct/None",
+                userDevice: deviceInfo,
+                location: locationInfo,
+                screenResolution: `${window.screen.width}x${window.screen.height}`,
+                language: navigator.language || navigator.userLanguage,
+              };
+
+              socket.emit("trackEvent", data);
+            };
+
+            window.addEventListener("beforeunload", (event) => {
+              trackEvent("page_exit", { reason: "User leaving the page" });
+              socket.emit("disconnect", appId);
+            });
+
+            function onDocumentReady(callback) {
+              if (
+                document.readyState === "complete" ||
+                document.readyState === "interactive"
+              ) {
+                callback();
+              } else {
+                document.addEventListener("DOMContentLoaded", callback);
+              }
+            }
+
+            onDocumentReady(function () {
+              console.log("DOM and framework loaded.");
+              socket.emit("register", {
+                appId: appId,
+                visitorId: userId,
+              });
+            });
+
+            const trackPageView = debounce(() => {
+              trackEvent("page_view", {
+                pageTitle: document.title,
+              });
+            }, 300);
+
+            trackPageView();
+            window.addEventListener("popstate", trackPageView);
+
+            const originalPushState = history.pushState;
+            history.pushState = function () {
+              originalPushState.apply(this, arguments);
+              trackPageView();
+            };
           } else {
-            document.addEventListener("DOMContentLoaded", callback);
+            setTimeout(checkDataLayer, 100);
           }
         }
-       
 
-        onDocumentReady(() => {
-          console.log("DOM and framework loaded.");
-          socket.emit("register", {
-            appId: appId || "UnknownApp",
-            visitorId: sessionData.userId,
-          });
-        });
-
-        const trackPageView = debounce(() => {
-          trackEvent("page_view", {
-            pageTitle: document.title,
-          });
-        }, 300);
-
-        trackPageView();
-        window.addEventListener("popstate", trackPageView);
-
-        const originalPushState = history.pushState;
-        history.pushState = function () {
-          originalPushState.apply(this, arguments);
-          trackPageView();
-        };
-
-        window.addEventListener("beforeunload", () => {
-          trackEvent("page_exit", { reason: "User leaving the page" });
-        });
+        checkDataLayer();
       });
     }
   );

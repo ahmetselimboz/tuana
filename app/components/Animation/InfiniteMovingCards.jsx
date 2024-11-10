@@ -7,31 +7,30 @@ import SlideUpOnScroll from "./SlideUpOnScroll";
 
 const testimonials = [
     {
-        quote:
-            "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
+        quote: "Tuana is a game changer when it comes to understanding user behavior! Within seconds, I discovered which pages on my site were boring or where visitors were hanging out, and thanks to these insights, I increased my conversion rate in no time!",
         name: "Charles Dickens",
         title: "A Tale of Two Cities",
     },
     {
         quote:
-            "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
+            "Thanks to Tuana's artificial intelligence, it's easy to find out at what point my visitors give up and what I need to improve. We are now taking the right steps to optimize our user experience.",
         name: "William Shakespeare",
         title: "Hamlet",
     },
     {
-        quote: "All that we see or seem is but a dream within a dream.",
+        quote: "Since we started using Tuana, we've seen a noticeable increase in site performance. Especially the AI-based suggestions clearly show me where I need to make improvements. Increasing user satisfaction has never been easier.",
         name: "Edgar Allan Poe",
         title: "A Dream Within a Dream",
     },
     {
         quote:
-            "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+            "Seeing where my visitors were wasting time and taking immediate action took our business one step forward. Thanks to Tuana, customer feedback has also become incredibly positive.",
         name: "Jane Austen",
         title: "Pride and Prejudice",
     },
     {
         quote:
-            "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+            "Before using Tuana, I would spend hours trying to understand the problems on the site. Now, I notice problems faster. I have gained back the time I lost doing manual analysis.",
         name: "Herman Melville",
         title: "Moby-Dick",
     },
@@ -40,7 +39,7 @@ const testimonials = [
 export function InfiniteMovingCardsDemo() {
     return (
         <>
-            <div className="w-full  flex items-center justify-start   bg-transparent mt-32">
+            <div className="w-full  flex items-center justify-start   bg-transparent mt-32 mb-8">
                 <div className="relative w-full h-auto flex items-center justify-center ">
                     <SlideUpOnScroll className='relative z-10 w-fit  bg-main'>
                         <div className='text-primary font-medium lg:text-6xl text-4xl inline-block text-center'>
@@ -50,7 +49,7 @@ export function InfiniteMovingCardsDemo() {
 
                 </div>
             </div>
-            <div className="h-[40rem] relative z-10 rounded-md flex flex-col antialiased  dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center  overflow-hidden">
+            <div className="mb-24 relative z-10 rounded-md flex flex-col antialiased  dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center  overflow-hidden">
                 <InfiniteMovingCards
                     items={testimonials}
                     direction="right"
@@ -144,16 +143,16 @@ export const InfiniteMovingCards = ({
                                 className=" relative z-20 text-sm leading-[1.6] text-gray-100 font-normal">
                                 {item.quote}
                             </span>
-                            <div className="relative z-20 mt-6 flex flex-row items-center">
-                                <span className="flex flex-col gap-1">
-                                    <span className=" text-sm leading-[1.6] text-gray-200 font-normal">
-                                        {item.name}
+                                {/* <div className="relative z-20 mt-6 flex flex-row items-center">
+                                    <span className="flex flex-col gap-1">
+                                        <span className=" text-sm leading-[1.6] text-gray-200 font-normal">
+                                            {item.name}
+                                        </span>
+                                        <span className=" text-sm leading-[1.6] text-gray-200 font-normal">
+                                            {item.title}
+                                        </span>
                                     </span>
-                                    <span className=" text-sm leading-[1.6] text-gray-200 font-normal">
-                                        {item.title}
-                                    </span>
-                                </span>
-                            </div>
+                                </div> */}
                         </blockquote>
                     </li>
                 ))}
