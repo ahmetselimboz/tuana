@@ -40,6 +40,8 @@
   body {
     @apply w-full h-screen;
   }
+
+
 }
 
 @keyframes blink {
@@ -58,6 +60,11 @@
   animation: blink 1s infinite;
 }
 
+.slick-prev:before,
+.slick-next:before {
+  color: #afafaf !important; /* Rengi istediğiniz renge ayarlayın */
+  font-size: 24px; /* Okların boyutunu ayarlamak için */
+}
 .tabs-active {
   border-top: 2px solid rgb(28 25 23 / 0.2);
   border-left: 2px solid rgb(28 25 23 / 0.2);
@@ -121,3 +128,5 @@
     --radius: 0.5rem;
   }
 }
+
+

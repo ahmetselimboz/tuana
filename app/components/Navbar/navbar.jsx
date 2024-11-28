@@ -44,13 +44,13 @@ const Navbar = () => {
                                     </div>
                                     <hr className='w-5/6 mx-auto border-b-2 border-secondary/20  my-2' />
                                     <div className='text-lg font-medium flex flex-col gap-2 w-full items-start justify-center text-stone-900 '>
-                                        {
+                                        {/* {
                                             navMenu.map((nav, index) => (
                                                 <Link href={nav.url} key={index} className="w-full rounded-md px-4 py-2 bg-black/5">
                                                     <span className={`${pathname == nav.url ? "nav-active" : ""} font-dosis tracking-wider`}>{nav.title}</span>
                                                 </Link>
                                             ))
-                                        }
+                                        } */}
 
 
 
@@ -79,13 +79,13 @@ const Navbar = () => {
                 </div>
                 <div className='w-1/3 flex items-center'>
                     <div className='text-1-5xl font-medium flex gap-8 w-full items-center justify-center '>
-                        {
+                        {/* {
                             navMenu.map((nav, index) => (
                                 <Link href={nav.url} key={index}>
                                     <span className={`${pathname == nav.url ? "nav-active" : ""} font-dosis tracking-wider text-primaryGray hover:text-stone-900 transition-all`}>{nav.title}</span>
                                 </Link>
                             ))
-                        }
+                        } */}
 
                     </div>
                 </div>

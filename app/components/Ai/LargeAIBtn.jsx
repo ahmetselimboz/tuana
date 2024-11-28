@@ -3,6 +3,7 @@ import { HiOutlineSparkles } from 'react-icons/hi'
 import Popup from '../popup';
 import { IoMdClose } from 'react-icons/io';
 import Dropdown from '../Animation/dropdown';
+import LargeAICard from './LargeAICard';
 
 const LargeAIBtn = () => {
 
@@ -21,11 +22,7 @@ const LargeAIBtn = () => {
       <Dropdown isOpen={isPopupOpen} classw=" absolute lg:top-20 top-20 z-10 lg:w-auto w-full l">
 
         {isPopupOpen && (
-          <div className='lg:w-[400px] w-full h-[400px] rounded-md  shadow-xl border border-stone-900/20   bg-main '>
-            <div className='flex items-center justify-end p-4'>
-              <button onClick={closePopup}><IoMdClose className='text-stone-900/70 text-1-5xl transition-all hover:text-stone-900' /></button>
-            </div>
-          </div>
+          <LargeAICard closePopup={closePopup}></LargeAICard>
         )}
       </Dropdown>
     </div>

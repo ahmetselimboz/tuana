@@ -3,10 +3,10 @@ import useWidth from '@/app/hooks/useWidth';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react'
 import Dropdown from '@/app/components/Animation/dropdown'
-import DateDropdown from '@/app/components/Animation/datedropdown'
+import DateDropdown from '@/app/components/Date/datedropdown'
 import Menu from "@/app/components/Analytics/menu"
 import { HiMiniBars3 } from 'react-icons/hi2';
-import CustomDatePicker from '../Charts/customdatepicker';
+import CustomDatePicker from '../Date/customdatepicker';
 import ProjectList from './Auth-Navbar/projectlist';
 import UserBar from './Auth-Navbar/userbar';
 
@@ -21,7 +21,7 @@ const authenticatedNavbar = () => {
     const { width } = useWidth()
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {  
+        if (typeof window !== 'undefined') {
             const navbar = authNavbar.current
 
             const handleScroll = () => {
@@ -101,8 +101,8 @@ const authenticatedNavbar = () => {
                         </div>
                     </div>
                     <ProjectList setOpenAppBar={setOpenAppBar} openAppBar={openAppBar}></ProjectList>
-                    <UserBar  setOpenUserBar={setOpenUserBar} setOpenSidebar={setOpenSidebar} setOpenAppBar={setOpenAppBar} openUserBar={openUserBar}></UserBar>
-                   
+                    <UserBar setOpenUserBar={setOpenUserBar} setOpenSidebar={setOpenSidebar} setOpenAppBar={setOpenAppBar} openUserBar={openUserBar}></UserBar>
+
                 </div>
             </div>
             {isVisible && (

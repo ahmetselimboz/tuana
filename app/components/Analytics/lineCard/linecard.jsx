@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import DateDropdown from "@/app/components/Animation/datedropdown"
-import CustomDatePicker from "@/app/components/Charts/customdatepicker"
+import DateDropdown from "@/app/components/Date/datedropdown"
+import CustomDatePicker from "@/app/components/Date/customdatepicker"
 import CustomLineChart from "@/app/components/Charts/customlinechart"
 import { useSearchParams } from 'next/navigation'
 import { useAxios } from '@/app/hooks/useAxios'
@@ -52,20 +52,41 @@ const linecard = () => {
         await sendRequest({
             method: "POST",
             url: `/api/apps/line-card`,
-            body: { 
+            body: {
                 appId: appId,
                 query: {
                     firstdate: date.firstDate,
-                    lastdate:  date.lastDate
+                    lastdate: date.lastDate
                 }
-             },
+            },
         });
     };
 
     useEffect(() => {
-        handleRequest()
+        let isMounted = true; // Bileşenin monte edildiğini kontrol etmek için.
+        
+        const fetchData = async () => {
+            if (isMounted) {
+                await handleRequest();
+            }
+        };
+    
+        fetchData();
+    
+        return () => {
+            isMounted = false; // Bileşen unmounted olursa istek iptal edilir.
+        };
+    }, [date.firstDate, date.lastDate]);
+    
 
-    }, [date.lastDate, date.firstDate])
+    useEffect(() => {
+        if (loading) {
+            console.log("🚀 ~ useEffect ~ res:", res)
+            console.log("🚀 ~ linecard ~ date.firstDate:", date.firstDate)
+            console.log("🚀 ~ linecard ~ date.lastDate:", date.lastDate)
+        }
+    
+    }, [res, loading, date.lastDate, date.firstDate])
 
     // const options = [
     //     { label: "Total Visits", value: dataValue?.visitor?.totalVisitor?.length },
@@ -83,24 +104,21 @@ const linecard = () => {
 
 
     useEffect(() => {
-        if (loading) {
-
+        if (res) {
             setDataValue([
-                { label: "Total Visits", value: res?.visitor?.totalVisitor?.length },
-                { label: "Total Pageviews", value: res?.visitor?.totalPage?.length },
-                { label: "New Visitors", value: res?.visitor?.newVisitors?.length },
-               
-            ])
+                { label: "Total Visits", value: res?.data?.totalVisitor?.length || 0 },
+                { label: "Total Pageviews", value: res?.data?.totalPage?.length || 0 },
+                { label: "New Visitors", value: res?.data?.newVisitors?.length || 0 },
+            ]);
+    
             setDataChart([
-                { label: "Total Visits", value: res?.visitor?.totalVisitor, status: false },
-                { label: "Total Pageviews", value: res?.visitor?.totalPage, status: false },
-                { label: "New Visitors", value: res?.visitor?.newVisitors, status: false },
-                
-            ])
+                { label: "Total Visits", value: res?.data?.totalVisitor || [], status: false },
+                { label: "Total Pageviews", value: res?.data?.totalPage || [], status: false },
+                { label: "New Visitors", value: res?.data?.newVisitors || [], status: false },
+            ]);
         }
-
-
-    }, [res, loading])
+    }, [res]);
+    
 
 
     if (loading) {
@@ -114,7 +132,7 @@ const linecard = () => {
     return (
         <div className=" rounded-md shadow-xl border border-stone-900/20 bg-main w-full lg:h-[600px] flex flex-col mb-12 relative">
             <div className='w-full h-[71px] flex items-center absolute lg:hidden '>
-            <SmallAIBtn></SmallAIBtn>
+                <SmallAIBtn></SmallAIBtn>
             </div>
             <div className="lg:h-full h-fit lg:w-1/5 w-full flex lg:hidden   tabs-date  items-center justify-start px-2 lg:py-0 py-3">
                 {/* <div className='w-full mb-4'>
@@ -123,7 +141,7 @@ const linecard = () => {
                 <div className='w-[160px] border border-stone-900/50 rounded-md'>
                     <DateDropdown></DateDropdown>
                 </div>
-                
+
             </div>
             <div className="flex items-center lg:flex-row lg:flex-nowrap flex-wrap justify-center w-full lg:h-[100px] h-fit lg:py-2 p-2">
                 {dataValue.map((opt, index) => (
@@ -176,7 +194,7 @@ const linecard = () => {
                 <CustomDatePicker ></CustomDatePicker>
             </div>
             <div className="lg:px-4 my-auto">
-                <CustomLineChart data={dataChart[activeTab]} key={seed}></CustomLineChart>
+                <CustomLineChart data={dataChart[activeTab]} key={seed} tz={res?.data?.timezone}></CustomLineChart>
             </div>
         </div>
     )
