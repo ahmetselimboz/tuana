@@ -41,6 +41,7 @@ const mergeData = (groupedData, hours) => {
 
 const LineChart = ({ data }) => {
     const selectedDate = useAppSelector((state) => state.dateSettings.lastDate);
+    const firstDate = useAppSelector((state) => state.dateSettings.firstDate);
     const range = useAppSelector((state) => state.dateSettings.range);
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
@@ -187,6 +188,8 @@ const LineChart = ({ data }) => {
                             setCategories(combined?.length > 24 ? combined.slice(0, 24) : combined);
                             setSeriesData(Object.values(seriesDataa));
                         } else {
+                            console.log("🚀 ~ sendData ~ combined:", combined)
+                            console.log("🚀 ~ sendData ~ seriesDataa:", seriesDataa)
                             setCategories(combined);
                             setSeriesData(Object.values(seriesDataa));
                         }
@@ -198,10 +201,10 @@ const LineChart = ({ data }) => {
                     setCategories(defaultCategories?.length > 24 ? defaultCategories.slice(0, 24) : defaultCategories);
                     setSeriesData(new Array(24).fill(0));
                 } else {
-                    setCategories(defaultCategories);
-                    setSeriesData(new Array(24).fill(0));
+                    setCategories([firstDate, selectedDate]);
+                    setSeriesData([0,0]);
                 }
-                
+
             }
             setLoading(false);
         } catch (error) {

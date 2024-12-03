@@ -60,7 +60,7 @@ const devicecard = () => {
         if (res) {
             let result = [];
 
-            result = res?.data?.totalPage.reduce((acc, item) => {
+            result = res?.data?.reduce((acc, item) => {
                 let key = "";
 
                 switch (activeDevices) {
