@@ -6,7 +6,7 @@ import { LuPartyPopper } from 'react-icons/lu';
 import { IoWarningOutline } from 'react-icons/io5';
 import ChatField from './ChatField';
 
-const SmallAICard = ({ closePopup }) => {
+const SmallAICard = ({userInfo, closePopup }) => {
 
     const [box, setBox] = useState(null)
 
@@ -83,7 +83,7 @@ const SmallAICard = ({ closePopup }) => {
                     </div>
 
                 </div>
-                <ChatField></ChatField>
+                <ChatField userInfo={userInfo}></ChatField>
 
 
 
@@ -107,7 +107,7 @@ const SmallAICard = ({ closePopup }) => {
                     </div>
 
                 </div>
-                <ChatField></ChatField>
+                <ChatField userInfo={userInfo}></ChatField>
 
 
 
@@ -133,7 +133,7 @@ const SmallAICard = ({ closePopup }) => {
 
                 </div>
 
-                <ChatField></ChatField>
+                <ChatField userInfo={userInfo}></ChatField>
 
             </div>
         )

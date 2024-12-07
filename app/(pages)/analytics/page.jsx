@@ -94,7 +94,7 @@ const Analytics = () => {
                 <div className="text-stone-900  font-dosis lg:text-lg text-xl">We've done all the analysis for you ✨</div>
               </div>
               <div className="lg:w-1/2 w-full flex items-center lg:justify-end justify-center mt-4 mb-3 mx-2">
-                <LargeAIBtn></LargeAIBtn>
+                <LargeAIBtn userInfo={userInfo} chatField={true}></LargeAIBtn>
                 {/* <input type="text" className="font-dosis  w-1/2 outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." /> */}
               </div>
             </div>
@@ -113,7 +113,7 @@ const Analytics = () => {
                   </div>
 
                   <div className='w-full h-[71px] flex items-center justify-end absolute'>
-                    <SmallAIBtn></SmallAIBtn>
+                    <SmallAIBtn userInfo={userInfo} chatField={false}></SmallAIBtn>
                   </div>
 
 
@@ -145,7 +145,7 @@ const Analytics = () => {
                     <hr className="border-b-2 border-primary w-1/3" />
                   </div>
                   <div className='w-full h-[71px] flex items-center justify-end absolute'>
-                    <SmallAIBtn></SmallAIBtn>
+                    <SmallAIBtn chatField={false}></SmallAIBtn>
                   </div>
                 </div>
                 <Suspense fallback={<Loading width="w-14" height="h-14" />}>
@@ -163,7 +163,7 @@ const Analytics = () => {
 
                 </div>
                 <div className='w-full h-[71px] flex items-center justify-end absolute'>
-                  <SmallAIBtn></SmallAIBtn>
+                  <SmallAIBtn chatField={false}></SmallAIBtn>
                 </div>
               </div>
               <Suspense fallback={<Loading width="w-14" height="h-14" />}>
@@ -179,7 +179,7 @@ const Analytics = () => {
                     <hr className="border-b-2 border-primary w-1/3" />
                   </div>
                   <div className='w-full h-[71px] flex items-center justify-end absolute'>
-                    <SmallAIBtn></SmallAIBtn>
+                    <SmallAIBtn chatField={false}></SmallAIBtn>
                   </div>
                 </div>
                 <Suspense fallback={<Loading width="w-14" height="h-14" />}>
@@ -194,7 +194,7 @@ const Analytics = () => {
                     <hr className="border-b-2 border-primary w-1/3" />
                   </div>
                   <div className='w-full h-[71px] flex items-center justify-end absolute'>
-                    <SmallAIBtn></SmallAIBtn>
+                    <SmallAIBtn chatField={false}></SmallAIBtn>
                   </div>
                 </div>
                 <Suspense fallback={<Loading width="w-14" height="h-14" />}>

@@ -52,6 +52,11 @@ const devicecard = () => {
         handleRequest()
 
     }, [date.lastDate, date.firstDate])
+    // useEffect(() => {
+        
+    //     console.log("🚀 ~ devicecard ~ res:", res)
+
+    // }, [res])
 
 
     useEffect(() => {

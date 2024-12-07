@@ -64,29 +64,29 @@ const linecard = () => {
 
     useEffect(() => {
         let isMounted = true; // Bileşenin monte edildiğini kontrol etmek için.
-        
+
         const fetchData = async () => {
             if (isMounted) {
                 await handleRequest();
             }
         };
-    
+
         fetchData();
-    
+
         return () => {
             isMounted = false; // Bileşen unmounted olursa istek iptal edilir.
         };
     }, [date.firstDate, date.lastDate]);
-    
 
-    useEffect(() => {
-        if (loading) {
-            console.log("🚀 ~ useEffect ~ res:", res)
-            console.log("🚀 ~ linecard ~ date.firstDate:", date.firstDate)
-            console.log("🚀 ~ linecard ~ date.lastDate:", date.lastDate)
-        }
-    
-    }, [res, loading, date.lastDate, date.firstDate])
+
+    // useEffect(() => {
+    //     if (loading) {
+    //         console.log("🚀 ~ useEffect ~ res:", res)
+    //         console.log("🚀 ~ linecard ~ date.firstDate:", date.firstDate)
+    //         console.log("🚀 ~ linecard ~ date.lastDate:", date.lastDate)
+    //     }
+
+    // }, [res, loading, date.lastDate, date.firstDate])
 
     // const options = [
     //     { label: "Total Visits", value: dataValue?.visitor?.totalVisitor?.length },
@@ -110,7 +110,7 @@ const linecard = () => {
                 { label: "Total Pageviews", value: res?.data?.totalPage?.length || 0 },
                 { label: "New Visitors", value: res?.data?.newVisitors?.length || 0 },
             ]);
-    
+
             setDataChart([
                 { label: "Total Visits", value: res?.data?.totalVisitor || [], status: false },
                 { label: "Total Pageviews", value: res?.data?.totalPage || [], status: false },
@@ -118,7 +118,7 @@ const linecard = () => {
             ]);
         }
     }, [res]);
-    
+
 
 
     if (loading) {
@@ -132,7 +132,7 @@ const linecard = () => {
     return (
         <div className=" rounded-md shadow-xl border border-stone-900/20 bg-main w-full lg:h-[600px] flex flex-col mb-12 relative">
             <div className='w-full h-[71px] flex items-center absolute lg:hidden '>
-                <SmallAIBtn></SmallAIBtn>
+                <SmallAIBtn chatField={false}></SmallAIBtn>
             </div>
             <div className="lg:h-full h-fit lg:w-1/5 w-full flex lg:hidden   tabs-date  items-center justify-start px-2 lg:py-0 py-3">
                 {/* <div className='w-full mb-4'>
@@ -175,7 +175,7 @@ const linecard = () => {
                 ))}
                 <hr className="lg:block hidden h-4/6 border-l border-stone-900/10 " />
                 <div className="lg:h-full h-fit lg:w-[200px] w-1/2 lg:flex hidden  tabs-date  items-center justify-center px-4 lg:py-0 py-3">
-                    <LargeAIBtn></LargeAIBtn>
+                    <LargeAIBtn chatField={false}></LargeAIBtn>
                 </div>
                 <hr className="lg:block hidden h-4/6 border-l border-stone-900/10 " />
 

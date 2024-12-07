@@ -71,6 +71,9 @@ const LineChart = ({ data }) => {
                 zoom: {
                     enabled: false,
                 },
+                toolbar: {
+                    show: false 
+                  }
             },
             stroke: {
                 curve: "smooth",

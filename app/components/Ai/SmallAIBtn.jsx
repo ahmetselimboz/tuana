@@ -3,8 +3,9 @@ import { HiOutlineSparkles } from 'react-icons/hi';
 import Dropdown from '../Animation/dropdown';
 import { IoMdClose } from 'react-icons/io';
 import SmallAICard from './SmallAICard';
+import LargeAICard from './LargeAICard';
 
-const SmallAIBtn = () => {
+const SmallAIBtn = ({userInfo, chatField }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const closePopup = () => setIsPopupOpen(false);
 
@@ -20,7 +21,11 @@ const SmallAIBtn = () => {
       <Dropdown isOpen={isPopupOpen} classw=" absolute lg:top-16 top-16 z-10 lg:w-auto w-full l">
 
         {isPopupOpen && (
-          <SmallAICard closePopup={closePopup}></SmallAICard>
+          chatField ? (
+            <LargeAICard userInfo={userInfo} closePopup={closePopup}></LargeAICard>
+          ) : (
+            <SmallAICard userInfo={userInfo} closePopup={closePopup}></SmallAICard>
+          )
         )}
       </Dropdown>
     </div>

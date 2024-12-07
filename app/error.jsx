@@ -21,6 +21,7 @@ export default function Error({ error, reset }) {
         <div className='w-fit lg:text-2xl text-base font-semilight text-primaryGray mb-6 font-dosis lg:px-0 px-4 text-center flex items-center'>
           Something went wrong! Please try again later <div className='pl-1 pb-2 h-fit'>👉👈</div>
         </div>
+        <button onClick={()=>{location.reload()}} className='lg:text-xl text-lg mb-2 text-primary hover:text-secondary font-medium font-dosis tracking-wider px-16 py-2 border-2 font-dosis border-primary rounded-md bg-main hover:bg-slate-300 hover:border-secondary transition-all'>Refresh Page</button>
         <Link href="/" className='lg:text-xl text-lg  text-main font-medium font-dosis tracking-wider px-16 py-2 border-2 font-dosis border-primary rounded-md bg-primary hover:bg-secondary hover:border-secondary transition-all'>Return Home</Link>
 
       </div>

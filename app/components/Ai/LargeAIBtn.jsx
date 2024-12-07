@@ -4,8 +4,9 @@ import Popup from '../popup';
 import { IoMdClose } from 'react-icons/io';
 import Dropdown from '../Animation/dropdown';
 import LargeAICard from './LargeAICard';
+import SmallAICard from './SmallAICard';
 
-const LargeAIBtn = () => {
+const LargeAIBtn = ({userInfo, chatField=true }) => {
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const closePopup = () => setIsPopupOpen(false);
@@ -22,7 +23,14 @@ const LargeAIBtn = () => {
       <Dropdown isOpen={isPopupOpen} classw=" absolute lg:top-20 top-20 z-10 lg:w-auto w-full l">
 
         {isPopupOpen && (
-          <LargeAICard closePopup={closePopup}></LargeAICard>
+
+          chatField ? (
+            <LargeAICard userInfo={userInfo} closePopup={closePopup}></LargeAICard>
+          ) : (
+            <SmallAICard userInfo={userInfo} closePopup={closePopup}></SmallAICard>
+          )
+
+
         )}
       </Dropdown>
     </div>

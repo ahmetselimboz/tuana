@@ -6,15 +6,16 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import Popup from "../popup";
 
 const PieChart = ({ data }) => {
-
+    
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedData, setSelectedData] = useState({ label: "", value: 0 });
     const [dataValue, setDataValue] = useState({
         device: ["None"],
         number: [0]
     })
-
-
+    
+    //console.log("🚀 ~ PieChart ~ data:", data)
+ 
 
 
     const [chartData, setChartData] = useState({
