@@ -14,7 +14,7 @@ const LargeAICard = ({ userInfo, closePopup, toggleFullScreen, isFullScreen }) =
         <>
 
             <div className={`relative lg:w-[600px] w-full h-[450px] rounded-md  shadow-xl border border-stone-900/20  bg-main `}>
-                <button
+                {/* <button
                     onClick={() => {
                         toggleFullScreen();
 
@@ -22,7 +22,7 @@ const LargeAICard = ({ userInfo, closePopup, toggleFullScreen, isFullScreen }) =
                     className="absolute top-2 right-6 text-2xl p-2 bg-gray-200 rounded-full hover:bg-gray-300"
                 >
                     {isFullScreen ? <MdFullscreenExit /> : <MdFullscreen />}
-                </button>
+                </button> */}
                 <button onClick={closePopup}><IoMdClose className='text-stone-900/70 absolute top-3 right-3  text-1-5xl transition-all hover:text-stone-900' /></button>
                 <div className='flex items-center'>
                     <div className="text-primary font-dosis lg:text-3xl text-2xl font-medium mb-3 pl-8">
