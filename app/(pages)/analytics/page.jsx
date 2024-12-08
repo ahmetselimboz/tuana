@@ -22,11 +22,13 @@ import { useToast } from '@/hooks/use-toast'
 import { useAxios } from '@/app/hooks/useAxios'
 import { ToastAction } from '@/components/ui/toast'
 
+
 const Analytics = () => {
 
   const [adsActive, setAdsActive] = useState(false)
   const { width } = useWidth()
   const { toast } = useToast()
+  const [isMounted, setIsMounted] = useState(false);
 
   const params = useSearchParams()
   const id = params.get("id")
@@ -69,13 +71,19 @@ const Analytics = () => {
   useEffect(() => {
     if (id !== "TNAKLYTP") {
       handleRequest()
+
     } else {
       setUserInfo("Tuana")
+
     }
   }, [])
 
+
+
+
+  // Yükleme veya sayfa yüklenmemişse yükleme ekranı
   if (loading) {
-    return <Loading></Loading>
+    return <Loading />;
   }
 
   return (

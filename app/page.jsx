@@ -9,9 +9,10 @@ import PCAndPhone from "./components/Homepage/PCAndPhone";
 import { BentoGridDemo } from "./components/Homepage/Grid";
 import TryIt from "./components/Homepage/TryIt";
 
+
 export default function Home() {
   return (
-    <>
+    <> 
       <div className="w-full h-full bg-main relative">
         <Navbar></Navbar>
         <div className="w-full h-24 lg:h-0"></div>

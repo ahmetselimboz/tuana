@@ -10,6 +10,7 @@ import Head from "next/head";
 import { Toaster } from "@/components/ui/toaster";
 
 
+
 const dosis = Dosis({ subsets: ['latin'] })
 
 export const metadata = {
@@ -77,11 +78,12 @@ export default function RootLayout({ children }) {
       <body className={`${dosis.className} antialiased bg-main`}>
         <ErrorBoundary fallback={<Error />}>
           <Suspense fallback={<Loading />}>
-
+    
             <StoreProvider>
               {children}
               <Toaster />
             </StoreProvider>
+       
           </Suspense>
         </ErrorBoundary>
       </body>

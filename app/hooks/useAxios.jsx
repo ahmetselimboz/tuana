@@ -1,14 +1,17 @@
 import { useState } from "react";
 import api from "../utils/axios"; // Token yenileme işlemi olan axios'u kullan
 
+
 export const useAxios = () => {
   const [loading, setLoading] = useState(false);
   const [res, setRes] = useState(null);
   const [error, setError] = useState(null);
 
+
   const sendRequest = async ({ method, url, body }) => {
     setLoading(true);
     setError(null);
+
 
     try {
       // İstek ayarlarını hazırla
@@ -35,6 +38,7 @@ export const useAxios = () => {
     } finally {
       setInterval(() => {
         setLoading(false);
+ 
       }, 1000) // İstek bittiğinde loading durumunu güncelle
     }
   };

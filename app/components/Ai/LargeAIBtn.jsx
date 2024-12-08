@@ -1,18 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HiOutlineSparkles } from 'react-icons/hi'
 import Popup from '../popup';
 import { IoMdClose } from 'react-icons/io';
 import Dropdown from '../Animation/dropdown';
 import LargeAICard from './LargeAICard';
 import SmallAICard from './SmallAICard';
+import FullsizeChatField from './FullsizeChatField';
 
-const LargeAIBtn = ({userInfo, chatField=true }) => {
+const LargeAIBtn = ({ userInfo, chatField = true }) => {
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const closePopup = () => setIsPopupOpen(false);
 
+  const [isFullScreen, setIsFullScreen] = useState(false); // Tam ekran durumu
+  const toggleFullScreen = () => setIsFullScreen((prev) => !prev);
+
+  useEffect(() => {
+    console.log("🚀 ~ LargeAICard ~ isFullScreen:", isFullScreen)
+  }, [isFullScreen])
+
   return (
-    <div className='flex lg:items-end lg:w-auto w-full items-center justify-center flex-col relative'>
+
+
+    <div className='flex lg:items-end lg:w-auto w-full items-center justify-center flex-col relative '>
 
 
       <div onClick={() => { setIsPopupOpen(!isPopupOpen) }} className='w-fit h-12 rounded-full cursor-pointer transition-all px-4 hover:w-fit text-2xl text-primary hover:text-main hover:bg-gradient-to-b hover:from-primary hover:to-primary shadow-lg hover:shadow-xl bg-gradient-to-b from-main to-zinc-200  border-2 border-primary flex items-center justify-center flex-row'>
@@ -20,19 +30,28 @@ const LargeAIBtn = ({userInfo, chatField=true }) => {
         <HiOutlineSparkles className='' />
 
       </div>
-      <Dropdown isOpen={isPopupOpen} classw=" absolute lg:top-20 top-20 z-10 lg:w-auto w-full l">
 
-        {isPopupOpen && (
+      {
+        isFullScreen ? (
+          <FullsizeChatField  userInfo={userInfo} isFullScreen={isFullScreen}/>
+        ) : (
+          <Dropdown isOpen={isPopupOpen} classw=" absolute lg:top-20 top-20 z-10 lg:w-auto w-full">
 
-          chatField ? (
-            <LargeAICard userInfo={userInfo} closePopup={closePopup}></LargeAICard>
-          ) : (
-            <SmallAICard userInfo={userInfo} closePopup={closePopup}></SmallAICard>
-          )
+            {isPopupOpen && (
+
+              chatField ? (
+                <LargeAICard userInfo={userInfo} isFullScreen={isFullScreen} toggleFullScreen={toggleFullScreen} closePopup={closePopup}></LargeAICard>
+              ) : (
+                <SmallAICard userInfo={userInfo} closePopup={closePopup}></SmallAICard>
+              )
 
 
-        )}
-      </Dropdown>
+            )}
+          </Dropdown>
+        )
+      }
+
+
     </div>
   )
 }
