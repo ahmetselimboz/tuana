@@ -21,6 +21,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 import { useAxios } from '@/app/hooks/useAxios'
 import { ToastAction } from '@/components/ui/toast'
+import FullsizeChatField from '@/app/components/Ai/FullsizeChatField'
+import { useAppSelector } from '@/lib/redux/hooks'
 
 
 const Analytics = () => {
@@ -29,13 +31,15 @@ const Analytics = () => {
   const { width } = useWidth()
   const { toast } = useToast()
   const [isMounted, setIsMounted] = useState(false);
+  const isFullScreen = useAppSelector((state) => state.chatSettings.isChatFullscreen)
 
   const params = useSearchParams()
   const id = params.get("id")
   const [userInfo, setUserInfo] = useState("")
 
+  const { loading: loading2, res: res2, error: error2, sendRequest: sendRequest2 } = useAxios();
+  //const [isFullScreen, setIsFullScreen] = useState(true);
   const { loading, res, error, sendRequest } = useAxios();
-
 
   const handleRequest = async () => {
     try {
@@ -71,23 +75,74 @@ const Analytics = () => {
   useEffect(() => {
     if (id !== "TNAKLYTP") {
       handleRequest()
-
+      handleRequest2()
     } else {
       setUserInfo("Tuana")
-
+      handleRequest2()
     }
   }, [])
 
 
+  const handleRequest2 = async () => {
+    try {
+      await sendRequest2({
+        method: "POST",
+        url: `/api/ai/check-platform-data`,
+        baseURL: process.env.NEXT_PUBLIC_AI_SERVER_URL,
+        body: { appId: id }
+      });
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
+  };
+
+
+  // useEffect(() => {
+
+
+
+  //   if (res2 !== null) {
+
+  //     if (res2.code !== 200) {
+  //       console.log("🚀 ~ useEffect ~ res2:", res2)
+
+  //     } else {
+  //       console.log("🚀 ~ useEffect ~ res2:", res2)
+  //     }
+
+
+  //   }
+
+  // }, [res2, error2])
+
+
+  // useEffect(() => {
+  //     console.log("🚀 ~ useEffect ~ res:", res)
+  // }, [res])
 
 
   // Yükleme veya sayfa yüklenmemişse yükleme ekranı
-  if (loading) {
+  if (loading && loading2) {
     return <Loading />;
   }
 
   return (
     <>
+      {
+        isFullScreen ? (
+          <div className='relative z-40'>
+            <FullsizeChatField
+              userInfo={userInfo}
+
+            ></FullsizeChatField>
+          </div>
+
+        ) : null
+
+
+
+      }
+
       <div className=' w-full h-auto bg-main'>
         <AuthenticatedNavbar />
         <div className="w-full h-20"></div>
@@ -98,7 +153,7 @@ const Analytics = () => {
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
             <div className="w-full flex items-center justify-between lg:flex-row flex-col my-3">
               <div className="lg:w-1/2 w-full flex flex-col my-3 mx-2">
-                <div className="text-stone-900  font-dosis lg:text-4xl text-5xl flex gap-2 ">Hello, <div className="font-medium ">{userInfo}!</div></div>
+                <div className="text-stone-900  font-dosis lg:text-4xl text-4xl flex gap-2 ">Hello, <div className="font-medium ">{userInfo}!</div></div>
                 <div className="text-stone-900  font-dosis lg:text-lg text-xl">We've done all the analysis for you ✨</div>
               </div>
               <div className="lg:w-1/2 w-full flex items-center lg:justify-end justify-center mt-4 mb-3 mx-2">

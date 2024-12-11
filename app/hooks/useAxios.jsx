@@ -8,7 +8,7 @@ export const useAxios = () => {
   const [error, setError] = useState(null);
 
 
-  const sendRequest = async ({ method, url, body }) => {
+  const sendRequest = async ({ method, url, body, baseURL }) => {
     setLoading(true);
     setError(null);
 
@@ -19,6 +19,7 @@ export const useAxios = () => {
         method,
         url: url, // baseURL zaten axios içinde ayarlı
         data: body,
+        baseURL: baseURL || api.defaults.baseURL,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Token'i header'a ekle
         },

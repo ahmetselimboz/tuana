@@ -12,12 +12,7 @@ const LargeAIBtn = ({ userInfo, chatField = true }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const closePopup = () => setIsPopupOpen(false);
 
-  const [isFullScreen, setIsFullScreen] = useState(false); // Tam ekran durumu
-  const toggleFullScreen = () => setIsFullScreen((prev) => !prev);
 
-  useEffect(() => {
-    console.log("🚀 ~ LargeAICard ~ isFullScreen:", isFullScreen)
-  }, [isFullScreen])
 
   return (
 
@@ -31,25 +26,19 @@ const LargeAIBtn = ({ userInfo, chatField = true }) => {
 
       </div>
 
-      {
-        isFullScreen ? (
-          <FullsizeChatField  userInfo={userInfo} isFullScreen={isFullScreen}/>
-        ) : (
-          <Dropdown isOpen={isPopupOpen} classw=" absolute lg:top-20 top-20 z-10 lg:w-auto w-full">
+      <Dropdown isOpen={isPopupOpen} classw={` absolute lg:top-20 top-20 z-10   lg:w-auto w-full`}>
 
-            {isPopupOpen && (
+        {isPopupOpen && (
 
-              chatField ? (
-                <LargeAICard userInfo={userInfo} isFullScreen={isFullScreen} toggleFullScreen={toggleFullScreen} closePopup={closePopup}></LargeAICard>
-              ) : (
-                <SmallAICard userInfo={userInfo} closePopup={closePopup}></SmallAICard>
-              )
+          chatField ? (
+            <LargeAICard userInfo={userInfo} closePopup={closePopup}></LargeAICard>
+          ) : (
+            <SmallAICard userInfo={userInfo} closePopup={closePopup}></SmallAICard>
+          )
 
 
-            )}
-          </Dropdown>
-        )
-      }
+        )}
+      </Dropdown>
 
 
     </div>

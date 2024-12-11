@@ -52,52 +52,50 @@ const devicecard = () => {
         handleRequest()
 
     }, [date.lastDate, date.firstDate])
-    // useEffect(() => {
+    useEffect(() => {
         
-    //     console.log("🚀 ~ devicecard ~ res:", res)
+        console.log("🚀 ~ devicecard ~ res:", res)
 
-    // }, [res])
+    }, [res])
 
 
     useEffect(() => {
         setFilteredBrowsers({});
-
+    
         if (res) {
             let result = [];
-
+    
             result = res?.data?.reduce((acc, item) => {
                 let key = "";
-
+    
                 switch (activeDevices) {
-                    case 0:
-                        key = item.userDevice.browser.name;
+                    case 0: // Browser
+                        key = item.userDevice?.browser?.name || "Unknown Browser";
                         break;
-                    case 1:
-                        key = item.userDevice.os.name;
+                    case 1: // OS
+                        key = item.userDevice?.os?.name || "Unknown OS";
                         break;
-                    case 2:
-                        key = item.userDevice.device.type == null ? "Desktop" : item.userDevice.device.type;
+                    case 2: // Device Type
+                        key = item.userDevice?.device?.type == null ? "Desktop" : item.userDevice.device.type;
                         break;
                     default:
                         return acc;
                 }
-
+    
                 const existingItem = acc.find(obj => obj.device === key);
-
+    
                 if (existingItem) {
                     existingItem.number += 1;
                 } else {
                     acc.push({ device: key, number: 1 });
                 }
-
+    
                 return acc;
             }, []);
-
+    
             const devices = result.map(item => item.device);
-
             const numbers = result.map(item => item.number);
-
-
+    
             setFilteredBrowsers({
                 device: devices,
                 number: numbers
@@ -109,6 +107,7 @@ const devicecard = () => {
             });
         }
     }, [activeDevices, res]);
+    
 
     const deviceMenu = [
         { label: "Browser" },
