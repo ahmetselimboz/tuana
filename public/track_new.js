@@ -22,18 +22,51 @@
           console.log("🚀 ~ getOrCreateUserId ~ userId:", userId);
           if (!userId) {
             userId = crypto.randomUUID(); // Yeni bir UUID oluştur
+            // Yeni bir UUID oluştur
             localStorage.setItem("userId", userId); // LocalStorage'a kaydet
+            localStorage.setItem("session");
             console.log("Yeni kullanıcı: ", userId);
           } else {
             console.log("Geri dönen kullanıcı: ", userId);
           }
-          return userId;
+
+          let session = sessionStorage.getItem("session");
+          console.log("🚀 ~ getOrCreateUserId ~ userId:", userId);
+
+          if (!session) {
+            session = crypto.randomUUID(); // Yeni bir UUID oluştur
+            sessionStorage.setItem("session", session);
+          }
+
+          return { userId, session };
         };
+
+        const documentData = (eventType, locationInfo = [], options = {})=>{
+          const data = {
+            visitorId: sessionData.userId,
+            session: sessionData.session,
+            appId: appId || "UnknownApp",
+            type: eventType,
+            data: options.meta || {},
+            time: utcDate,
+            url: location.pathname,
+            referrer: document.referrer || "Direct/None",
+            userDevice: sessionData.deviceInfo,
+            location: locationInfo ,
+            screenResolution: `${window.screen.width}x${window.screen.height}`,
+            language: navigator.language || navigator.userLanguage,
+            // mouseMovement: trackMouseMovement(),
+            // clickCoordinates: trackClicks(),
+            // timeSpent: trackTimeSpent(),
+          };
+          return data
+        }
 
         const parser = new UAParser();
         const deviceInfo = parser.getResult();
         const sessionData = {
-          userId: getOrCreateUserId(),
+          userId: getOrCreateUserId().userId,
+          session: getOrCreateUserId().session,
           deviceInfo: deviceInfo,
         };
 
@@ -109,22 +142,8 @@
                 const timeSpent = trackTimeSpent();
                 console.log("🚀 ~ trackEvent ~ timeSpent:", timeSpent);
 
-                const data = {
-                  visitorId: sessionData.userId,
-                  appId: appId || "UnknownApp",
-                  type: eventType,
-                  data: options.meta || {},
-                  time: utcDate,
-                  url: location.pathname,
-                  referrer: document.referrer || "Direct/None",
-                  userDevice: sessionData.deviceInfo,
-                  location: locationInfo,
-                  screenResolution: `${window.screen.width}x${window.screen.height}`,
-                  language: navigator.language || navigator.userLanguage,
-                  // mouseMovement: trackMouseMovement(),
-                  // clickCoordinates: trackClicks(),
-                  // timeSpent: trackTimeSpent(),
-                };
+                const data = documentData(eventType, locationInfo, options)
+
                 if (locationInfo !== null) {
                   socket.emit("trackEvent", data);
                 } else {
@@ -200,13 +219,32 @@
                 localDate22.getTime() - localDate22.getTimezoneOffset() * 60000
               ).toISOString();
 
-              // window.addEventListener("beforeunload", (event) => {
-              //   const isRefresh = sessionStorage.getItem("isRefresh");
+              window.addEventListener("beforeunload", (event) => {
+                console.log("Sayfa kapanıyor veya sekme kapanıyor.");
+                // Burada istediğiniz işlemi yapabilirsiniz.
 
-              //   if (!isRefresh) {
-              //     console.log("Sayfa kapanıyor veya sekme kapanıyor.");
-              //     // Burada istediğiniz işlemi yapabilirsiniz.
+                const data = JSON.stringify(documentData("User leaving the page"));
 
+                fetch(`${URL}/api/apps/track-exit-event`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: data,
+                  keepalive: true, // Tarayıcı kapanırken isteği tamamlamaya çalışır
+                }).catch((error) =>
+                  console.error("Fetch isteği başarısız oldu:", error)
+                );
+              });
+              // Listen for the visibility change event
+              // document.addEventListener("visibilitychange", function () {
+              //   if (document.visibilityState === "hidden") {
+              //     isTabClosing = true;
+              //   }
+              // });
+
+              // window.addEventListener("beforeunload", function (event) {
+              //   if (isTabClosing) {
               //     const data = JSON.stringify({
               //       visitorId: sessionData.userId,
               //       appId: appId || "UnknownApp",
@@ -221,46 +259,12 @@
               //         "Content-Type": "application/json",
               //       },
               //       body: data,
-              //       keepalive: true, // Tarayıcı kapanırken isteği tamamlamaya çalışır
+              //       keepalive: true,
               //     }).catch((error) =>
               //       console.error("Fetch isteği başarısız oldu:", error)
               //     );
-              //   } else {
-              //     console.log("Sayfa yenilendi.");
               //   }
-
-              //   // Sayfa yenilendiğini işaretleyin.
-              //   sessionStorage.setItem("isRefresh", "true");
               // });
-              // Listen for the visibility change event
-              document.addEventListener("visibilitychange", function () {
-                if (document.visibilityState === "hidden") {
-                  isTabClosing = true;
-                }
-              });
-
-              window.addEventListener("beforeunload", function (event) {
-                if (isTabClosing) {
-                  const data = JSON.stringify({
-                    visitorId: sessionData.userId,
-                    appId: appId || "UnknownApp",
-                    type: "User leaving the page",
-                    time: utcDate222,
-                    url: location.pathname,
-                  });
-
-                  fetch(`${URL}/api/apps/track-exit-event`, {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: data,
-                    keepalive: true,
-                  }).catch((error) =>
-                    console.error("Fetch isteği başarısız oldu:", error)
-                  );
-                }
-              });
 
               // Fare Hareketi Takibi
               function trackMouseMovement() {
