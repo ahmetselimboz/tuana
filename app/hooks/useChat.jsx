@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setSelectedChat } from "@/lib/redux/features/chatSetttings/chatSlice";
+import { addMessage, clearMessages, resetMessages, setMessages, setSelectedChat } from "@/lib/redux/features/chatSetttings/chatSlice";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { useAxios } from "./useAxios";
 import { useSearchParams } from "next/navigation";
@@ -15,9 +15,10 @@ const socket = io(process.env.NEXT_PUBLIC_AI_SERVER_URL, {
 });
 
 const useChat = (userInfo, askQuestion, appId) => {
-    const [messages, setMessages] = useState([
-        { sender: "bot", text: `Hi ${userInfo}, I'm Tuan-AI. How can I help you today?` },
-    ]);
+    //const [messages, setMessages] = useState([
+    //     { sender: "bot", text: `Hi ${userInfo}, I'm Tuan-AI. How can I help you today?` },
+    // ]);
+    const messages = useAppSelector((state) => state.chatSettings.messages);
     const [inputValue, setInputValue] = useState("");
     const [loading, setLoading] = useState(false);
     const [showRightsField, setShowRightsField] = useState(true);
@@ -28,6 +29,7 @@ const useChat = (userInfo, askQuestion, appId) => {
     const dispatch = useDispatch()
 
     const selectedChat = useAppSelector((state) => state.chatSettings.selectedChat)
+    const isChatFullscreen = useAppSelector((state) => state.chatSettings.isChatFullscreen)
     const { loading2, res, error, sendRequest } = useAxios();
     const { toast } = useToast()
 
@@ -37,7 +39,7 @@ const useChat = (userInfo, askQuestion, appId) => {
                 method: "POST",
                 url: `/api/ai/get-ai`,
                 baseURL: process.env.NEXT_PUBLIC_AI_SERVER_URL,
-                body: { appId: appId, selectedChat:selectedChat }
+                body: { appId: appId, selectedChat: selectedChat }
             });
         } catch (error) {
             console.error("Request failed:", error);
@@ -45,10 +47,14 @@ const useChat = (userInfo, askQuestion, appId) => {
     };
 
     useEffect(() => {
+        handleRequest()
+    }, [isChatFullscreen, selectedChat])
+
+    useEffect(() => {
 
         if (res !== null) {
             if (res.code !== 200) {
-                
+
                 toast({
                     variant: "destructive",
                     title: "Uh oh! Something went wrong.",
@@ -56,7 +62,7 @@ const useChat = (userInfo, askQuestion, appId) => {
                     action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
             } else {
-                
+
                 console.log("🚀 ~ useChat ~ res:", res)
                 if (res && res.ai) {
                     setChatAI(res.ai);
@@ -66,15 +72,20 @@ const useChat = (userInfo, askQuestion, appId) => {
                     });
 
                     if (res.messages && res.messages.length > 0) {
-                        if (selectedChat == "671ccea647949c3fab28fb81") {
-                            dispatch(setSelectedChat(res.chatId))
-                        }
+                        // if (selectedChat == "671ccea647949c3fab28fb81") {
+                        //     dispatch(setSelectedChat(res.chatId))
+                        // }
+                        //setMessages([])
+                        dispatch(resetMessages());
+                        const botMessage = { sender: "bot", text: `Hi, I'm Tuan-AI. How can I help you today?` };
+                       
                         const messages = res.messages.map((message) => ({
                             sender: message.sender,
                             text: message.message,
                             id: message._id?.$oid || Date.now(),
                         }));
-                        setMessages((prev) => [...prev, ...messages]);
+                        // setMessages((prev) => [botMessage, ...messages]);
+                        dispatch(setMessages([botMessage, ...messages])); 
                     }
                 }
             }
@@ -118,21 +129,24 @@ const useChat = (userInfo, askQuestion, appId) => {
                 return;
             }
 
-            const userMessage = { sender: "user", text: inputValue };
-            setMessages((prev) => [...prev, userMessage]);
+            const userMessage = { sender: "user", text: inputValue, id: Date.now() };
+            dispatch(addMessage(userMessage)); // Redux'a mesaj ekle
+            //setMessages((prev) => [...prev, userMessage]);
             setInputValue("");
             setLoading(true);
 
-            socket.emit("user_message", { appId, text: inputValue, chatId: selectedChat });
+            socket.emit("user_message", { appId, text: inputValue, selectedChat: selectedChat });
         }
     };
 
     const handleBotMessage = (text) => {
-        setMessages((prev) => [...prev, { sender: "bot", text, id: Date.now() }]);
+        //setMessages((prev) => [...prev, { sender: "bot", text, id: Date.now() }]);
+        const botMessage = { sender: "bot", text, id: Date.now() }
+        dispatch(addMessage(botMessage)); // Redux'a bot mesajı ekle
     };
 
     useEffect(() => {
-        handleRequest()
+        //handleRequest()
 
         socket.on("connect", () => console.log("Connected to server"));
 
@@ -147,7 +161,9 @@ const useChat = (userInfo, askQuestion, appId) => {
         });
 
         socket.on("ai_response_complete", (response) => {
-            handleBotMessage(response);
+            console.log("🚀 ~ socket.on ~ response:", response)
+            handleBotMessage(response.partialResponse);
+            dispatch(setSelectedChat(response.newChatId))
             setPartialResponse("");
             setLoading(false);
             setShowRightsField(true);
@@ -187,10 +203,11 @@ const useChat = (userInfo, askQuestion, appId) => {
 
 
     const newChat = async () => {
-        setMessages([
-            { sender: "bot", text: `Hi ${userInfo}, I'm Tuan-AI. How can I help you today?` },
-        ])
-        dispatch(setSelectedChat("671ccea647949c3fab28fb81"))
+        dispatch(clearMessages());
+        // setMessages([
+        //     { sender: "bot", text: `Hi ${userInfo}, I'm Tuan-AI. How can I help you today?` },
+        // ])
+        dispatch(setSelectedChat("65c40fec35d43d01a2a6d1e5"))
     }
 
     return {

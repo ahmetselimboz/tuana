@@ -49,6 +49,8 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
 
             } else {
                 setChatList(res2.chatList)
+                console.log("🚀 ~ useEffect ~ res2.chatList:", res2)
+                //dispatch(setSelectedChat(res2.chatList[0]._id))
             }
         }
 
@@ -56,7 +58,7 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
 
     useEffect(() => {
         handleRequest2()
-    }, [])
+    }, [selectedChat])
 
     const {
         messages,
@@ -107,7 +109,7 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
                 </button>
 
 
-                <div className={`w-fit h-full border-r border-primary/20 bg-main lg:relative absolute z-30  ${collapse ? "hidden" : "block "}`}>
+                <div className={`w-fit h-full border-r  border-primary/20 overflow-hidden bg-main lg:relative absolute z-30  ${collapse ? "hidden" : "block "}`}>
                     <div className='w-full flex items-center justify-between py-4 px-5'>
                         <div className='relative group py-1'>
                             <RiMenuFold3Line onClick={() => { setCollapse(true) }} className='text-stone-900/70 text-2xl transition-all hover:text-stone-900 cursor-pointer' />
@@ -120,7 +122,7 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
                             </div>
                         </div>
                         <div className="relative group rounded-md border-2 border-gray-500/0 hover:border-primary px-2 py-1 text-stone-900/70 transition-all hover:bg-primary hover:text-main cursor-pointer">
-                            <TbMessageCirclePlus className='text-2xl mr-1 ' onClick={()=>{newChat()}}></TbMessageCirclePlus>
+                            <TbMessageCirclePlus className='text-2xl mr-1 ' onClick={() => { newChat() }}></TbMessageCirclePlus>
                             <div
                                 className="absolute top-full left-1/2 transform
                        -translate-x-1/2 mt-2 w-max px-2 py-1 
@@ -132,12 +134,33 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
 
 
                     </div>
-                    <div className='w-full h-full flex flex-col items-start justify-start px-2 '>
-                        {
-                            chatList.map((item, index) => (
-                                <div key={item._id} onClick={()=>{dispatch(setSelectedChat(item._id));handleRequest()}} className={`w-[240px] text-center cursor-pointer px-4 py-2  mb-1 rounded-md transition-all ${item._id == selectedChat ? "shadow-xl bg-primary/80 text-white" : "shadow-md bg-gray-100  hover:bg-gray-200"}`}>{item.chat_name}</div>
-                            ))
-                        }
+                    <div className="w-full h-[85%] overflow-y-auto overflow-x-hidden px-6 ">
+                        <div className="w-full h-full flex flex-col items-start justify-start ">
+                            {chatList.length > 0 ? (
+                                chatList.map((item, index) => (
+                                    <div
+                                        key={item._id}
+                                        onClick={() => {
+                                            dispatch(setSelectedChat(item._id));
+                                        }}
+                                        className={`w-[240px] text-center cursor-pointer px-4 py-2 mb-1 rounded-md transition-all ${item._id === selectedChat
+                                                ? "shadow-xl bg-primary/80 text-white"
+                                                : "shadow-md bg-gray-100 hover:bg-gray-200"
+                                            }`}
+                                    >
+                                        {item.chat_name}
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="w-[240px] text-center text-gray-500 py-4">
+                                    No conversation was found.
+                                </div>
+                            )}
+
+                            <div className='w-full pb-4'>
+
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -157,7 +180,7 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
                                     </div>
                                 </div>
                                 <div className="relative group rounded-md border-2 border-gray-500/0 hover:border-primary px-2 py-1 text-stone-900/70 transition-all hover:bg-primary hover:text-main cursor-pointer">
-                                    <TbMessageCirclePlus className='text-2xl mr-1 ' onClick={()=>{newChat()}}></TbMessageCirclePlus>
+                                    <TbMessageCirclePlus className='text-2xl mr-1 ' onClick={() => { newChat() }}></TbMessageCirclePlus>
                                     <div
                                         className="absolute top-full left-1/2 transform
                        -translate-x-1/2 mt-2 w-max px-2 py-1 
