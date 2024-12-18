@@ -18,7 +18,7 @@ const ChatWindow = ({
   //const messagesContainerRef = useRef();
 
   return (
-    <div className='flex-1 overflow-y-scroll h-4/6 overflow-x-hidden select-text' ref={messagesContainerRef}>
+    <div className='flex-1 overflow-y-scroll custom-scrollbar h-4/6 overflow-x-hidden select-text' ref={messagesContainerRef}>
       {/* Mesajlar */}
       <div className='flex-1 overflow-y-auto p-4 overflow-x-hidden select-text'>
         {messages.map((message, index) => (

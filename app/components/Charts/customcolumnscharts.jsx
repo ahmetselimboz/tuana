@@ -13,7 +13,7 @@ const ColumnsCharts = ({data}) => {
     const [chartData, setChartData] = useState({
         series: [{
             name: 'Visitors',
-            data: [1]
+            data: data?.uniqueVisitor
 
         }],
 
@@ -50,7 +50,7 @@ const ColumnsCharts = ({data}) => {
                 labels: {
                     rotate: -45
                 },
-                categories:['tr-TR'],
+                categories: data?.languages,
                 
                 tickPlacement: 'on'
             },

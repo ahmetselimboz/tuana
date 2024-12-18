@@ -39,6 +39,19 @@ const mergeData = (groupedData, hours) => {
     return merged;
 };
 
+function findSum(array) {
+    return array.reduce((sum, num) => sum + num, 0);
+}
+
+function findMax(array) {
+    return Math.max(...array);
+  }
+  
+
+function roundUpToNext25(number) {
+    return Math.ceil(number / 25) * 25;
+}
+
 const LineChart = ({ data }) => {
     const selectedDate = useAppSelector((state) => state.dateSettings.lastDate);
     const firstDate = useAppSelector((state) => state.dateSettings.firstDate);
@@ -72,8 +85,8 @@ const LineChart = ({ data }) => {
                     enabled: false,
                 },
                 toolbar: {
-                    show: false 
-                  }
+                    show: false
+                }
             },
             stroke: {
                 curve: "smooth",
@@ -205,7 +218,7 @@ const LineChart = ({ data }) => {
                     setSeriesData(new Array(24).fill(0));
                 } else {
                     setCategories([firstDate, selectedDate]);
-                    setSeriesData([0,0]);
+                    setSeriesData([0, 0]);
                 }
 
             }
@@ -227,6 +240,9 @@ const LineChart = ({ data }) => {
     }, [data]);
 
     useEffect(() => {
+        console.log("🚀 ~ LineChart ~ seriesData:", seriesData)
+        console.log("🚀 ~ LineChart ~ categories:", categories)
+        const sum = findMax(seriesData)
         setChartData((prevData) => ({
             ...prevData,
             series: [{
@@ -242,11 +258,11 @@ const LineChart = ({ data }) => {
                 },
                 yaxis: {
                     ...prevData.options.yaxis,
-                    max: 100,
+                    max: roundUpToNext25(sum),
                 }
             }
         }));
-        //console.log("🚀 ~ LineChart ~ seriesData:", seriesData)
+
         // console.log("🚀 ~ LineChart ~ categories:", categories)
     }, [categories, seriesData]);
 

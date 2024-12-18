@@ -91,7 +91,7 @@
 
                   const locationData = await response.json();
 
-                  return { country: locationData.country || null };
+                  return { country: locationData.country || "Unknown Country", city: locationData.city || "Unknown City" };
                 } catch (error) {
                   console.error("Error fetching location:", error);
                   return null;

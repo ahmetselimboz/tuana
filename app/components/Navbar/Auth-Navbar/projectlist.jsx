@@ -48,7 +48,7 @@ const ProjectList = ({ setOpenAppBar, openAppBar, setOpenUserBar, setOpenSidebar
                     description: res?.message,
                     action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
-            }else{
+            } else {
                 setAppList(res.list.filter((item) => item.appId.appId !== id))
                 setCurrentApp(res.list.filter((item) => item.appId.appId === id))
             }
@@ -60,7 +60,9 @@ const ProjectList = ({ setOpenAppBar, openAppBar, setOpenUserBar, setOpenSidebar
     }, [res, error])
 
     useEffect(() => {
-        handleRequest()
+        if (id != "TNAKLYTP") {
+            handleRequest()
+        }
     }, [])
 
 

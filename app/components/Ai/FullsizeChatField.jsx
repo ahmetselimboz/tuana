@@ -134,7 +134,7 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
 
 
                     </div>
-                    <div className="w-full h-[85%] overflow-y-auto overflow-x-hidden px-6 ">
+                    <div className="w-full h-[85%] overflow-y-auto overflow-x-hidden px-6 custom-scrollbar">
                         <div className="w-full h-full flex flex-col items-start justify-start ">
                             {chatList.length > 0 ? (
                                 chatList.map((item, index) => (
@@ -198,7 +198,7 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
                             <hr className="border-b-2 border-primary w-[38px]" />
                         </div>
                     </div>
-                    <div className='flex-1 overflow-y-scroll h-[80%] overflow-x-hidden select-text' ref={messagesContainerRef}>
+                    <div className='flex-1 overflow-y-scroll custom-scrollbar h-[80%] overflow-x-hidden select-text' ref={messagesContainerRef}>
                         {/* Mesajlar */}
                         <div className='flex-1 overflow-y-auto p-4 overflow-x-hidden select-text'>
                             {messages.map((message, index) => (

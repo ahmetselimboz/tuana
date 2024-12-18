@@ -20,13 +20,13 @@ const LargeAIBtn = ({ userInfo, chatField = true }) => {
     <div className='flex lg:items-end lg:w-auto w-full items-center justify-center flex-col relative '>
 
 
-      <div onClick={() => { setIsPopupOpen(!isPopupOpen) }} className='w-fit h-12 rounded-full cursor-pointer transition-all px-4 hover:w-fit text-2xl text-primary hover:text-main hover:bg-gradient-to-b hover:from-primary hover:to-primary shadow-lg hover:shadow-xl bg-gradient-to-b from-main to-zinc-200  border-2 border-primary flex items-center justify-center flex-row'>
-        <h3 className='font-dosis mr-2 text-2xl'>Ask AI</h3>
-        <HiOutlineSparkles className='' />
+      <div onClick={() => { setIsPopupOpen(!isPopupOpen) }} className='w-full h-12 rounded-lg cursor-pointer transition-all px-4 hover:w-full text-2xl text-primary hover:text-main hover:bg-gradient-to-b hover:from-primary hover:to-primary shadow-lg hover:shadow-xl bg-gradient-to-b from-main to-zinc-200  border-2 border-primary flex items-center justify-center flex-row'>
+        <HiOutlineSparkles className='mr-2' />
+        <h3 className='font-dosis  text-2xl'>Ask AI</h3>
 
       </div>
 
-      <Dropdown isOpen={isPopupOpen} classw={` absolute lg:top-20 top-20 z-10   lg:w-auto w-full`}>
+      <Dropdown isOpen={isPopupOpen} classw={` absolute lg:top-5 top-20 z-50 lg:left-full lg:ml-4   lg:w-auto w-full`}>
 
         {isPopupOpen && (
 
