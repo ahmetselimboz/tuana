@@ -13,7 +13,7 @@ const header = () => {
           </div>
           <div className="lg:w-5/6 w-full lg:px-4 px-0 mt-2">
             <div className="font-dosis text-primaryGray lg:text-3xl text-xl">
-              AI-based user behavior analysis platform
+              AI-Powered User Behavior Analysis and Optimization Platform
             </div>
           </div>
           <div className="lg:w-5/6 w-full lg:my-4 my-2">

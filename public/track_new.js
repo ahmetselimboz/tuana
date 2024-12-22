@@ -19,7 +19,7 @@
 
         const getOrCreateUserId = () => {
           let userId = localStorage.getItem("userId");
-          console.log("🚀 ~ getOrCreateUserId ~ userId:", userId);
+          // console.log("🚀 ~ getOrCreateUserId ~ userId:", userId);
           if (!userId) {
             userId = crypto.randomUUID(); // Yeni bir UUID oluştur
             // Yeni bir UUID oluştur
@@ -27,11 +27,11 @@
             localStorage.setItem("session");
             console.log("Yeni kullanıcı: ", userId);
           } else {
-            console.log("Geri dönen kullanıcı: ", userId);
+            // console.log("Geri dönen kullanıcı: ", userId);
           }
 
           let session = sessionStorage.getItem("session");
-          console.log("🚀 ~ getOrCreateUserId ~ userId:", userId);
+          // console.log("🚀 ~ getOrCreateUserId ~ userId:", userId);
 
           if (!session) {
             session = crypto.randomUUID(); // Yeni bir UUID oluştur
