@@ -1,220 +1,141 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import dynamic from 'next/dynamic';
-import { useAppSelector } from '@/lib/redux/hooks';
+import dynamic from "next/dynamic";
+import { useAppSelector } from "@/lib/redux/hooks";
 import Loading from "@/app/loading";
 
-const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
+const convertToTimezoneHourISO = (date, timezone) => {
+    const visitTime = new Date(date);
+    const options = { hour12: false, timeZone: timezone };
+    const formattedHour = new Intl.DateTimeFormat("en-US", {
+        hour: "2-digit",
+        ...options,
+    }).format(visitTime);
 
-const convertToUTC = (date) => {
-    return new Date(Date.UTC(
-        date.getUTCFullYear(),
-        date.getUTCMonth(),
-        date.getUTCDate(),
-        date.getUTCHours(),
-        date.getUTCMinutes(),
-        date.getUTCSeconds()
-    )).toISOString();
+    visitTime.setUTCHours(parseInt(formattedHour), 0, 0, 0);
+    visitTime.setUTCMinutes(0, 0, 0);
+    return visitTime.toISOString(); // ISO formatında döndür
 };
 
-
-const generateHourlyCategories = (dateString) => {
-    const date = new Date(dateString);
+const generateHourlyCategories = (date) => {
     const categories = [];
+    const baseDate = new Date(date);
+    baseDate.setUTCHours(0, 0, 0, 0); // Tarihi başlangıç saati 00:00:00.000Z yap
+
     for (let hour = 0; hour < 24; hour++) {
-        const newDate = new Date(date);
-        newDate.setUTCHours(hour, 0, 0, 0);
-        categories.push(newDate.toISOString());
+        const newDate = new Date(baseDate);
+        newDate.setUTCHours(hour); // Saatleri sırayla ekle
+        categories.push(newDate.toISOString()); // ISO 8601 formatında ekle
     }
+
     return categories;
 };
 
+const generateRangeCategories = (firstDate, lastDate) => {
+    const categories = [];
+    const startDate = new Date(firstDate);
+    const endDate = new Date(lastDate);
 
-const mergeData = (groupedData, hours) => {
-    const merged = { ...hours };
-    Object.keys(groupedData).forEach(hour => {
-        merged[hour] = groupedData[hour];
-    });
-    return merged;
+    startDate.setUTCHours(0, 0, 0, 0);
+    endDate.setUTCHours(0, 0, 0, 0);
+
+    while (startDate <= endDate) {
+        categories.push(new Date(startDate).toISOString()); // Günlük kategoriler
+        startDate.setUTCDate(startDate.getUTCDate() + 1); // 1 gün ileriye git
+    }
+
+    return categories;
 };
+
+const mergeHourlyData = (data, categories, timezone) => {
+    const groupedData = data.reduce((acc, curr) => {
+        const hourISO = convertToTimezoneHourISO(curr.date, timezone); // ISO formatına çevir
+        acc[hourISO] = (acc[hourISO] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Kategorilere göre sıralayıp, eksiklere sıfır ekle
+    return categories.map((category) => groupedData[category] || 0);
+};
+
+const mergeRangeData = (data, categories) => {
+    const groupedData = data.reduce((acc, curr) => {
+        const dateISO = new Date(curr.date).toISOString().split("T")[0]; // Tarihi günlük gruplar
+        acc[dateISO] = (acc[dateISO] || 0) + 1;
+        return acc;
+    }, {});
+
+    // Kategorilere göre sıralayıp, eksiklere sıfır ekle
+    return categories.map((category) => {
+        const dayISO = category.split("T")[0];
+        return groupedData[dayISO] || 0;
+    });
+};
+
+const roundUpToNext25 = (number) => Math.ceil(number / 25) * 25;
 
 const LineChart = ({ data }) => {
     const selectedDate = useAppSelector((state) => state.dateSettings.lastDate);
     const firstDate = useAppSelector((state) => state.dateSettings.firstDate);
     const range = useAppSelector((state) => state.dateSettings.range);
+    const timezone = useAppSelector((state) => state.dateSettings.timezone);
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const [seriesData, setSeriesData] = useState([]);
 
-
-    const formattedDate = selectedDate
-        ? `${new Date(selectedDate).getUTCFullYear()}-${(new Date(selectedDate).getUTCMonth() + 1).toString().padStart(2, '0')}-${new Date(selectedDate).getUTCDate().toString().padStart(2, '0')}`
-        : "0000-00-00";
-
-
-    const hasDateRange = data && data.status !== undefined;
-
     const defaultCategories = generateHourlyCategories(selectedDate);
 
-
     const [chartData, setChartData] = useState({
-        series: [{
-            name: "Data",
-            data: [0, 0],
-            color: "#19ae9d"
-        }],
+        series: [{ name: "Data", data: [0, 0], color: "#19ae9d" }],
         options: {
-            chart: {
-                type: "area",
-                height: 350,
-                zoom: {
-                    enabled: false,
-                },
-                toolbar: {
-                    show: false 
-                  }
-            },
-            stroke: {
-                curve: "smooth",
-            },
-            xaxis: {
-                type: 'datetime',
-                categories: hasDateRange ? [] : defaultCategories,
-                labels: {
-                    datetimeUTC: true,
-                    format: 'HH:mm'
-                }
-            },
-            yaxis: {
-                min: 0,
-                max: 100,
-            },
-            tooltip: {
-                x: {
-                    format: 'dd/MM/yy HH:mm',
-                },
-            },
-            grid: {
-                borderColor: "#19ae9d",
-                strokeDashArray: 3,
-            },
-            markers: {
-                size: 3,
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            fill: {
-                colors: ['#19ae9d'],
-            },
+            chart: { type: "area", height: 350, zoom: { enabled: false }, toolbar: { show: false } },
+            stroke: { curve: "smooth" },
+            xaxis: { type: "datetime", categories: defaultCategories, labels: { datetimeUTC: true, format: "HH:mm" } },
+            yaxis: { min: 0, max: 100 },
+            tooltip: { x: { format: "dd/MM/yy HH:mm" } },
+            grid: { borderColor: "#19ae9d", strokeDashArray: 3 },
+            markers: { size: 3 },
+            dataLabels: { enabled: false },
+            fill: { colors: ["#19ae9d"] },
         },
     });
 
-    // Veri gönderimi ve işleme
-    const sendData = async ({ data, tz }) => {
+    const processData = async (data) => {
+        console.log("🚀 ~ processData ~ data:", data);
         try {
-            // console.log("🚀 ~ sendData ~ data:", data)
-
-
-            if (data && data?.value?.length > 0) {
-
-                if (data?.status) {
-                    // Özel tarih durumunda
-                    const dateString = "2024-10-02T18:06:49.254Z";
-                    const date = new Date(dateString);
-                    const sevenDaysBefore = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-                    const formattedDatesevenDaysBefore = sevenDaysBefore
-                        ? `${new Date(sevenDaysBefore).getUTCFullYear()}-${(new Date(sevenDaysBefore).getUTCMonth() + 1).toString().padStart(2, '0')}-${new Date(sevenDaysBefore).getUTCDate().toString().padStart(2, '0')}`
-                        : "0000-00-00";
-
-                    setCategories([formattedDatesevenDaysBefore, `${formattedDate}T00:00:00.000Z`]);
-                    setSeriesData([0, Number(data?.value)]);
+            if (!data || !data.value || data.value.length === 0) {
+                if (range && firstDate) {
+                    const rangeCategories = generateRangeCategories(firstDate, selectedDate);
+                    setCategories(rangeCategories);
+                    setSeriesData(new Array(rangeCategories.length).fill(0));
                 } else {
-
-                    const timeSeriesData = data?.value?.map(visitor => {
-                        const visitTime = new Date(visitor.date);
-                        return {
-                            time: visitTime,
-                            value: visitor.new ? 1 : 0
-                        };
-                    });
-
-
-                    const groupedData = timeSeriesData?.reduce((acc, curr) => {
-                        const visitTime = new Date(curr.time);
-                        // const hour = visitTime.getUTCHours();
-
-                        const timezone = tz; // İstediğin timezone
-                        const options = { hour: '2-digit', hour12: false }; // 24 saat formatı
-                        const hour = new Intl.DateTimeFormat('en-US', { ...options, timeZone: timezone }).format(visitTime);
-
-                        acc[hour] = (acc[hour] || 0) + (curr.value || 1);
-                        return acc;
-                    }, {});
-
-                    if (groupedData) {
-                        let categories = Object.keys(groupedData).map(hour => {
-                            const date = new Date();
-                            date.setUTCHours(parseInt(hour), 0, 0);
-                            return convertToUTC(date);
-                        });
-
-                        const removeMilliseconds = (dateString) => {
-                            const date = new Date(dateString);
-                            return new Date(
-                                date.getUTCFullYear(),
-                                date.getUTCMonth(),
-                                date.getUTCDate(),
-                                date.getUTCHours(),
-                                date.getUTCMinutes(),
-                                date.getUTCSeconds()
-                            ).getTime();
-                        };
-
-                        const filteredDays = defaultCategories.filter(day => {
-                            const dayTime = removeMilliseconds(day);
-                            return !categories.some(category => removeMilliseconds(category) === dayTime);
-                        });
-
-                        const combined = [...categories, ...filteredDays].sort((a, b) => new Date(a) - new Date(b));
-                        const hours = combined.reduce((acc, timestamp) => {
-                            const date = new Date(timestamp);
-                            const hour = date.getUTCHours();
-                            acc[hour] = 0;
-                            return acc;
-                        }, {});
-
-                        const seriesDataa = mergeData(groupedData, hours);
-                        if (!range) {
-                            setCategories(combined?.length > 24 ? combined.slice(0, 24) : combined);
-                            setSeriesData(Object.values(seriesDataa));
-                        } else {
-                            console.log("🚀 ~ sendData ~ combined:", combined)
-                            console.log("🚀 ~ sendData ~ seriesDataa:", seriesDataa)
-                            setCategories(combined);
-                            setSeriesData(Object.values(seriesDataa));
-                        }
-
-                    }
+                    setCategories(defaultCategories);
+                    setSeriesData(new Array(defaultCategories.length).fill(0));
                 }
+                setLoading(false);
+                return;
+            }
+
+            if (range && firstDate) {
+                const rangeCategories = generateRangeCategories(firstDate, selectedDate);
+                const updatedSeriesData = mergeRangeData(data.value, rangeCategories);
+
+                setCategories(rangeCategories);
+                setSeriesData(updatedSeriesData);
             } else {
-                if (!range) {
-                    setCategories(defaultCategories?.length > 24 ? defaultCategories.slice(0, 24) : defaultCategories);
-                    setSeriesData(new Array(24).fill(0));
-                } else {
-                    setCategories([firstDate, selectedDate]);
-                    setSeriesData([0,0]);
-                }
+                const updatedCategories = generateHourlyCategories(selectedDate);
+                const updatedSeriesData = mergeHourlyData(data.value, updatedCategories, timezone);
 
+                setCategories(updatedCategories);
+                setSeriesData(updatedSeriesData);
             }
             setLoading(false);
         } catch (error) {
-            console.error("Error in sendData:", error);
+            console.error("Error in processData:", error);
             setLoading(false);
         }
-
     };
 
     useEffect(() => {
@@ -222,39 +143,26 @@ const LineChart = ({ data }) => {
             setLoading(true);
             setCategories([]);
             setSeriesData([]);
-            sendData({ data });
+            processData(data);
         }
     }, [data]);
 
     useEffect(() => {
+        const maxVal = Math.max(...seriesData);
+        console.log("🚀 ~ useEffect ~ seriesData:", seriesData);
+        console.log("🚀 ~ useEffect ~ categories:", categories);
         setChartData((prevData) => ({
             ...prevData,
-            series: [{
-                ...prevData.series[0],
-                name: data?.label,
-                data: seriesData
-            }],
+            series: [{ ...prevData.series[0], name: data?.label, data: seriesData }],
             options: {
                 ...prevData.options,
-                xaxis: {
-                    ...prevData.options.xaxis,
-                    categories: categories, // Kategorilerde UTC kullan
-                },
-                yaxis: {
-                    ...prevData.options.yaxis,
-                    max: 100,
-                }
-            }
+                xaxis: { ...prevData.options.xaxis, categories },
+                yaxis: { ...prevData.options.yaxis, max: roundUpToNext25(maxVal) },
+            },
         }));
-        //console.log("🚀 ~ LineChart ~ seriesData:", seriesData)
-        // console.log("🚀 ~ LineChart ~ categories:", categories)
     }, [categories, seriesData]);
 
-
-
-    if (loading) {
-        return <Loading />;
-    }
+    if (loading) return <Loading />;
 
     return (
         <div className="line-chart">

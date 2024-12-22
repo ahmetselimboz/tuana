@@ -15,37 +15,7 @@ import useChat from '@/app/hooks/useChat';
 
 const ChatField = ({ userInfo, askQuestion }) => {
 
-    const params = useSearchParams();
-    const appId = params.get("id");
   
-    const {
-      messages,
-      partialResponse,
-      loading,
-      chatRights,
-      inputValue,
-      setInputValue,
-      handleSend,
-      messagesContainerRef,
-      setShowRightsField,
-      showRightsField,
-    } = useChat(userInfo, askQuestion, appId);
-
- 
-
-    return (
-        <ChatWindow
-            messages={messages}
-            partialResponse={partialResponse}
-            loading={loading}
-            chatRights={chatRights}
-            inputValue={inputValue}
-            setInputValue={setInputValue}
-            handleSend={handleSend}
-            setShowRightsField={setShowRightsField}
-            messagesContainerRef={messagesContainerRef}
-        />
-    );
 };
 
 export default ChatField;

@@ -6,12 +6,30 @@ import ChatField from './ChatField'
 import { MdFullscreen, MdFullscreenExit } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
 import { setChatFullscreen } from '@/lib/redux/features/chatSetttings/chatSlice'
+import useChat from '@/app/hooks/useChat'
+import { useSearchParams } from 'next/navigation'
+import ChatWindow from './ChatWindow'
 
 
 const LargeAICard = ({ userInfo, closePopup }) => {
 
     const [askQuestion, setAskQuestion] = useState(null)
     const dispatch = useDispatch()
+    const params = useSearchParams();
+    const appId = params.get("id");
+    const {
+        messages,
+        partialResponse,
+        loading,
+        chatRights,
+        inputValue,
+        setInputValue,
+        handleSend,
+        messagesContainerRef,
+        setShowRightsField,
+        showRightsField,
+    } = useChat(userInfo, askQuestion, appId);
+
 
     const questions = [
         "How do I get more people to use my platform?",
@@ -63,7 +81,22 @@ const LargeAICard = ({ userInfo, closePopup }) => {
 
                     <MySlider questions={questions} setAskQuestion={setAskQuestion}></MySlider>
                 </div>
-                <ChatField askQuestion={askQuestion} userInfo={userInfo}></ChatField>
+
+
+
+
+                <ChatWindow
+                    messages={messages}
+                    partialResponse={partialResponse}
+                    loading={loading}
+                    chatRights={chatRights}
+                    inputValue={inputValue}
+                    setInputValue={setInputValue}
+                    handleSend={handleSend}
+                    setShowRightsField={setShowRightsField}
+                    messagesContainerRef={messagesContainerRef}
+                />
+
 
 
 

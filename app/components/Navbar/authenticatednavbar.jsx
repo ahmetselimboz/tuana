@@ -38,6 +38,7 @@ const authenticatedNavbar = () => {
 
                         navbar.style.marginTop = '-51px';
                         setIsVisible(true);
+                        setOpenSidebar(false);
                     } else {
                         navbar.style.marginTop = '0px';
                         setIsVisible(false);
@@ -66,7 +67,7 @@ const authenticatedNavbar = () => {
                         <HiMiniBars3 className='text-stone-900 text-2xl ' onClick={() => { setOpenSidebar(!openSidebar); setOpenAppBar(false); setOpenUserBar(false) }} />
                         <Dropdown isOpen={openSidebar}>
                             <div className={`min-w-[250px] h-fit absolute z-40 border border-stone-900/20 top-12 -left-5 rounded-md shadow-xl bg-main`}>
-                                <div className='w-full flex flex-col  px-6 py-8 gap-2'>
+                                <div className='w-full flex flex-col gap-2 pb-2'>
                                     <Menu></Menu>
                                 </div>
                             </div>

@@ -75,7 +75,7 @@ const CustomBarCharts = ({ barData, height= 400, barHeight }) => {
                     }
                 },
                 formatter: function (val) {
-                    return val + " visitors";
+                    return val + " visits";
                 }
             }
         }

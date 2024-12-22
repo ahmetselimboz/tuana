@@ -11,7 +11,7 @@ const Verifying = ({ setStage, appDetails }) => {
     const router = useRouter()
 
     const [status, setStatus] = useState(false)
-    const [count, setCount] = useState(0)
+   // const [count, setCount] = useState(0)
     const { toast } = useToast()
     const { loading: loading, res: res, error: error, sendRequest: sendRequest } = useAxios();
     const { loading: loading2, res: res2, error: error2, sendRequest: sendRequest2 } = useAxios();

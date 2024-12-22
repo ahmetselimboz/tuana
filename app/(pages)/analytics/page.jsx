@@ -4,7 +4,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import AuthenticatedNavbar from "@/app/components/Navbar/authenticatednavbar"
 import Footer from "@/app/components/Footer/footer"
 import Sidebar from "@/app/components/Analytics/sidebar"
-import Linecard from "@/app/components/Analytics/lineCard/linecard"
+import Linecard from "@/app/components/Analytics/linecard"
 import Devicecard from "@/app/components/Analytics/devicecard"
 import Pagescard from "@/app/components/Analytics/pagescard"
 import Locationcard from "@/app/components/Analytics/locationcard"
@@ -23,6 +23,7 @@ import { useAxios } from '@/app/hooks/useAxios'
 import { ToastAction } from '@/components/ui/toast'
 import FullsizeChatField from '@/app/components/Ai/FullsizeChatField'
 import { useAppSelector } from '@/lib/redux/hooks'
+import { HiMagnifyingGlass } from 'react-icons/hi2'
 
 
 const Analytics = () => {
@@ -95,6 +96,8 @@ const Analytics = () => {
       console.error("Request failed:", error);
     }
   };
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const closePopup = () => setIsPopupOpen(false);
 
 
   // useEffect(() => {
@@ -133,7 +136,7 @@ const Analytics = () => {
           <div className='relative z-40'>
             <FullsizeChatField
               userInfo={userInfo}
-
+              setIsPopupOpen={setIsPopupOpen}
             ></FullsizeChatField>
           </div>
 
@@ -148,7 +151,7 @@ const Analytics = () => {
         <div className="w-full h-20"></div>
         <div className="w-full h-full flex items-start relative mb-6">
           {
-            width <= 1024 ? (<div></div>) : (<Sidebar></Sidebar>)
+            width <= 1024 ? (<div></div>) : (<Sidebar closePopup={closePopup} setIsPopupOpen={setIsPopupOpen} isPopupOpen={isPopupOpen}></Sidebar>)
           }
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
             <div className="w-full flex items-center justify-between lg:flex-row flex-col my-3">
@@ -157,8 +160,18 @@ const Analytics = () => {
                 <div className="text-stone-900  font-dosis lg:text-lg text-xl">We've done all the analysis for you ✨</div>
               </div>
               <div className="lg:w-1/2 w-full flex items-center lg:justify-end justify-center mt-4 mb-3 mx-2">
-                <LargeAIBtn userInfo={userInfo} chatField={true}></LargeAIBtn>
-                {/* <input type="text" className="font-dosis  w-1/2 outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." /> */}
+                {/* <LargeAIBtn userInfo={userInfo} chatField={true}></LargeAIBtn> */}
+                {
+                  width <= 1024 ? (
+                    <LargeAIBtn userInfo={userInfo} chatField={true} isPopupOpen={isPopupOpen} closePopup={closePopup} setIsPopupOpen={setIsPopupOpen}></LargeAIBtn>
+                  ) : (
+                    <div className='w-1/2 relative'>
+                      <HiMagnifyingGlass className='absolute top-2 right-2 text-primaryGray/50 text-2xl ' />
+                      <input type="text" className="font-dosis w-full  outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." />
+                    </div>
+                  )
+                }
+
               </div>
             </div>
             <Suspense fallback={<Loading width="w-14" height="h-14" />}>

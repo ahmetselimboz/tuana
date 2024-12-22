@@ -11,10 +11,14 @@ const languagecard = () => {
 
     const [seed, setSeed] = useState(1);
     const date = useAppSelector((state) => state.dateSettings)
-    const [languages, setLanguages] = useState([
-        { languages: "/", visitor: "1" },
-        { languages: "/", visitor: "0" }
-    ])
+    const [languages, setLanguages] = useState({
+        uniqueVisitor: [
+            0
+        ],
+        languages: [
+            "-"
+        ]
+    })
 
     const reset = () => {
         setSeed(Math.random());
@@ -52,6 +56,7 @@ const languagecard = () => {
         if (loading) {
 
             setLanguages(res?.data)
+            console.log("🚀 ~ languagecard ~ languages:", languages)
 
         }
     }, [res, loading])

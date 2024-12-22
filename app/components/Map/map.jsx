@@ -1,3 +1,4 @@
+"use client"
 import useWidth from "@/app/hooks/useWidth";
 import React, { useEffect, useRef, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
