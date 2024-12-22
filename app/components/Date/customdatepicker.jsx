@@ -5,52 +5,66 @@ import "react-datepicker/dist/react-datepicker.css";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { format, isToday } from "date-fns";
 import { useEffect, useState } from "react";
+import { useAppSelector } from "@/lib/redux/hooks";
+import { setFirstDate, setLastDate } from "@/lib/redux/features/dateSettings/dateSlice";
+import { useDispatch } from "react-redux";
 
-const CustomDatePicker = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
 
-    const [selectRange, setSelectRange] = useState(new Date())
-  
-    useEffect(() => {
-        setSelectRange(new Date())
-    }, [selectedDropdown])
+const CustomDatePicker = () => {
+
+    //const [firstDate, setfirstDate] = useState(new Date())
+    const dispatch = useDispatch()
+    const lastDate = new Date(useAppSelector((state) => state.dateSettings.lastDate))
+    const firstDate = new Date(useAppSelector((state) => state.dateSettings.firstDate))
+    const selectedDropdown = useAppSelector((state) => state.dateSettings.dropdown)
+
+    // useEffect(() => {
+
+    //     if (Dropdownfunc(selectedDropdown)) {
+    //         dispatch(setFirstDate(new Date().toISOString()))
+    //     } else {
+    //         dispatch(setFirstDate(null))
+    //     }
+    // }, [firstDate])
 
     const Dropdownfunc = (date) => {
         if (date == "Last 7 Days") {
+
             return true
         } else if (date == "Last 30 Days") { return true }
         else if (date == "Last Month") { return true }
         else if (date == "Last 12 Months") { return true }
         else { return false }
-      
+
     }
 
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        dispatch(setLastDate(date))
+
     };
     const handleRangeChange = (date) => {
-        setSelectRange(date);
+
+        dispatch(setFirstDate(date))
+
     };
 
     const handlePrevDay = () => {
-        setSelectedDate((prev) => {
-            const newDate = new Date(prev); // Yeni bir tarih oluştur
-            newDate.setDate(prev.getDate() - 1); // Bir gün geri git
-            return newDate;
-        });
+        const newDate = new Date(lastDate);
+        newDate.setDate(lastDate.getDate() - 1);
+        dispatch(setLastDate(new Date(newDate).toISOString()))
+
     };
 
     const handleNextDay = () => {
-        setSelectedDate((prev) => {
-            const newDate = new Date(prev); // Yeni bir tarih oluştur
-            newDate.setDate(prev.getDate() + 1); // Bir gün ileri git
-            return newDate;
-        });
+        const newDate = new Date(lastDate);
+        newDate.setDate(lastDate.getDate() + 1);
+        dispatch(setLastDate(new Date(newDate).toISOString()))
     };
 
     return (
-       
+
         <>
-                <div
+            <div
                 className="w-9 h-9 cursor-pointer bg-primaryGray/10 hover:bg-primaryGray/20 transition-all text-primary border border-primary rounded-md flex items-center justify-center text-3xl"
                 onClick={handlePrevDay}
             >
@@ -63,12 +77,13 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, selectedDropdown, set
                     Dropdownfunc(selectedDropdown) ? (
                         <div className="w-full flex items-center justify-center gap-2">
                             <DatePicker
-                                selected={selectedDate}
+                                selected={firstDate}
                                 onChange={handleDateChange}
                                 dateFormat="EEE, dd MMM"
+                                maxDate={new Date()}
                                 customInput={
                                     <div className="font-dosis text-1-5xl cursor-pointer">
-                                        {isToday(selectedDate) ? "= Today =" : `= ${format(selectedDate, "EEE, dd MMM")}`}
+                                        {`=${format(firstDate, "EEE, dd MMM")}`}
 
                                     </div>
                                 }
@@ -76,12 +91,13 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, selectedDropdown, set
                             />
                             <div className="w-fit h-full flex items-center justify-center">-</div>
                             <DatePicker
-                                selected={selectRange}
+                                selected={lastDate}
                                 onChange={handleRangeChange}
                                 dateFormat="EEE, dd MMM"
+                                maxDate={new Date()}
                                 customInput={
                                     <div className="font-dosis text-1-5xl cursor-pointer">
-                                        {isToday(selectedDate) ? "= Today =" : `${format(selectRange, "EEE, dd MMM")} =`}
+                                        {`${format(lastDate, "EEE, dd MMM")} =`}
 
                                     </div>
                                 }
@@ -89,12 +105,13 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, selectedDropdown, set
                             />
                         </div>
                     ) : (<DatePicker
-                        selected={selectedDate}
+                        selected={lastDate}
                         onChange={handleDateChange}
                         dateFormat="EEE, dd MMM"
+                        maxDate={new Date()}
                         customInput={
                             <div className="font-dosis text-1-5xl cursor-pointer">
-                                {isToday(selectedDate) ? "= Today =" : `= ${format(selectedDate, "EEE, dd MMM")} =`}
+                                {isToday(lastDate) ? "= Today =" : `= ${format(lastDate, "EEE, dd MMM")} =`}
 
                             </div>
                         }
@@ -106,12 +123,19 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, selectedDropdown, set
                 <hr className="lg:w-4/6 w-5/6 mx-auto border-b-2 border-secondary/20 mt-2" />
 
             </div>
-            <div
-                className="w-9 h-9 cursor-pointer bg-primaryGray/10 hover:bg-primaryGray/20 transition-all text-primary border border-primary rounded-md flex items-center justify-center text-3xl"
-                onClick={handleNextDay}
-            >
-                <RxCaretRight />
-            </div>
+            {isToday(lastDate) ?
+                (
+                    <div className="w-9 h-9"></div>
+                )
+                : (
+                    <div
+                        className="w-9 h-9 cursor-pointer bg-primaryGray/10 hover:bg-primaryGray/20 transition-all text-primary border border-primary rounded-md flex items-center justify-center text-3xl"
+                        onClick={handleNextDay}
+                    >
+                        <RxCaretRight />
+                    </div>
+                )}
+
         </>
     );
 };

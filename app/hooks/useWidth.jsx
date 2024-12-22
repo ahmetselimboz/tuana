@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react';
 
 const useWidth = () => {
@@ -7,7 +9,7 @@ const useWidth = () => {
     });
 
     useEffect(() => {
-        // Tarayıcı ortamında olup olmadığını kontrol et
+       
         if (typeof window !== 'undefined') {
             function handleResize() {
                 setWindowDimensions({
@@ -16,13 +18,13 @@ const useWidth = () => {
                 });
             }
 
-            // Sayfa yüklendiğinde boyutu al
+           
             handleResize();
 
             window.addEventListener('resize', handleResize);
             return () => window.removeEventListener('resize', handleResize);
         }
-    }, []); // Boş bağımlılık dizisi, sadece bileşen mount edilirken çalışır
+    }, []); 
 
     return windowDimensions;
 };

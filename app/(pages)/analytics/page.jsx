@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import AuthenticatedNavbar from "@/app/components/Navbar/authenticatednavbar"
 import Footer from "@/app/components/Footer/footer"
 import Sidebar from "@/app/components/Analytics/sidebar"
@@ -10,48 +10,194 @@ import Pagescard from "@/app/components/Analytics/pagescard"
 import Locationcard from "@/app/components/Analytics/locationcard"
 import Sourcescard from "@/app/components/Analytics/sourcescard"
 import Languagecard from "@/app/components/Analytics/languagecard"
-import Fastcard from "@/app/components/Analytics/fastcard"
+import Fastcard from "@/app/components/Analytics/fastCard/fastcard"
 import useWidth from '@/app/hooks/useWidth'
+import TuanalyticsSvg from "../../components/Homepage/tuanalyticsSvg"
+import Loading from '@/app/loading'
+import { HiOutlineSparkles } from 'react-icons/hi'
+import LargeAIBtn from '@/app/components/Ai/LargeAIBtn'
+import SmallAIBtn from '@/app/components/Ai/SmallAIBtn'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
+import { useAxios } from '@/app/hooks/useAxios'
+import { ToastAction } from '@/components/ui/toast'
+import FullsizeChatField from '@/app/components/Ai/FullsizeChatField'
+import { useAppSelector } from '@/lib/redux/hooks'
+import { HiMagnifyingGlass } from 'react-icons/hi2'
 
 
 const Analytics = () => {
 
-
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedDropdown, setSelectedDropdown] = useState(new Date() ? "today" : null);
   const [adsActive, setAdsActive] = useState(false)
   const { width } = useWidth()
+  const { toast } = useToast()
+  const [isMounted, setIsMounted] = useState(false);
+  const isFullScreen = useAppSelector((state) => state.chatSettings.isChatFullscreen)
+
+  const params = useSearchParams()
+  const id = params.get("id")
+  const [userInfo, setUserInfo] = useState("")
+
+  const { loading: loading2, res: res2, error: error2, sendRequest: sendRequest2 } = useAxios();
+  //const [isFullScreen, setIsFullScreen] = useState(true);
+  const { loading, res, error, sendRequest } = useAxios();
+
+  const handleRequest = async () => {
+    try {
+      await sendRequest({
+        method: "GET",
+        url: `/api/user/get-user`
+      });
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
+  };
+
+  useEffect(() => {
+
+
+
+    if (res !== null) {
+      if (res.code !== 200) {
+
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: res?.message,
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      } else {
+        setUserInfo(res?.user?.name)
+      }
+    }
+
+  }, [res, error])
+
+  useEffect(() => {
+    if (id !== "TNAKLYTP") {
+      handleRequest()
+      handleRequest2()
+    } else {
+      setUserInfo("Tuana")
+      handleRequest2()
+    }
+  }, [])
+
+
+  const handleRequest2 = async () => {
+    try {
+      await sendRequest2({
+        method: "POST",
+        url: `/api/ai/check-platform-data`,
+        baseURL: process.env.NEXT_PUBLIC_AI_SERVER_URL,
+        body: { appId: id }
+      });
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
+  };
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const closePopup = () => setIsPopupOpen(false);
+
+
+  // useEffect(() => {
+
+
+
+  //   if (res2 !== null) {
+
+  //     if (res2.code !== 200) {
+  //       console.log("🚀 ~ useEffect ~ res2:", res2)
+
+  //     } else {
+  //       console.log("🚀 ~ useEffect ~ res2:", res2)
+  //     }
+
+
+  //   }
+
+  // }, [res2, error2])
+
+
+  // useEffect(() => {
+  //     console.log("🚀 ~ useEffect ~ res:", res)
+  // }, [res])
+
+
+  // Yükleme veya sayfa yüklenmemişse yükleme ekranı
+  if (loading && loading2) {
+    return <Loading />;
+  }
 
   return (
     <>
+      {
+        isFullScreen ? (
+          <div className='relative z-40'>
+            <FullsizeChatField
+              userInfo={userInfo}
+              setIsPopupOpen={setIsPopupOpen}
+            ></FullsizeChatField>
+          </div>
+
+        ) : null
+
+
+
+      }
+
       <div className=' w-full h-auto bg-main'>
-        <AuthenticatedNavbar selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown} />
+        <AuthenticatedNavbar />
         <div className="w-full h-20"></div>
         <div className="w-full h-full flex items-start relative mb-6">
           {
-            width <= 1024 ? (<div></div>) : (<Sidebar></Sidebar>)
+            width <= 1024 ? (<div></div>) : (<Sidebar closePopup={closePopup} setIsPopupOpen={setIsPopupOpen} isPopupOpen={isPopupOpen}></Sidebar>)
           }
-
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
-            <div className="w-full flex items-center justify-between my-3">
+            <div className="w-full flex items-center justify-between lg:flex-row flex-col my-3">
               <div className="lg:w-1/2 w-full flex flex-col my-3 mx-2">
-                <div className="text-stone-900  font-dosis lg:text-4xl text-5xl flex gap-2 ">Hello, <div className="font-medium ">Tuana!</div></div>
+                <div className="text-stone-900  font-dosis lg:text-4xl text-4xl flex gap-2 ">Hello, <div className="font-medium ">{userInfo}!</div></div>
                 <div className="text-stone-900  font-dosis lg:text-lg text-xl">We've done all the analysis for you ✨</div>
               </div>
-              {/* <div className="w-1/2 flex items-center justify-end mt-4 mb-6 mx-2">
-              <input type="text" className="font-dosis  w-1/2 outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." />
-            </div> */}
-            </div>
+              <div className="lg:w-1/2 w-full flex items-center lg:justify-end justify-center mt-4 mb-3 mx-2">
+                {/* <LargeAIBtn userInfo={userInfo} chatField={true}></LargeAIBtn> */}
+                {
+                  width <= 1024 ? (
+                    <LargeAIBtn userInfo={userInfo} chatField={true} isPopupOpen={isPopupOpen} closePopup={closePopup} setIsPopupOpen={setIsPopupOpen}></LargeAIBtn>
+                  ) : (
+                    <div className='w-1/2 relative'>
+                      <HiMagnifyingGlass className='absolute top-2 right-2 text-primaryGray/50 text-2xl ' />
+                      <input type="text" className="font-dosis w-full  outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." />
+                    </div>
+                  )
+                }
 
-            <Fastcard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Fastcard>
-            <Linecard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Linecard>
+              </div>
+            </div>
+            <Suspense fallback={<Loading width="w-14" height="h-14" />}>
+              <Fastcard></Fastcard>
+            </Suspense>
+            <Suspense fallback={<Loading width="w-14" height="h-14" />}>
+              <Linecard></Linecard>
+            </Suspense>
             <div className="w-full h-full flex items-center lg:flex-row flex-col gap-3 mb-12">
               <div className="lg:w-1/2 w-full h-full ">
-                <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3 ">
-                  Devices
-                  <hr className="border-b-2 border-primary w-[38px]" />
+                <div className='w-full flex flex-row items-center justify-between relative'>
+                  <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3 ">
+                    Devices
+                    <hr className="border-b-2 border-primary w-[38px]" />
+                  </div>
+
+                  <div className='w-full h-[71px] flex items-center justify-end absolute'>
+                    <SmallAIBtn userInfo={userInfo} chatField={false}></SmallAIBtn>
+                  </div>
+
+
                 </div>
-                <Devicecard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Devicecard>
+                <Suspense fallback={<Loading width="w-14" height="h-14" />}>
+
+                  <Devicecard></Devicecard>
+                </Suspense>
                 <div className="w-full h-[122px] flex items-center justify-center">
                   {
                     adsActive ? (
@@ -61,7 +207,7 @@ const Analytics = () => {
                     ) : (
                       <div className="w-[90%] h-full flex items-center justify-center  rounded-md overflow-hidden ">
                         <hr className="w-1/4 border-b-2 border-secondary/20 mx-2" />
-                        <img src="/wer.svg" alt="" className="w-2/4 drop-shadow-lg" />
+                        <TuanalyticsSvg classn={"w-2/4 drop-shadow-lg"}></TuanalyticsSvg>
                         <hr className="w-1/4 border-b-2 border-secondary/20 mx-2" />
                       </div>
                     )
@@ -69,39 +215,67 @@ const Analytics = () => {
                 </div>
               </div>
               <div className="lg:w-1/2 w-full h-fit flex flex-col items-start">
+                <div className='w-full flex flex-row items-center justify-between relative'>
+                  <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3">
+                    Top Pages
+                    <hr className="border-b-2 border-primary w-1/3" />
+                  </div>
+                  <div className='w-full h-[71px] flex items-center justify-end absolute'>
+                    <SmallAIBtn chatField={false}></SmallAIBtn>
+                  </div>
+                </div>
+                <Suspense fallback={<Loading width="w-14" height="h-14" />}>
+                  <Pagescard ></Pagescard>
+
+                </Suspense>
+              </div>
+            </div>
+            <div className="w-full h-fit flex flex-col items-start mb-12">
+
+              <div className='w-full flex flex-row items-center justify-between relative'>
                 <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3">
-                  Top Pages
+                  Locations
                   <hr className="border-b-2 border-primary w-1/3" />
 
                 </div>
-                <Pagescard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Pagescard>
-
+                <div className='w-full h-[71px] flex items-center justify-end absolute'>
+                  <SmallAIBtn chatField={false}></SmallAIBtn>
+                </div>
               </div>
-
-            </div>
-            <div className="w-full h-fit flex flex-col items-start mb-12">
-              <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3">
-                Locations
-                <hr className="border-b-2 border-primary w-1/3" />
-
-              </div>
-              <Locationcard selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown}></Locationcard>
+              <Suspense fallback={<Loading width="w-14" height="h-14" />}>
+                <Locationcard></Locationcard>
+              </Suspense>
             </div>
             <div className="w-full h-full flex items-center lg:flex-row flex-col gap-3 mb-12">
               <div className="lg:w-1/2 w-full h-full flex flex-col items-start justify-center lg:mb-0 mb-8">
-                <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3">
-                  Top Sources
-                  <hr className="border-b-2 border-primary w-1/3" />
-                </div>
 
-                <Sourcescard selectedDate={selectedDate} setSelectedDate={setSelectedDate} selectedDropdown={selectedDropdown} setSelectedDropdown={setSelectedDropdown}></Sourcescard>
+                <div className='w-full flex flex-row items-center justify-between relative'>
+                  <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3">
+                    Top Sources
+                    <hr className="border-b-2 border-primary w-1/3" />
+                  </div>
+                  <div className='w-full h-[71px] flex items-center justify-end absolute'>
+                    <SmallAIBtn chatField={false}></SmallAIBtn>
+                  </div>
+                </div>
+                <Suspense fallback={<Loading width="w-14" height="h-14" />}>
+                  <Sourcescard></Sourcescard>
+
+                </Suspense>
               </div>
               <div className="lg:w-1/2 w-full h-fit flex flex-col items-start">
-                <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3">
-                  Browser Languages
-                  <hr className="border-b-2 border-primary w-1/3" />
+                <div className='w-full flex flex-row items-center justify-between relative'>
+                  <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3">
+                    Browser Languages
+                    <hr className="border-b-2 border-primary w-1/3" />
+                  </div>
+                  <div className='w-full h-[71px] flex items-center justify-end absolute'>
+                    <SmallAIBtn chatField={false}></SmallAIBtn>
+                  </div>
                 </div>
-                <Languagecard selectedDate={selectedDate} setSelectedDate={setSelectedDate} setSelectedDropdown={setSelectedDropdown}></Languagecard>
+                <Suspense fallback={<Loading width="w-14" height="h-14" />}>
+                  <Languagecard></Languagecard>
+                </Suspense>
               </div>
 
             </div>

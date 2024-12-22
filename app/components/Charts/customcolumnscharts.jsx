@@ -4,18 +4,17 @@ import React, { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-const ColumnsCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setSelectedDropdown }) => {
+const ColumnsCharts = ({data}) => {
+//console.log("🚀 ~ ColumnsCharts ~ data:", data)
 
-    const date = selectedDate
-    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-
-
+   
 
 
-    const [chartData] = useState({
+    const [chartData, setChartData] = useState({
         series: [{
             name: 'Visitors',
-            data: [44, 55, 41, 67, 22]
+            data: data?.uniqueVisitor
+
         }],
 
         options: {
@@ -33,7 +32,7 @@ const ColumnsCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setSel
             plotOptions: {
                 bar: {
                     borderRadius: 5,
-                    columnWidth: '50%',
+                    columnWidth: '50px',
                 }
             },
             dataLabels: {
@@ -51,7 +50,8 @@ const ColumnsCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setSel
                 labels: {
                     rotate: -45
                 },
-                categories: ['en-US', 'en-GB', 'de-DE', 'tr-TR', 'fr-FR'],
+                categories: data?.languages,
+                
                 tickPlacement: 'on'
             },
 
@@ -70,6 +70,24 @@ const ColumnsCharts = ({ selectedDate, setSelectedDate, selectedDropdown, setSel
             }
         },
     });
+
+    // useEffect(()=>{
+    //     setChartData((prevData) => ({
+    //         ...prevData,
+    //         series: [{
+    //             ...prevData.series[0],
+    //             data: data?.visitor
+    //         }],
+    //         options: {
+    //             ...prevData.options,
+    //             xaxis: {
+    //                 ...prevData.options.xaxis,
+    //                 categories: data?.languages
+    //             },
+
+    //         }
+    //     }));
+    // },[data])
 
 
     return (

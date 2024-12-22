@@ -1,3 +1,5 @@
+"use client"
+import useWidth from "@/app/hooks/useWidth";
 import React, { useEffect, useRef, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Tooltip as ReactTooltip } from 'react-tooltip';
@@ -7,28 +9,29 @@ const geoUrl = '/countries.geo.json';
 
 
 const WorldMap = ({ mergeData }) => {
- 
+
   const [tooltipContent, setTooltipContent] = useState("");
-  
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const mapContainerRef = useRef(null);
+  const { width } = useWidth()
 
 
 
-  
+
 
 
 
   const handleMouseEnter = (geo) => {
     const countryName = geo.properties.name;
-  
+
     if (countryName) {
       const foundItem = mergeData.find((item) => countryName === item.name);
 
       if (foundItem) {
 
         setTooltipContent({ code: foundItem.code, image: foundItem.image, country: foundItem.name, visitor: foundItem.visitor });
-
+      
       } else {
         setTooltipContent(`${countryName}`);
       }
@@ -42,28 +45,30 @@ const WorldMap = ({ mergeData }) => {
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {  // Tarayıcıda olup olmadığını kontrol et
+    if (typeof window !== 'undefined') {
       const handleMouseMove = (event) => {
-        const x = event.clientX;
-        const y = event.clientY;
+        
+
+        const x = event.offsetX;
+        const y = event.offsetY;
         setMousePosition({ x, y });
       };
-  
+
       window.addEventListener('mousemove', handleMouseMove);
-  
-      // Cleanup function
+
+
       return () => {
         window.removeEventListener('mousemove', handleMouseMove);
       };
     }
-  }, []); // Boş bağımlılık dizisi, sadece bileşen mount edilirken çalışır
-  
+  }, []);
+
 
 
   return (
     <>
-      <ComposableMap projectionConfig={{ scale: 160 }}>
-        <Geographies geography={geoUrl}>
+      <ComposableMap projectionConfig={{}} className="h-full lg:w-auto w-full">
+        <Geographies geography={geoUrl} >
           {({ geographies }) =>
             geographies.map((geo) => {
 
@@ -91,7 +96,7 @@ const WorldMap = ({ mergeData }) => {
       </ComposableMap>
       {
         tooltipContent.country ? (
-          <div ref={mapContainerRef} style={{ transform: `translate(${mousePosition.x - 290}px, ${mousePosition.y - 180}px)` }} data-tooltip-content="" className=" absolute top-0 px-3 py-1 border border-stone-900/20 rounded-md shadow-xl min-w-[120px] h-[50px] bg-main">
+          <div ref={mapContainerRef} style={{ left: `${mousePosition.x}px`, top: `${mousePosition.y}px` }} data-tooltip-content="" className=" absolute top-0 px-3 py-1 border border-stone-900/20 rounded-md shadow-xl min-w-[120px] pointer-events-none  h-[50px] bg-main">
             <div className="w-full flex items-center gap-2">
               <img src={tooltipContent.image} alt="" className="w-[20px]" />
               <div className="font-dosis text-sm text-stone-900">{tooltipContent.country}</div>
