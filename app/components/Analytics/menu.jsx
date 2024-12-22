@@ -1,150 +1,166 @@
-"use client"
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import { HiOutlineSparkles } from 'react-icons/hi';
-import { RiHome3Line } from "react-icons/ri";
-import LargeAIBtn from '../Ai/LargeAIBtn';
-import { AiOutlineSearch } from "react-icons/ai"; // SEO
-import { FaUsers } from "react-icons/fa"; // User Interactions
-import { MdLocalPhone, MdOutlineTrackChanges } from "react-icons/md"; // Goals
-import { HiOutlinePresentationChartBar } from "react-icons/hi"; // Channel Management
-import { RiAdvertisementLine } from "react-icons/ri"; // Ads Management
-import { FiDivideSquare } from "react-icons/fi"; // A/B Tests
-import { TbDeviceDesktopAnalytics } from "react-icons/tb"; // Cross Platform
-import { BsGraphUp } from "react-icons/bs"; // Predictive Analytics
-import { BiBarChartAlt2 } from "react-icons/bi"; // Reports
-import { FiSettings } from "react-icons/fi"; // Settings
-import { MdOutlineFeedback } from "react-icons/md"; // Give a feedback
-import { AiOutlineQuestionCircle } from "react-icons/ai"; // Help
-import { MdOutlineContactMail } from "react-icons/md"; // Contact Us
-
+"use client";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { RiHome3Line, RiAdvertisementLine } from "react-icons/ri";
+import { AiOutlineSearch, AiOutlineQuestionCircle } from "react-icons/ai";
+import { FaUsers } from "react-icons/fa";
+import { MdOutlineTrackChanges, MdLocalPhone, MdOutlineFeedback, MdKeyboardArrowUp, MdKeyboardArrowDown, MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
+import { HiOutlinePresentationChartBar } from "react-icons/hi";
+import { FiDivideSquare, FiSettings } from "react-icons/fi";
+import { TbDeviceDesktopAnalytics } from "react-icons/tb";
+import { BsGraphUp } from "react-icons/bs";
+import { BiBarChartAlt2 } from "react-icons/bi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const menu = () => {
-    // const pathname = usePathname();
-    // const params = useSearchParams()
-    // const id = params.get("id")
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const [id, setId] = useState(null);
+  const [openSections, setOpenSections] = useState({});
+  const [showSubmenu, setShowSubmenu] = useState(false); // Yan menü kontrolü
 
-    const pathname = usePathname();
-    const params = useSearchParams();
+  useEffect(() => {
+    const paramId = params.get("id");
+    if (paramId) {
+      setId(paramId);
+    }
+  }, [params]);
 
-    const [id, setId] = useState(null);
+  const toggleSection = (section) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
 
-    useEffect(() => {
-        const paramId = params.get('id');
-        if (paramId) {
-            setId(paramId); // State'i burada güncelle
-        }
-    }, [params]);
+  const sidebar = [
+    {
+      title: "Dashboard",
+      items: [{ icon: RiHome3Line, title: "Homepage", url: `/analytics?id=${id}` }],
+    },
+    {
+      title: "Analytics",
+      items: [
+        { icon: FaUsers, title: "User Interactions", url: `/user-interactions` },
+        { icon: BsGraphUp, title: "Predictive Analytics", url: `/predictive-analytics` },
+        { icon: BiBarChartAlt2, title: "Reports", url: `/reports` },
+      ],
+    },
+    {
+      title: "SEO & Marketing",
+      items: [
+        { icon: AiOutlineSearch, title: "SEO (Web?)", url: `/seo` },
+        { icon: RiAdvertisementLine, title: "Ads Management", url: `/ads-management` },
+        { icon: HiOutlinePresentationChartBar, title: "Channel Management", url: `/channel-management` },
+      ],
+    },
+    {
+      title: "Optimization",
+      items: [
+        { icon: FiDivideSquare, title: "A/B Tests", url: `/ab-tests` },
+        { icon: MdOutlineTrackChanges, title: "Goals", url: `/goals` },
+      ],
+    },
+    {
+      title: "Cross-Platform",
+      items: [
+        { icon: TbDeviceDesktopAnalytics, title: "Cross Platform (W+M?)", url: `/cross-platform` },
+      ],
+    },
+  ];
 
-    const sidebar = [
-        {
-            icon: RiHome3Line, title: "Homepage", url: `/analytics?id=${id}`,
-        },
-        {
-            icon: AiOutlineSearch, title: "SEO (Web?)", url: `/seo`,
-        },
-        {
-            icon: FaUsers, title: "User Interactions", url: `/user-interactions`,
-        },
-        {
-            icon: MdOutlineTrackChanges, title: "Goals", url: `/goals`,
-        },
-        {
-            icon: HiOutlinePresentationChartBar, title: "Channel Management", url: `/channel-management`,
-        },
-        {
-            icon: RiAdvertisementLine, title: "Ads Management", url: `/ads-management`,
-        },
-        {
-            icon: FiDivideSquare, title: "A/B Tests", url: `/ab-tests`,
-        },
-        {
-            icon: TbDeviceDesktopAnalytics, title: "Cross Platform (W+M?)", url: `/cross-platform`,
-        },
-        {
-            icon: BsGraphUp, title: "Predictive Analytics", url: `/predictive-analytics`,
-        },
-        {
-            icon: BiBarChartAlt2, title: "Reports", url: `/reports`,
-        },
-    ];
+  const submenuItems = [
+    { icon: FiSettings, title: "Settings", url: `/settings` },
+    { icon: MdOutlineFeedback, title: "Give a feedback", url: `/feedback` },
+    { icon: AiOutlineQuestionCircle, title: "Help", url: `/help` },
+    { icon: MdLocalPhone, title: "Contact Us", url: `/contact` },
+  ];
 
+  return (
+    <div className="w-full h-5/6 px-4 mt-2 relative flex flex-col justify-between">
 
-    return (
-        <>
-            {/* <div className="w-full h-12 rounded-lg cursor-pointer transition-all px-4 hover:w-full text-2xl text-primary hover:text-main hover:bg-gradient-to-b hover:from-primary hover:to-primary shadow-lg hover:shadow-xl bg-gradient-to-b from-main to-zinc-200  border-2 border-primary flex items-center justify-center flex-row">
-                <HiOutlineSparkles className=" text-3xl mr-1" />
-                <div>Ask AI</div>
-            </div> */}
+      <div className="flex-grow">
+        {sidebar.map((section, index) => (
+          <div key={index} className="mb-4">
+            {/* Ana başlık */}
+            <div
+              onClick={() => toggleSection(section.title)}
+              className="flex items-center justify-between cursor-pointer px-4 py-2 bg-primaryGray/10 hover:bg-primaryGray/20 rounded-md"
+            >
+              <div className="text-base font-medium text-stone-900">{section.title}</div>
+              <div>{openSections[section.title] ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}</div>
 
-            <div className="w-full h-full pl-1 pr-4">
-                {sidebar.map((sb, index) => {
-                    const isActive = `${pathname}?${params}` === sb.url;
-                    return (
-                        <div key={index}>
-                            <Link
-                                href={sb.url}
-
-                                className={`flex items-center gap-3 w-full transition-all px-4 py-4  text-base ${isActive
-                                    ? "bg-primary text-main hover:bg-secondary rounded-md"
-                                    : "hover:bg-primaryGray/15 bg-primaryGray/0"
-                                    }`}
-                            >
-                                <sb.icon
-                                    className={`text-2xl ${isActive ? "text-white" : "text-primary"}`}
-                                />
-                                <div className="w-fit">{sb.title}</div>
-                            </Link>
-                            <hr className="border-t-2 border-primaryGray/20 w-full  rounded-md px-4" />
-                        </div>
-                    );
-                })}
-
-
-                <Link
-                    href=""
-                    className={`flex items-center gap-3 w-full text-base transition-all px-4 py-4 my-2 rounded-md bg-primary text-main hover:bg-secondary`}
-                >
-                    <FiSettings
-                        className={`text-2xl text-white`}
-                    />
-                    <div className="w-fit">Settings</div>
-                </Link>
-                <Link
-                    href=""
-                    className={`flex items-center gap-3 w-full text-base transition-all px-4 py-4 mb-2 rounded-md bg-primary text-main hover:bg-secondary`}
-                >
-                    <MdOutlineFeedback
-                        className={`text-2xl text-white`}
-                    />
-                    <div className="w-fit">Give a feedback</div>
-                </Link>
-                <Link
-                    href=""
-                    className={`flex items-center gap-3 w-full text-base transition-all px-4 py-4 mb-2 rounded-md bg-primary text-main hover:bg-secondary`}
-                >
-                    <AiOutlineQuestionCircle
-                        className={`text-2xl text-white`}
-                    />
-                    <div className="w-fit">Help</div>
-                </Link>
-                <Link
-                    href=""
-                    className={`flex items-center gap-3 w-full text-base transition-all px-4 py-4 mb-2 rounded-md bg-primary text-main hover:bg-secondary`}
-                >
-                    <MdLocalPhone
-                        className={`text-2xl text-white`}
-                    />
-                    <div className="w-fit">Contact Us</div>
-                </Link>
-
-                <div className='w-full h-[140px]'></div>
             </div>
+            {/* Alt başlıklar */}
+            <AnimatePresence>
+              {openSections[section.title] && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden"
+                >
+                  {section.items.map((item, subIndex) => {
+                    const isActive = pathname === item.url;
+                    return (
+                      <Link
+                        key={subIndex}
+                        href={item.url}
+                        className={`flex items-center gap-3 w-full px-6 py-2 transition-all text-base ${isActive
+                          ? "bg-primary text-main rounded-md"
+                          : "hover:bg-primaryGray/15"
+                          }`}
+                      >
+                        <item.icon
+                          className={`text-2xl ${isActive ? "text-white" : "text-primary"
+                            }`}
+                        />
+                        <div>{item.title}</div>
+                      </Link>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+      </div>
+      {/* Sabit Linkler */}
+      <div className="relative ">
+        <div
+          onClick={() => setShowSubmenu(!showSubmenu)}
+          className="flex items-center justify-between cursor-pointer px-4 py-2 w-full mt-4 bg-primaryGray/10 hover:bg-primaryGray/20 rounded-md "
+        >
+          <div className="text-base font-medium">More</div>
+          <div>{showSubmenu ? <MdKeyboardArrowLeft /> : <MdKeyboardArrowRight />}</div>
+        </div>
+        <AnimatePresence>
+          {showSubmenu && (
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: "auto", opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              className="absolute left-full top-0 flex ml-4  gap-2 rounded-md shadow-xl border border-stone-900/20 bg-main overflow-hidden p-4"
+            >
+              {submenuItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.url}
+                  className="flex flex-row items-center justify-center w-[150px] h-auto bg-primary py-2 hover:bg-secondary rounded-md"
+                >
+                  <item.icon className="text-2xl text-main mr-2" />
+                  <div className="text-sm text-center text-main">{item.title}</div>
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <div className="w-full h-14"></div>
+      </div>
 
+    </div>
+  );
+};
 
-        </>
-    )
-}
-
-export default menu
+export default menu;

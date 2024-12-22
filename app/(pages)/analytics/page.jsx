@@ -96,6 +96,8 @@ const Analytics = () => {
       console.error("Request failed:", error);
     }
   };
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const closePopup = () => setIsPopupOpen(false);
 
 
   // useEffect(() => {
@@ -134,7 +136,7 @@ const Analytics = () => {
           <div className='relative z-40'>
             <FullsizeChatField
               userInfo={userInfo}
-
+              setIsPopupOpen={setIsPopupOpen}
             ></FullsizeChatField>
           </div>
 
@@ -149,7 +151,7 @@ const Analytics = () => {
         <div className="w-full h-20"></div>
         <div className="w-full h-full flex items-start relative mb-6">
           {
-            width <= 1024 ? (<div></div>) : (<Sidebar></Sidebar>)
+            width <= 1024 ? (<div></div>) : (<Sidebar closePopup={closePopup} setIsPopupOpen={setIsPopupOpen} isPopupOpen={isPopupOpen}></Sidebar>)
           }
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
             <div className="w-full flex items-center justify-between lg:flex-row flex-col my-3">
@@ -160,7 +162,7 @@ const Analytics = () => {
               <div className="lg:w-1/2 w-full flex items-center lg:justify-end justify-center mt-4 mb-3 mx-2">
                 {/* <LargeAIBtn userInfo={userInfo} chatField={true}></LargeAIBtn> */}
                 {
-                  width <= 1024 ? (<LargeAIBtn userInfo={userInfo} chatField={true}></LargeAIBtn>) : (<></>)
+                  width <= 1024 ? (<LargeAIBtn userInfo={userInfo} chatField={true} isPopupOpen={isPopupOpen} closePopup={closePopup} setIsPopupOpen={setIsPopupOpen}></LargeAIBtn>) : (<></>)
                 }
                 <div className='w-1/2 relative'>
                   <HiMagnifyingGlass className='absolute top-2 right-2 text-primaryGray/50 text-2xl ' />

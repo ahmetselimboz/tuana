@@ -41,7 +41,7 @@
           return { userId, session };
         };
 
-        const documentData = (eventType, locationInfo = [], options = {})=>{
+        const documentData = (eventType, locationInfo = [], options = {}) => {
           const data = {
             visitorId: sessionData.userId,
             session: sessionData.session,
@@ -52,15 +52,15 @@
             url: location.pathname,
             referrer: document.referrer || "Direct/None",
             userDevice: sessionData.deviceInfo,
-            location: locationInfo ,
+            location: locationInfo,
             screenResolution: `${window.screen.width}x${window.screen.height}`,
             language: navigator.language || navigator.userLanguage,
             // mouseMovement: trackMouseMovement(),
             // clickCoordinates: trackClicks(),
             // timeSpent: trackTimeSpent(),
           };
-          return data
-        }
+          return data;
+        };
 
         const parser = new UAParser();
         const deviceInfo = parser.getResult();
@@ -91,7 +91,10 @@
 
                   const locationData = await response.json();
 
-                  return { country: locationData.country || "Unknown Country", city: locationData.city || "Unknown City" };
+                  return {
+                    country: locationData.country || "Unknown Country",
+                    city: locationData.city || "Unknown City",
+                  };
                 } catch (error) {
                   console.error("Error fetching location:", error);
                   return null;
@@ -142,7 +145,7 @@
                 const timeSpent = trackTimeSpent();
                 console.log("🚀 ~ trackEvent ~ timeSpent:", timeSpent);
 
-                const data = documentData(eventType, locationInfo, options)
+                const data = documentData(eventType, locationInfo, options);
 
                 if (locationInfo !== null) {
                   socket.emit("trackEvent", data);
@@ -164,6 +167,13 @@
                 } else {
                   document.addEventListener("DOMContentLoaded", callback);
                 }
+              }
+
+              const favicon = document.querySelector("link[rel~='icon']");
+              if (favicon) {
+                console.log(favicon.href); // Favicon URL'si
+              } else {
+                console.log("Favicon bulunamadı.");
               }
 
               onDocumentReady(function () {
@@ -223,7 +233,9 @@
                 console.log("Sayfa kapanıyor veya sekme kapanıyor.");
                 // Burada istediğiniz işlemi yapabilirsiniz.
 
-                const data = JSON.stringify(documentData("User leaving the page"));
+                const data = JSON.stringify(
+                  documentData("User leaving the page")
+                );
 
                 fetch(`${URL}/api/apps/track-exit-event`, {
                   method: "POST",

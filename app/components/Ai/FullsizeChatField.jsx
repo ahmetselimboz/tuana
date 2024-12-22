@@ -14,9 +14,10 @@ import { setChatFullscreen, setSelectedChat } from '@/lib/redux/features/chatSet
 import useWidth from '@/app/hooks/useWidth';
 import { useAxios } from '@/app/hooks/useAxios';
 import { useAppSelector } from '@/lib/redux/hooks';
+import { IoMdClose } from 'react-icons/io';
 
 
-const FullsizeChatField = ({ userInfo, askQuestion }) => {
+const FullsizeChatField = ({ userInfo, askQuestion, setIsPopupOpen }) => {
     const { width } = useWidth()
 
     const [collapse, setCollapse] = useState(width >= 1024 ? false : true)
@@ -75,19 +76,6 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
     } = useChat(userInfo, askQuestion, appId);
 
 
-    const chatNames = [
-        "Genel Sohbet",
-        "Genel Sohbet",
-        "Genel Sohbet",
-        "Genel Sohbet",
-        "Genel Sohbet",
-        "Genel Sohbet",
-        "Genel Sohbet",
-        "Genel Sohbet",
-        "Genel Sohbet",
-    ]
-
-
     return (
         <div className='w-screen h-screen  bg-black/50 flex items-center justify-center fixed top-0 right-0 z-0 '>
             <div className=' lg:w-5/6 lg:h-5/6 w-full h-full rounded-md shadow-xl border border-stone-900/20 bg-main relative flex items-center'>
@@ -96,7 +84,7 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
                         dispatch(setChatFullscreen(false))
 
                     }}
-                    className="absolute top-5 right-5 z-10 group"
+                    className="absolute top-5 right-14 z-10 group"
                 >
                     <MdFullscreenExit className='text-stone-900/70  text-3xl transition-all hover:text-stone-900' />
                     <div
@@ -106,8 +94,18 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
                        shadow-lg opacity-0 group-hover:opacity-100">
                         Minimize
                     </div>
-                </button>
 
+                </button>
+                <button onClick={()=>{setIsPopupOpen(false); dispatch(setChatFullscreen(false))}} className=" group  absolute top-5 right-5  z-20">
+                    <IoMdClose className='text-stone-900/70  text-3xl transition-all hover:text-stone-900' />
+                    <div
+                        className="absolute top-full left-1/2 transform
+                       -translate-x-1/2 mt-2 w-max px-2 py-1 
+                       text-sm text-white bg-gray-700 rounded
+                       shadow-lg opacity-0 group-hover:opacity-100">
+                        Close
+                    </div>
+                </button>
 
                 <div className={`w-fit h-full border-r  border-primary/20 overflow-hidden bg-main lg:relative absolute z-30  ${collapse ? "hidden" : "block "}`}>
                     <div className='w-full flex items-center justify-between py-4 px-5'>
@@ -144,8 +142,8 @@ const FullsizeChatField = ({ userInfo, askQuestion }) => {
                                             dispatch(setSelectedChat(item._id));
                                         }}
                                         className={`w-[240px] text-center cursor-pointer px-4 py-2 mb-1 rounded-md transition-all ${item._id === selectedChat
-                                                ? "shadow-xl bg-primary/80 text-white"
-                                                : "shadow-md bg-gray-100 hover:bg-gray-200"
+                                            ? "shadow-xl bg-primary/80 text-white"
+                                            : "shadow-md bg-gray-100 hover:bg-gray-200"
                                             }`}
                                     >
                                         {item.chat_name}
