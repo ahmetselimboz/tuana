@@ -125,7 +125,7 @@ const CustomDatePicker = () => {
             </div>
             {isToday(lastDate) ?
                 (
-                    <div></div>
+                    <div className="w-9 h-9"></div>
                 )
                 : (
                     <div

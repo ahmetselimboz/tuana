@@ -162,12 +162,16 @@ const Analytics = () => {
               <div className="lg:w-1/2 w-full flex items-center lg:justify-end justify-center mt-4 mb-3 mx-2">
                 {/* <LargeAIBtn userInfo={userInfo} chatField={true}></LargeAIBtn> */}
                 {
-                  width <= 1024 ? (<LargeAIBtn userInfo={userInfo} chatField={true} isPopupOpen={isPopupOpen} closePopup={closePopup} setIsPopupOpen={setIsPopupOpen}></LargeAIBtn>) : (<></>)
+                  width <= 1024 ? (
+                    <LargeAIBtn userInfo={userInfo} chatField={true} isPopupOpen={isPopupOpen} closePopup={closePopup} setIsPopupOpen={setIsPopupOpen}></LargeAIBtn>
+                  ) : (
+                    <div className='w-1/2 relative'>
+                      <HiMagnifyingGlass className='absolute top-2 right-2 text-primaryGray/50 text-2xl ' />
+                      <input type="text" className="font-dosis w-full  outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." />
+                    </div>
+                  )
                 }
-                <div className='w-1/2 relative'>
-                  <HiMagnifyingGlass className='absolute top-2 right-2 text-primaryGray/50 text-2xl ' />
-                  <input type="text" className="font-dosis w-full  outline-none px-4 py-2 rounded-md shadow-xl border border-stone-900/20 bg-main" placeholder="Filter..." />
-                </div>
+
               </div>
             </div>
             <Suspense fallback={<Loading width="w-14" height="h-14" />}>

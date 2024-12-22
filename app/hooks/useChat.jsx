@@ -187,10 +187,8 @@ const useChat = (userInfo, askQuestion, appId) => {
     }, []);
 
     useEffect(() => {
-        if (askQuestion) {
-            setInputValue(askQuestion);
-            handleSend();
-        }
+        setInputValue(askQuestion);
+        handleSend()
     }, [askQuestion]);
 
     useEffect(() => {

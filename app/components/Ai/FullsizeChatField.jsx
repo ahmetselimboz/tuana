@@ -28,6 +28,13 @@ const FullsizeChatField = ({ userInfo, askQuestion, setIsPopupOpen }) => {
     const { loading: loading2, res: res2, error: error2, sendRequest: sendRequest2 } = useAxios();
     const [chatList, setChatList] = useState([])
 
+    useEffect(() => {
+        document.body.style.overflow = "hidden"; // Scroll'u devre dışı bırak
+        return () => {
+            document.body.style.overflow = ""; // Scroll'u eski haline döndür
+        };
+    }, []);
+
 
     const handleRequest2 = async () => {
         try {
@@ -77,7 +84,7 @@ const FullsizeChatField = ({ userInfo, askQuestion, setIsPopupOpen }) => {
 
 
     return (
-        <div className='w-screen h-screen  bg-black/50 flex items-center justify-center fixed top-0 right-0 z-0 '>
+        <div className='w-screen h-screen  bg-black/50 flex items-center justify-center fixed top-0 right-0 z-10 '>
             <div className=' lg:w-5/6 lg:h-5/6 w-full h-full rounded-md shadow-xl border border-stone-900/20 bg-main relative flex items-center'>
                 <button
                     onClick={() => {

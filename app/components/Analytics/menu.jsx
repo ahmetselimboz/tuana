@@ -12,6 +12,7 @@ import { TbDeviceDesktopAnalytics } from "react-icons/tb";
 import { BsGraphUp } from "react-icons/bs";
 import { BiBarChartAlt2 } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
+import useWidth from "@/app/hooks/useWidth";
 
 const menu = () => {
   const pathname = usePathname();
@@ -19,6 +20,8 @@ const menu = () => {
   const [id, setId] = useState(null);
   const [openSections, setOpenSections] = useState({});
   const [showSubmenu, setShowSubmenu] = useState(false); // Yan menü kontrolü
+
+  const { width } = useWidth()
 
   useEffect(() => {
     const paramId = params.get("id");
@@ -76,6 +79,101 @@ const menu = () => {
     { icon: AiOutlineQuestionCircle, title: "Help", url: `/help` },
     { icon: MdLocalPhone, title: "Contact Us", url: `/contact` },
   ];
+
+  if (width <= 1024) {
+
+    return (
+      <div className="w-full h-full px-4 mt-2 relative flex flex-col justify-between">
+  
+        <div className="flex-grow">
+          {sidebar.map((section, index) => (
+            <div key={index} className="mb-4">
+              {/* Ana başlık */}
+              <div
+                onClick={() => toggleSection(section.title)}
+                className="flex items-center justify-between cursor-pointer px-4 py-2 bg-primaryGray/10 hover:bg-primaryGray/20 rounded-md"
+              >
+                <div className="text-base font-medium text-stone-900">{section.title}</div>
+                <div>{openSections[section.title] ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}</div>
+  
+              </div>
+              {/* Alt başlıklar */}
+              <AnimatePresence>
+                {openSections[section.title] && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    {section.items.map((item, subIndex) => {
+                      const isActive = pathname === item.url;
+                      return (
+                        <Link
+                          key={subIndex}
+                          href={item.url}
+                          className={`flex items-center w-full px-6 py-2 transition-all text-base ${isActive
+                            ? "bg-primary text-main rounded-md"
+                            : "hover:bg-primaryGray/15"
+                            }`}
+                        >
+                          <item.icon
+                            className={`text-2xl mr-2 ${isActive ? "text-white" : "text-primary"
+                              }`}
+                          />
+                          <div>{item.title}</div>
+                        </Link>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+
+
+
+        {/* Sabit Linkler */}
+        <div className="relative ">
+          <div
+            onClick={() => setShowSubmenu(!showSubmenu)}
+            className="flex items-center justify-between cursor-pointer px-4 py-2 w-full  bg-primaryGray/10 hover:bg-primaryGray/20 rounded-md "
+          >
+            <div className="text-base font-medium">More</div>
+            <div>{showSubmenu ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}</div>
+          </div>
+          <AnimatePresence>
+            {showSubmenu && (
+             <motion.div
+             initial={{ height: 0, opacity: 0 }}
+             animate={{ height: "auto", opacity: 1 }}
+             exit={{ height: 0, opacity: 0 }}
+             className="overflow-hidden"
+           >
+                {submenuItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.url}
+                    className="flex items-center px-6 py-2 transition-all text-base  w-full h-auto hover:bg-primaryGray/15 "
+                  >
+                    <item.icon className="text-2xl text-primary mr-2" />
+                    <div className="text-sm text-center ">{item.title}</div>
+                  </Link>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+
+
+        </div>
+  
+      </div>
+    );
+  }
+
+
 
   return (
     <div className="w-full h-5/6 px-4 mt-2 relative flex flex-col justify-between">
@@ -147,10 +245,10 @@ const menu = () => {
                 <Link
                   key={index}
                   href={item.url}
-                  className="flex flex-row items-center justify-center w-[150px] h-auto bg-primary py-2 hover:bg-secondary rounded-md"
+                  className="flex flex-row items-center justify-center w-[150px] h-[40px] bg-primary py-2 overflow-hidden hover:bg-secondary rounded-md"
                 >
                   <item.icon className="text-2xl text-main mr-2" />
-                  <div className="text-sm text-center text-main">{item.title}</div>
+                  <div className={`text-sm text-center text-main `}>{item.title}</div>
                 </Link>
               ))}
             </motion.div>

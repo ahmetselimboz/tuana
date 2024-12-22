@@ -87,7 +87,7 @@ const sourcescard = () => {
         <div className="rounded-md shadow-xl border border-stone-900/20 w-full h-[400px] bg-main  flex flex-col py-4">
             <div className="w-full flex items-center justify-between pr-5 pl-6 font-medium underline text-xl font-dosis">
                 <div>Sources</div>
-                <div>Visits</div>
+                <div>Visitors</div>
             </div>
             <div className="w-full h-auto flex items-center justify-between relative">
 
