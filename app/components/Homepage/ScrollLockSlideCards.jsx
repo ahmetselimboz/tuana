@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import useWidth from '@/app/hooks/useWidth';
 import FirstCard from './Cards/FirstCard';
 import SecondCard from './Cards/SecondCard';
@@ -8,10 +9,11 @@ import FourthCard from './Cards/FourthCard';
 import FifthCard from './Cards/FifthCard';
 import SixthCard from './Cards/SixthCard';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const ScrollLockSlideCards = () => {
     const scrollSectionRef = useRef(null);
-    const [scrollIndex, setScrollIndex] = useState(0);
-    const [isScrollingLocked, setIsScrollingLocked] = useState(false);
+    const cardContainerRef = useRef(null);
     const { width } = useWidth();
 
     const cards = [
@@ -22,61 +24,43 @@ const ScrollLockSlideCards = () => {
         { card: <FifthCard /> },
         { card: <SixthCard /> },
     ];
-    const maxIndex = cards.length - 1;
 
-    // Scroll handler with throttle effect for locking
-    const handleScroll = (event) => {
-        if (!isScrollingLocked) {
-            setIsScrollingLocked(true);
-            setScrollIndex((prevIndex) => {
-                const newIndex = event.deltaY > 0
-                    ? Math.min(prevIndex + 1, maxIndex)
-                    : Math.max(prevIndex - 1, 0);
-
-                // Unlock scrolling when at start or end
-                if (newIndex === 0 || newIndex === maxIndex) {
-                    setTimeout(() => setIsScrollingLocked(false), 500);
-                } else {
-                    setTimeout(() => setIsScrollingLocked(false), 800);
-                }
-                return newIndex;
-            });
-        }
-        event.preventDefault();
-    };
-
-    // Intersection Observer to enable scroll locking only within the section
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    window.addEventListener('wheel', handleScroll, { passive: false });
-                } else {
-                    window.removeEventListener('wheel', handleScroll);
-                }
-            },
-            { threshold: 0.7 }
-        );
+        // GSAP setup for horizontal scrolling
+        const ctx = gsap.context(() => {
+            const totalCards = cards.length;
+            const totalScrollWidth = width * totalCards;
 
-        if (scrollSectionRef.current) {
-            observer.observe(scrollSectionRef.current);
-        }
+            // Animate horizontal scrolling
+            gsap.to(cardContainerRef.current, {
+                x: () => -(totalScrollWidth - width),
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: scrollSectionRef.current,
+                    start: 'center center',
+                    end: () => `+=${totalScrollWidth}`,
+                    scrub: 1,
+                    pin: true, // Locks the section during scrolling
+                    anticipatePin: 1,
+                    snap: {
+                        snapTo: 1 / (cards.length - 1),
+                        duration: 0.5,
+                        ease: 'power1.inOut',
+                    },
+                },
+            });
+        }, scrollSectionRef);
 
         return () => {
-            window.removeEventListener('wheel', handleScroll);
-            if (scrollSectionRef.current) {
-                observer.unobserve(scrollSectionRef.current);
-            }
+            ctx.revert(); // Cleanup GSAP context
         };
-    }, [isScrollingLocked, maxIndex]);
+    }, [cards.length, width]);
 
     return (
         <div>
-            <div style={{ height: '10vh' }}>
+            <div style={{ height: '10vh' }}></div>
 
-            </div>
-
-            {/* Scroll-locked Section */}
+            {/* Scroll-Locked Section */}
             <section
                 ref={scrollSectionRef}
                 style={{
@@ -85,47 +69,41 @@ const ScrollLockSlideCards = () => {
                     position: 'relative',
                 }}
             >
-                <motion.div
+                <div
+                    ref={cardContainerRef}
                     style={{
                         display: 'flex',
-                        width: `${width * cards.length}px`, // Set the container width
-                    }}
-                    animate={{
-                        x: -scrollIndex * width,
-                    }}
-                    transition={{
-                        type: 'spring',
-                        stiffness: 100,
-                        damping: 25,
+                        width: `${width * cards.length}px`, // Total width based on card count
                     }}
                 >
                     {cards.map((item, index) => (
                         <div
                             key={index}
-                            className='lg:py-24 lg:px-48 px-8'
+                            className="lg:py-24 lg:px-48 px-8"
                             style={{
                                 minWidth: `${width}px`,
                                 height: '100vh',
-                               
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 fontSize: '24px',
                                 color: '#fff',
-
                             }}
                         >
                             {item.card}
                         </div>
                     ))}
-                </motion.div>
+                </div>
             </section>
-            <div style={{ height: '8vh' }}>
 
-            </div>
-
+            <div style={{ height: '8vh' }}></div>
         </div>
     );
 };
 
 export default ScrollLockSlideCards;
+
+
+
+
+
