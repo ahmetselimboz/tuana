@@ -72,6 +72,7 @@
 
         let appId = "";
         let utcDate;
+        const mouseMovements = [];
         const checkDataLayer = () => {
           if (window?.dataLayer) {
             // console.log("dataLayer bulundu:", window.dataLayer);
@@ -134,16 +135,6 @@
                 utcDate = new Date(
                   localDate.getTime() - localDate.getTimezoneOffset() * 60000
                 ).toISOString();
-
-                const mouseMovement = trackMouseMovement();
-                console.log("🚀 ~ trackEvent ~ mouseMovement:", mouseMovement);
-                const clickCoordinates = trackClicks();
-                console.log(
-                  "🚀 ~ trackEvent ~ clickCoordinates:",
-                  clickCoordinates
-                );
-                const timeSpent = trackTimeSpent();
-                console.log("🚀 ~ trackEvent ~ timeSpent:", timeSpent);
 
                 const data = documentData(eventType, locationInfo, options);
 
@@ -229,6 +220,37 @@
                 localDate22.getTime() - localDate22.getTimezoneOffset() * 60000
               ).toISOString();
 
+              let lastURL = location.pathname;
+
+              const observer = new MutationObserver(() => {
+                const currentURL = location.pathname;
+
+                if (currentURL !== lastURL) {
+                  console.log(
+                    "DOM değişti, sayfa geçişi olabilir:",
+                    currentURL
+                  );
+                  lastURL = currentURL; // Yeni URL'yi güncelle
+
+                  const trackMouseEvent = {
+                    mouseMovement: mouseMovements,
+                    appId: appId || "UnknownApp",
+                    details: { pageTitle: document.title },
+                    time: utcDate,
+                    url: currentURL,
+                  };
+
+                  socket.emit("trackMouseMovement", trackMouseEvent);
+
+                  mouseMovements = [];
+                }
+              });
+
+              const targetNode = document.body;
+              const config = { childList: true, subtree: true };
+
+              observer.observe(targetNode, config);
+
               window.addEventListener("beforeunload", (event) => {
                 console.log("Sayfa kapanıyor veya sekme kapanıyor.");
                 // Burada istediğiniz işlemi yapabilirsiniz.
@@ -248,6 +270,7 @@
                   console.error("Fetch isteği başarısız oldu:", error)
                 );
               });
+
               // Listen for the visibility change event
               // document.addEventListener("visibilitychange", function () {
               //   if (document.visibilityState === "hidden") {
@@ -278,17 +301,49 @@
               //   }
               // });
 
-              // Fare Hareketi Takibi
+              trackMouseMovement();
               function trackMouseMovement() {
+                let lastRecordedTime = 0;
                 document.addEventListener("mousemove", (e) => {
-                  // console.log(
-                  //   "🚀 ~ Mouse Hareketi: X:",
-                  //   e.clientX,
-                  //   "Y:",
-                  //   e.clientY
-                  // );
+                  const currentTime = Date.now();
+                  if (currentTime - lastRecordedTime > 100) {
+                    // console.log(
+                    //   "🚀 ~ Mouse Hareketi: X:",
+                    //   e.clientX,
+                    //   "Y:",
+                    //   e.clientY
+                    // );
+                    // 100ms aralık
+                    mouseMovements.push({
+                      x: e.clientX,
+                      y: e.clientY,
+                      time: utcDate,
+                    });
+                    lastRecordedTime = currentTime;
+                  }
                 });
               }
+              // trackClicks();
+              // // Tıklama Noktası İzleme
+              // function trackClicks() {
+              //   const clicks = [];
+              //   document.addEventListener("click", (e) => {
+              //     clicks.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+              //   });
+              //   return clicks;
+              // }
+
+              // const mouseMovement = trackMouseMovement();
+              // console.log("🚀 ~ trackEvent ~ mouseMovement:", mouseMovement);
+              // const clickCoordinates = trackClicks();
+              // console.log(
+              //   "🚀 ~ trackEvent ~ clickCoordinates:",
+              //   clickCoordinates
+              // );
+              // const timeSpent = trackTimeSpent();
+              // console.log("🚀 ~ trackEvent ~ timeSpent:", timeSpent);
+
+              // Fare Hareketi Takibi
 
               // Tıklama Noktası Takibi
               function trackClicks() {

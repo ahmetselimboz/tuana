@@ -44,7 +44,7 @@ const ScrollLockSlideCards = () => {
                     anticipatePin: 1,
                     snap: {
                         snapTo: 1 / (cards.length - 1),
-                        duration: 0.5,
+                        duration: 0.3,
                         ease: 'power1.inOut',
                     },
                 },
