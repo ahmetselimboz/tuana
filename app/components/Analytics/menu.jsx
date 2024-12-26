@@ -45,7 +45,7 @@ const menu = () => {
     {
       title: "Analytics",
       items: [
-        { icon: FaUsers, title: "User Interactions", url: `/user-interactions` },
+        { icon: FaUsers, title: "User Interactions", url: `/user-interactions?id=${id}` },
         { icon: BsGraphUp, title: "Predictive Analytics", url: `/predictive-analytics` },
         { icon: BiBarChartAlt2, title: "Reports", url: `/reports` },
       ],
