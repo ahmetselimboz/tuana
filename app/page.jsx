@@ -9,19 +9,20 @@ import PCAndPhone from "./components/Homepage/PCAndPhone";
 import { BentoGridDemo } from "./components/Homepage/Grid";
 import TryIt from "./components/Homepage/TryIt";
 import LaptopAnimation from "./components/Homepage/LaptopTest";
-import BackgroundAnimation from "./components/Homepage/BackgroundAnimation";
+import ScrollSlideText from "./components/Animation/ScrollSlideText";
+import HeroAnimation from "./components/Animation/HeroAnimation";
 
 
 export default function Home() {
   return (
-    <> 
+    <>
       <div className="w-full h-full bg-main relative">
         <Navbar></Navbar>
         <div className="w-full h-24 lg:h-0"></div>
         <Header></Header>
       
         <LineDesign></LineDesign>
-        {/* <LaptopAnimation></LaptopAnimation> */}
+
         <ScrollLockSlideCards></ScrollLockSlideCards>
         <PCAndPhone></PCAndPhone>
         <BentoGridDemo></BentoGridDemo>

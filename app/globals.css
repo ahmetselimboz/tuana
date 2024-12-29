@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  user-select: none;
+
 }
 
 @layer base {
@@ -19,6 +19,10 @@
   .nav-active {
     @apply text-stone-900;
   }
+
+  
+
+
   .bg-custom-gradient {
     background: linear-gradient(180deg, var(--slate-800), var(--slate-900));
   }

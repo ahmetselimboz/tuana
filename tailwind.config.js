@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import defaultTheme from 'tailwindcss/defaultTheme';
-import colors from 'tailwindcss/colors';
-import flattenColorPalette from 'tailwindcss/lib/util/flattenColorPalette';
+import defaultTheme from "tailwindcss/defaultTheme";
+import colors from "tailwindcss/colors";
+import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -10,9 +10,7 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-
-    // Or if using `src` directory:
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}", // Eğer `src` dizini kullanıyorsanız
   ],
   theme: {
     extend: {
@@ -22,7 +20,9 @@ export default {
         primaryGray: "#5a5555",
         secondary: "#14897c",
       },
-      fontFamily: {},
+      fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -31,6 +31,7 @@ export default {
       animation: {
         scroll:
           "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+
       },
       keyframes: {
         scroll: {
@@ -38,11 +39,11 @@ export default {
             transform: "translate(calc(-50% - 0.5rem))",
           },
         },
+
       },
     },
   },
-  plugins: [addVariablesForColors],
-  //   plugins: [require("tailwind-scrollbar")({ nocompatible: true }), require("tailwindcss-animate")],
+  plugins: [addVariablesForColors], // Aktif plugin
 };
 
 function addVariablesForColors({ addBase, theme }) {

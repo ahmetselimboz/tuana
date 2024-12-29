@@ -3,7 +3,7 @@ import React from 'react'
 
 const SecondCard = () => {
     return (
-        <div className='rounded-2xl shadow-xl border-4 border-primary w-full lg:h-full lg:min-h-[460px] min-h-[600px] bg-primary/5  flex lg:flex-row flex-col-reverse lg:p-4 py-6 px-8'>
+        <div className='rounded-2xl shadow-xl border-4 border-primary w-full lg:h-full lg:min-h-[460px] min-h-[550px] bg-primary/5  flex lg:flex-row flex-col-reverse justify-center lg:p-4 py-6 px-8'>
             <div className='w-full lg:w-1/2 lg:h-full lg:items-start items-center justify-center lg:px-8 flex flex-col'>
                 <div className='text-primary font-semibold lg:text-4xl text-2xl mb-4'>
                     But the results are confusing!
