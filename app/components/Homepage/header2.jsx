@@ -7,7 +7,7 @@ import SlideUpAnimation from '../Animation/SlideUpAnimation';
 
 const header = () => {
   return (
-    <div className="relative w-full h-screen bg-main overflow-hidden">
+    <div className="relative w-full h-full bg-main overflow-hidden">
       {/* Background Animation */}
       <SlideUpAnimation className="w-full h-full absolute bottom-0 overflow-hidden " delay={0.4}>
         <BackgroundAnimation />
@@ -15,14 +15,14 @@ const header = () => {
 
       {/* Main Content */}
       <SlideUpAnimation className="w-full h-full flex flex-col items-center justify-center relative z-10 px-6 sm:px-8">
-        <div className="w-full h-full flex flex-col items-center lg:justify-center custom-radial lg:mt-0 mt-28">
+        <div className="w-full h-full flex flex-col items-center lg:justify-center custom-radial lg:mt-0 mt-12">
           {/* Logo */}
           {/* <div className="w-full max-w-[650px] font-dosis">
             <TuanalyticsSvg classn="" />
           </div> */}
           {/* Subtitle */}
           <div className="w-full sm:w-3/6 px-2 sm:px-4  mb-6 text-center mt-8">
-            <div className="font-dosis text-gray-500 text-3xl sm:text-xl lg:text-6xl mb-6  flex items-center justify-center">
+            <div className="font-dosis text-gray-500 text-3xl sm:text-xl lg:text-5xl mb-6  flex items-center justify-center">
               <div className='font-extralight'>
               With 
               </div>

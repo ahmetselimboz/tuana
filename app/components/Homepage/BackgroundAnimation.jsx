@@ -36,7 +36,7 @@ const LineChartAnimation = () => {
         y: getRandomY(),
       }));
       setPoints(newPoints);
-    }, 3000); // Her 4 saniyede bir çalışır
+    }, 2500); // Her 4 saniyede bir çalışır
 
     return () => clearInterval(interval);
   }, [points]);
