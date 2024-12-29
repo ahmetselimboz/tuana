@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import AuthenticatedNavbar from "@/app/components/Navbar/authenticatednavbar"
 import FullsizeChatField from '@/app/components/Ai/FullsizeChatField';
 import Footer from "@/app/components/Footer/footer"
+import MouseMovements from '@/app/components/User-Interactions/mouseMovements';
 
 const UserInteractions = () => {
   const date = useAppSelector((state) => state.dateSettings)
@@ -119,27 +120,8 @@ const UserInteractions = () => {
           }
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
             <div className='w-full h-[800px]'>
-              <div className="w-full flex items-center ">
-                {heatmapData?.map((page, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center bg-gray-100 shadow-md rounded-lg p-4 w-1/3 mr-2"
-                  >
-                    {/* URL Başlığı */}
-                    <h3 className="text-lg font-semibold mb-4">{page.url}</h3>
+              <MouseMovements></MouseMovements>
 
-                    {/* Heatmap Konteyneri */}
-                    <div
-                      id={`heatmap-${index}`}
-                      className="relative w-full h-[150px] border rounded-lg "
-                    >
-
-                      <img src="/test.png" alt="" className='w-full h-full' />
-                    </div>
-
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
           <div className="lg:block hidden w-1/6 h-full px-4">

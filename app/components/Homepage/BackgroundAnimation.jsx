@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const LineChartAnimation = () => {
-
-  const { width } = useWidth()
+  const { width } = useWidth();
 
   // Noktaların başlangıç koordinatları
   const initialPoints = [
@@ -22,13 +21,36 @@ const LineChartAnimation = () => {
     { x: 900, y: -40 },
   ];
 
-  // Noktaların koordinatlarını state içinde tutuyoruz
   const [points, setPoints] = useState(initialPoints);
 
   // Rastgele bir Y değeri oluşturucu
   const getRandomY = () => Math.floor(Math.random() * 120 - 60);
 
-  // Her 2 saniyede bir noktaları ve path'i güncelle
+  // Path oluşturucu ve noktaları path'e sabitleyici
+  const createSmoothPathAndAlignedPoints = (points) => {
+    let path = `M ${points[0].x},${points[0].y}`;
+    const alignedPoints = [{ x: points[0].x, y: points[0].y }];
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const current = points[i];
+      const next = points[i + 1];
+
+      // Bezier kontrol noktalarını hesapla
+      const controlX = (current.x + next.x) / 2;
+      const controlY = (current.y + next.y) / 2;
+
+      // Path'e Q komutunu ekle
+      path += ` Q ${current.x},${current.y} ${controlX},${controlY}`;
+      alignedPoints.push({ x: controlX, y: controlY }); // Noktayı path üzerinde hizala
+    }
+
+    path += ` T ${points[points.length - 1].x},${points[points.length - 1].y}`;
+    alignedPoints.push(points[points.length - 1]);
+
+    return { path, alignedPoints };
+  };
+
+  // Her 2.5 saniyede bir noktaları güncelle ve path'i yeniden oluştur
   useEffect(() => {
     const interval = setInterval(() => {
       const newPoints = points.map((point) => ({
@@ -36,29 +58,23 @@ const LineChartAnimation = () => {
         y: getRandomY(),
       }));
       setPoints(newPoints);
-    }, 2500); // Her 4 saniyede bir çalışır
+    }, 2500);
 
     return () => clearInterval(interval);
   }, [points]);
 
-  // Path dizesini oluşturuyoruz
-  const pathData = points
-    .map((point, index) =>
-      index === 0 ? `M ${point.x},${point.y}` : `L ${point.x},${point.y}`
-    )
-    .join(" ");
-
+  // Path ve hizalı noktaları oluştur
+  const { path: pathData, alignedPoints } = createSmoothPathAndAlignedPoints(points);
 
   if (width < 1024) {
     return (
-      <div className="relative w-full h-[800px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[900px] overflow-hidden ">
+      <div className="relative w-full h-[800px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[900px] overflow-hidden">
         <svg
           className="w-full h-full"
           viewBox="0 -700 900 500"
           preserveAspectRatio="xMinYMin meet"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Gradient tanımı */}
           <defs>
             <linearGradient id="lineGradient" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="#19ae9d" />
@@ -67,20 +83,18 @@ const LineChartAnimation = () => {
             </linearGradient>
           </defs>
 
-          {/* Dolgu alanı animasyonu */}
           <motion.path
             d={`${pathData} L 900,500 L 0,500 Z`}
             fill="url(#lineGradient)"
             animate={{ d: `${pathData} L 900,500 L 0,500 Z` }}
             transition={{
               type: "spring",
-              stiffness: 200, // Daha sert bir yay
-              damping: 50, // Daha az sönümleme ile belirgin hareket
+              stiffness: 200,
+              damping: 50,
               duration: 2,
             }}
           />
 
-          {/* Çizgi animasyonu */}
           <motion.path
             d={pathData}
             fill="none"
@@ -89,14 +103,13 @@ const LineChartAnimation = () => {
             animate={{ d: pathData }}
             transition={{
               type: "spring",
-              stiffness: 200, // Daha sert bir yay
-              damping: 50, // Daha az sönümleme ile belirgin hareket
+              stiffness: 200,
+              damping: 50,
               duration: 2,
             }}
           />
 
-          {/* Noktalar */}
-          {points.map((point, index) => (
+          {alignedPoints.map((point, index) => (
             <motion.circle
               key={index}
               cx={point.x}
@@ -106,8 +119,8 @@ const LineChartAnimation = () => {
               animate={{ cx: point.x, cy: point.y }}
               transition={{
                 type: "spring",
-                stiffness: 200, // Daha sert bir yay
-                damping: 50, // Daha az sönümleme ile belirgin hareket
+                stiffness: 200,
+                damping: 50,
                 duration: 2,
               }}
             />
@@ -117,7 +130,6 @@ const LineChartAnimation = () => {
     );
   }
 
-
   return (
     <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[900px] overflow-hidden opacity-70">
       <svg
@@ -126,7 +138,6 @@ const LineChartAnimation = () => {
         preserveAspectRatio="xMinYMin meet"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Gradient tanımı */}
         <defs>
           <linearGradient id="lineGradient" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0%" stopColor="#19ae9d" />
@@ -135,20 +146,18 @@ const LineChartAnimation = () => {
           </linearGradient>
         </defs>
 
-        {/* Dolgu alanı animasyonu */}
         <motion.path
           d={`${pathData} L 900,180 L 0,180 Z`}
           fill="url(#lineGradient)"
           animate={{ d: `${pathData} L 900,180 L 0,180 Z` }}
           transition={{
             type: "spring",
-            stiffness: 200, // Daha sert bir yay
-            damping: 50, // Daha az sönümleme ile belirgin hareket
+            stiffness: 200,
+            damping: 50,
             duration: 2,
           }}
         />
 
-        {/* Çizgi animasyonu */}
         <motion.path
           d={pathData}
           fill="none"
@@ -157,14 +166,13 @@ const LineChartAnimation = () => {
           animate={{ d: pathData }}
           transition={{
             type: "spring",
-            stiffness: 200, // Daha sert bir yay
-            damping: 50, // Daha az sönümleme ile belirgin hareket
-            duration: 2,
+              stiffness: 200,
+              damping: 50,
+              duration: 2,
           }}
         />
 
-        {/* Noktalar */}
-        {points.map((point, index) => (
+        {alignedPoints.map((point, index) => (
           <motion.circle
             key={index}
             cx={point.x}
@@ -174,8 +182,8 @@ const LineChartAnimation = () => {
             animate={{ cx: point.x, cy: point.y }}
             transition={{
               type: "spring",
-              stiffness: 200, // Daha sert bir yay
-              damping: 50, // Daha az sönümleme ile belirgin hareket
+              stiffness: 200,
+              damping: 50,
               duration: 2,
             }}
           />
