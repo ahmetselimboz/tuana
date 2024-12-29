@@ -62,7 +62,7 @@ const useChat = (userInfo, askQuestion, appId) => {
                     action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
             } else {
-
+                console.log("Resss  ", res )
                 console.log("🚀 ~ useChat ~ res:", res)
                 if (res && res.ai) {
                     setChatAI(res.ai);
@@ -70,7 +70,7 @@ const useChat = (userInfo, askQuestion, appId) => {
                         limit: res.ai.limit,
                         limitExist: res.ai.limitExist,
                     });
-
+                   
                     if (res.messages && res.messages.length > 0) {
                         // if (selectedChat == "671ccea647949c3fab28fb81") {
                         //     dispatch(setSelectedChat(res.chatId))
@@ -95,31 +95,7 @@ const useChat = (userInfo, askQuestion, appId) => {
 
 
 
-    // const handleRequest = async () => {
-    //     const response = await axios.post(`${process.env.NEXT_PUBLIC_AI_SERVER_URL}/api/ai/get-ai`, {
-    //         appId,
-    //     });
 
-    //     if (response.data && response.data.data && response.data.data.ai) {
-    //         setChatAI(response.data.data.ai);
-    //         setChatRights({
-    //             limit: response.data.data.ai.limit,
-    //             limitExist: response.data.data.ai.limitExist,
-    //         });
-
-    //         if (response.data.data.messages && response.data.data.messages.length > 0) {
-    //             dispatch(setSelectedChat(response.data.data.chatId))
-    //             const messages = response.data.data.messages.map((message) => ({
-    //                 sender: message.sender,
-    //                 text: message.message,
-    //                 id: message._id?.$oid || Date.now(),
-    //             }));
-    //             setMessages((prev) => [...prev, ...messages]);
-    //         }
-    //     } else {
-    //         console.error("Response data structure is not as expected");
-    //     }
-    // };
 
     const handleSend = () => {
         if (inputValue.trim()) {
@@ -150,9 +126,7 @@ const useChat = (userInfo, askQuestion, appId) => {
 
         socket.on("connect", () => console.log("Connected to server"));
 
-        socket.on("ai_rights", (rights) => {
-            setChatRights((prev) => ({ ...prev, limit: rights }));
-        });
+  
 
         socket.on("ai_response", (chunk) => {
             setPartialResponse((prev) => prev + chunk);
@@ -186,6 +160,13 @@ const useChat = (userInfo, askQuestion, appId) => {
         };
     }, []);
 
+    useEffect(()=>{
+        socket.on("ai_rights", (rights) => {
+            console.log("🚀 ~ socket.on ~ rights:", rights)
+            setChatRights((prev) => ({ ...prev, limit: rights }));
+        });
+    },[socket])
+
     useEffect(() => {
         setInputValue(askQuestion);
         handleSend()
@@ -207,6 +188,11 @@ const useChat = (userInfo, askQuestion, appId) => {
         // ])
         dispatch(setSelectedChat("65c40fec35d43d01a2a6d1e5"))
     }
+
+
+    useEffect(()=>{
+        console.log("🚀 ~ chatRights:", chatRights)
+    },[chatRights])
 
     return {
         messages,

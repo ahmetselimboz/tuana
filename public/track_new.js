@@ -72,7 +72,7 @@
 
         let appId = "";
         let utcDate;
-        const mouseMovements = [];
+        let mouseMovements = [];
         const checkDataLayer = () => {
           if (window?.dataLayer) {
             // console.log("dataLayer bulundu:", window.dataLayer);
@@ -236,6 +236,7 @@
                     mouseMovement: mouseMovements,
                     appId: appId || "UnknownApp",
                     details: { pageTitle: document.title },
+                   
                     time: utcDate,
                     url: currentURL,
                   };
@@ -318,6 +319,8 @@
                       x: e.clientX,
                       y: e.clientY,
                       time: utcDate,
+                      screenWidth: window.screen.width,
+                      screenHeight: window.screen.height,
                     });
                     lastRecordedTime = currentTime;
                   }

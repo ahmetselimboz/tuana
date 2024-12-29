@@ -2,13 +2,14 @@
 import Link from "next/link";
 import Navbar from "./components/Navbar/navbar";
 import Footer from "@/app/components/Footer/footer"
-import Header from "@/app/components/Homepage/header"
+import Header from "@/app/components/Homepage/header2"
 import LineDesign from "@/app/components/Homepage/linedesign"
 import ScrollLockSlideCards from "./components/Homepage/ScrollLockSlideCards";
 import PCAndPhone from "./components/Homepage/PCAndPhone";
 import { BentoGridDemo } from "./components/Homepage/Grid";
 import TryIt from "./components/Homepage/TryIt";
 import LaptopAnimation from "./components/Homepage/LaptopTest";
+import BackgroundAnimation from "./components/Homepage/BackgroundAnimation";
 
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <Navbar></Navbar>
         <div className="w-full h-24 lg:h-0"></div>
         <Header></Header>
+      
         <LineDesign></LineDesign>
         {/* <LaptopAnimation></LaptopAnimation> */}
         <ScrollLockSlideCards></ScrollLockSlideCards>

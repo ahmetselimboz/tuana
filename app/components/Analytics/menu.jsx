@@ -108,6 +108,7 @@ const menu = () => {
                   >
                     {section.items.map((item, subIndex) => {
                       const isActive = pathname === item.url;
+                  
                       return (
                         <Link
                           key={subIndex}
@@ -184,7 +185,7 @@ const menu = () => {
             {/* Ana başlık */}
             <div
               onClick={() => toggleSection(section.title)}
-              className="flex items-center justify-between cursor-pointer px-4 py-2 bg-primaryGray/10 hover:bg-primaryGray/20 rounded-md"
+              className="flex items-center justify-between cursor-pointer px-4 py-2 mb-1   bg-primaryGray/10 hover:bg-primaryGray/20 rounded-md"
             >
               <div className="text-base font-medium text-stone-900">{section.title}</div>
               <div>{openSections[section.title] ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}</div>
@@ -200,18 +201,19 @@ const menu = () => {
                   className="overflow-hidden"
                 >
                   {section.items.map((item, subIndex) => {
-                    const isActive = pathname === item.url;
+                    const isActive = `${pathname}?id=${id}` === item.url;
+          
                     return (
                       <Link
                         key={subIndex}
                         href={item.url}
                         className={`flex items-center gap-3 w-full px-6 py-2 transition-all text-base ${isActive
-                          ? "bg-primary text-main rounded-md"
+                          ? "bg-primary/90 rounded-md text-main"
                           : "hover:bg-primaryGray/15"
                           }`}
                       >
                         <item.icon
-                          className={`text-2xl ${isActive ? "text-white" : "text-primary"
+                          className={`text-2xl ${isActive ? "text-main" : "text-primary"
                             }`}
                         />
                         <div>{item.title}</div>

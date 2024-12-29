@@ -24,7 +24,18 @@ import { ToastAction } from '@/components/ui/toast'
 import FullsizeChatField from '@/app/components/Ai/FullsizeChatField'
 import { useAppSelector } from '@/lib/redux/hooks'
 import { HiMagnifyingGlass } from 'react-icons/hi2'
-
+const points = [
+  { x: 0, y: 100 },
+  { x: 100, y: 30 },
+  { x: 200, y: 90 },
+  { x: 300, y: 0 },
+  { x: 400, y: 60 },
+  { x: 500, y: -20 },
+  { x: 600, y: 30 },
+  { x: 700, y: -30 },
+  { x: 800, y: 20 },
+  { x: 900, y: -40 },
+];
 
 const Analytics = () => {
 

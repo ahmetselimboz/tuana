@@ -15,6 +15,7 @@ const ChatWindow = ({
   setShowRightsField,
   messagesContainerRef
 }) => {
+  
   //const messagesContainerRef = useRef();
 
   return (
