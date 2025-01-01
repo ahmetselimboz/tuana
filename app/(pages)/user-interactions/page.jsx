@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import AuthenticatedNavbar from "@/app/components/Navbar/authenticatednavbar"
 import FullsizeChatField from '@/app/components/Ai/FullsizeChatField';
 import Footer from "@/app/components/Footer/footer"
-import MouseMovements from '@/app/components/User-Interactions/mouseMovements';
+import MouseMovements from '../../components/UserInteractions/mouseMovements';
 import Clicks from '../../components/UserInteractions/Clicks';
 import Journey from '../../components/UserInteractions/Journey';
 import CustomDatePicker from '../../components/Date/customdatepicker';
