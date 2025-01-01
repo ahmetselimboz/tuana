@@ -11,10 +11,10 @@ import AuthenticatedNavbar from "@/app/components/Navbar/authenticatednavbar"
 import FullsizeChatField from '@/app/components/Ai/FullsizeChatField';
 import Footer from "@/app/components/Footer/footer"
 import MouseMovements from '@/app/components/User-Interactions/mouseMovements';
-import Clicks from '@/app/components/User-Interactions/Clicks';
-import Journey from '@/app/components/User-Interactions/Journey';
-import CustomDatePicker from '@/app/components/Date/customdatepicker';
-import DateDropdown from '@/app/components/Date/datedropdown';
+import Clicks from '../../components/UserInteractions/Clicks';
+import Journey from '../../components/UserInteractions/Journey';
+import CustomDatePicker from '../../components/Date/customdatepicker';
+import DateDropdown from '../../components/Date/datedropdown';
 
 const UserInteractions = () => {
   const date = useAppSelector((state) => state.dateSettings)
