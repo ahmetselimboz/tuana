@@ -7,7 +7,7 @@ import useWidth from '@/app/hooks/useWidth';
 import { useToast } from '@/hooks/use-toast';
 
 
-const MouseMovements = () => {
+const Clicks = () => {
     const date = useAppSelector((state) => state.dateSettings)
     const [heatmapData, setHeatmapData] = useState([]);
     const params = useSearchParams()
@@ -18,7 +18,7 @@ const MouseMovements = () => {
     const handleRequest = async () => {
       await sendRequest({
         method: "POST",
-        url: `/api/apps/get-mouse-movements`,
+        url: `/api/apps/get-clicks`,
         body: {
           appId: appId,
           query: {
@@ -37,15 +37,17 @@ const MouseMovements = () => {
     useEffect(() => {
       if (loading) {
   
-        setHeatmapData(res?.movements)
+        setHeatmapData(res?.clicks)
   
-        //console.log("🚀 ~ useEffect ~ res?.movements:", res?.movements)
+    
+        //console.log("🚀 ~ useEffect ~ res?.clicks:", res?.clicks)
   
       }
     }, [res, loading])
+
     useEffect(() => {
       heatmapData?.forEach((page, index) => {
-        const container = document.getElementById(`heatmap-${index}`);
+        const container = document.getElementById(`clicks-${index}`);
         const containerWidth = container.offsetWidth; // Konteyner genişliği
         const containerHeight = container.offsetHeight; // Konteyner yüksekliği
   
@@ -59,7 +61,7 @@ const MouseMovements = () => {
         });
   
         // Koordinatları ölçeklendir
-        const points = page.movements.map((point) => {
+        const points = page.clicks.map((point) => {
           const originalWidth = 1536; // Ekran genişliği (default: 1536)
           const originalHeight = 864; // Ekran yüksekliği (default: 864)
   
@@ -85,7 +87,7 @@ const MouseMovements = () => {
         <div className='w-full flex flex-col items-start mb-10'>
             <div className='w-full flex flex-row items-center justify-between relative'>
                 <div className="text-primary font-dosis text-3xl px-2 font-medium mb-3 ">
-                    Mouse Movements
+                    Clicks
                     <hr className="border-b-2 border-primary w-[38px]" />
                 </div>
 
@@ -103,7 +105,7 @@ const MouseMovements = () => {
 
                         {/* Heatmap Konteyneri */}
                         <div
-                            id={`heatmap-${index}`}
+                            id={`clicks-${index}`}
                             className="relative w-full h-[150px] border rounded-lg "
                         >
 
@@ -117,4 +119,4 @@ const MouseMovements = () => {
     )
 }
 
-export default MouseMovements
+export default Clicks

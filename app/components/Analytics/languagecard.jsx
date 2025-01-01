@@ -56,7 +56,7 @@ const languagecard = () => {
         if (loading) {
 
             setLanguages(res?.data)
-            console.log("🚀 ~ languagecard ~ languages:", languages)
+            //console.log("🚀 ~ languagecard ~ languages:", languages)
 
         }
     }, [res, loading])

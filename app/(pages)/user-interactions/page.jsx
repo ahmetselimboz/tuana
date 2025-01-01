@@ -11,6 +11,10 @@ import AuthenticatedNavbar from "@/app/components/Navbar/authenticatednavbar"
 import FullsizeChatField from '@/app/components/Ai/FullsizeChatField';
 import Footer from "@/app/components/Footer/footer"
 import MouseMovements from '@/app/components/User-Interactions/mouseMovements';
+import Clicks from '@/app/components/User-Interactions/Clicks';
+import Journey from '@/app/components/User-Interactions/Journey';
+import CustomDatePicker from '@/app/components/Date/customdatepicker';
+import DateDropdown from '@/app/components/Date/datedropdown';
 
 const UserInteractions = () => {
   const date = useAppSelector((state) => state.dateSettings)
@@ -27,71 +31,71 @@ const UserInteractions = () => {
   const closePopup = () => setIsPopupOpen(false);
   const [userInfo, setUserInfo] = useState("")
 
-  const { loading, res, error, sendRequest } = useAxios();
+  // const { loading, res, error, sendRequest } = useAxios();
 
-  const handleRequest = async () => {
-    await sendRequest({
-      method: "POST",
-      url: `/api/apps/get-heatmap`,
-      body: {
-        appId: appId,
-        query: {
-          firstdate: date.firstDate,
-          lastdate: date.lastDate
-        }
-      },
-    });
-  };
+  // const handleRequest = async () => {
+  //   await sendRequest({
+  //     method: "POST",
+  //     url: `/api/apps/get-heatmap`,
+  //     body: {
+  //       appId: appId,
+  //       query: {
+  //         firstdate: date.firstDate,
+  //         lastdate: date.lastDate
+  //       }
+  //     },
+  //   });
+  // };
 
-  useEffect(() => {
-    handleRequest()
-  }, [])
+  // useEffect(() => {
+  //   handleRequest()
+  // }, [])
 
 
-  useEffect(() => {
-    if (loading) {
+  // useEffect(() => {
+  //   if (loading) {
 
-      setHeatmapData(res?.movements)
+  //     setHeatmapData(res?.movements)
 
-      console.log("🚀 ~ useEffect ~ res?.movements:", res?.movements)
+  //    // console.log("🚀 ~ useEffect ~ res?.movements:", res?.movements)
 
-    }
-  }, [res, loading])
-  useEffect(() => {
-    heatmapData?.forEach((page, index) => {
-      const container = document.getElementById(`heatmap-${index}`);
-      const containerWidth = container.offsetWidth; // Konteyner genişliği
-      const containerHeight = container.offsetHeight; // Konteyner yüksekliği
+  //   }
+  // }, [res, loading])
+  // useEffect(() => {
+  //   heatmapData?.forEach((page, index) => {
+  //     const container = document.getElementById(`heatmap-${index}`);
+  //     const containerWidth = container.offsetWidth; // Konteyner genişliği
+  //     const containerHeight = container.offsetHeight; // Konteyner yüksekliği
 
-      // Heatmap.js oluştur
-      const heatmapInstance = h337.create({
-        container,
-        radius: 30, // Nokta yarıçapı
-        maxOpacity: 0.8,
-        minOpacity: 0.2,
-        blur: 0.75,
-      });
+  //     // Heatmap.js oluştur
+  //     const heatmapInstance = h337.create({
+  //       container,
+  //       radius: 30, // Nokta yarıçapı
+  //       maxOpacity: 0.8,
+  //       minOpacity: 0.2,
+  //       blur: 0.75,
+  //     });
 
-      // Koordinatları ölçeklendir
-      const points = page.movements.map((point) => {
-        const originalWidth = 1536; // Ekran genişliği (default: 1536)
-        const originalHeight = 864; // Ekran yüksekliği (default: 864)
+  //     // Koordinatları ölçeklendir
+  //     const points = page.movements.map((point) => {
+  //       const originalWidth = 1536; // Ekran genişliği (default: 1536)
+  //       const originalHeight = 864; // Ekran yüksekliği (default: 864)
 
-        return {
-          x: Math.round((point.x / originalWidth) * containerWidth), // Dinamik genişlik ölçeklendirme ve tam sayıya yuvarlama
-          y: Math.round((point.y / originalHeight) * containerHeight), // Dinamik yükseklik ölçeklendirme ve tam sayıya yuvarlama
-          value: 1,
-        };
-      });
+  //       return {
+  //         x: Math.round((point.x / originalWidth) * containerWidth), // Dinamik genişlik ölçeklendirme ve tam sayıya yuvarlama
+  //         y: Math.round((point.y / originalHeight) * containerHeight), // Dinamik yükseklik ölçeklendirme ve tam sayıya yuvarlama
+  //         value: 1,
+  //       };
+  //     });
 
-      console.log("🚀 ~ points ~ points:", points)
-      // Veriyi ayarla
-      heatmapInstance.setData({
-        max: 5,
-        data: points,
-      });
-    });
-  }, [heatmapData]);
+
+  //     // Veriyi ayarla
+  //     heatmapInstance.setData({
+  //       max: 5,
+  //       data: points,
+  //     });
+  //   });
+  // }, [heatmapData]);
 
 
   return (
@@ -119,9 +123,22 @@ const UserInteractions = () => {
             width <= 1024 ? (<div></div>) : (<Sidebar closePopup={closePopup} setIsPopupOpen={setIsPopupOpen} isPopupOpen={isPopupOpen}></Sidebar>)
           }
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
-            <div className='w-full h-[800px]'>
-              <MouseMovements></MouseMovements>
+            <div className='w-full flex items-center '>
+              <div className="w-5/6 lg:px-8 px-3 py-6 flex items-center justify-between">
+                <CustomDatePicker ></CustomDatePicker>
+              </div>
+              <div className='w-1/6'>
+                <DateDropdown
+                  clw="border-2 border-stone-900/10"
 
+                ></DateDropdown>
+              </div>
+
+            </div>
+            <div className='w-full h-full'>
+              <MouseMovements></MouseMovements>
+              <Clicks></Clicks>
+              <Journey></Journey>
             </div>
           </div>
           <div className="lg:block hidden w-1/6 h-full px-4">

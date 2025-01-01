@@ -73,6 +73,7 @@
         let appId = "";
         let utcDate;
         let mouseMovements = [];
+        let clicks = [];
         const checkDataLayer = () => {
           if (window?.dataLayer) {
             // console.log("dataLayer bulundu:", window.dataLayer);
@@ -230,20 +231,32 @@
                     "DOM değişti, sayfa geçişi olabilir:",
                     currentURL
                   );
-                  lastURL = currentURL; // Yeni URL'yi güncelle
+                  //lastURL = currentURL; // Yeni URL'yi güncelle
 
                   const trackMouseEvent = {
                     mouseMovement: mouseMovements,
                     appId: appId || "UnknownApp",
                     details: { pageTitle: document.title },
-                   
                     time: utcDate,
-                    url: currentURL,
+                    url: lastURL,
                   };
 
+                  const trackClicks = {
+                    clicks: clicks,
+                    appId: appId || "UnknownApp",
+                    details: { pageTitle: document.title },
+                    time: utcDate,
+                    url: lastURL,
+                  };
+
+                  console.log("🚀 ~ observer ~ trackClicks:", trackClicks);
+                  //console.log("🚀 ~ observer ~ clicks:", clicks)
+
                   socket.emit("trackMouseMovement", trackMouseEvent);
+                  socket.emit("trackClicks", trackClicks);
 
                   mouseMovements = [];
+                  clicks = [];
                 }
               });
 
@@ -326,15 +339,21 @@
                   }
                 });
               }
-              // trackClicks();
-              // // Tıklama Noktası İzleme
-              // function trackClicks() {
-              //   const clicks = [];
-              //   document.addEventListener("click", (e) => {
-              //     clicks.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-              //   });
-              //   return clicks;
-              // }
+              
+              trackClicks();
+              // Tıklama Noktası İzleme
+              function trackClicks() {
+                document.addEventListener("click", (e) => {
+                  clicks.push({
+                    x: e.clientX,
+                    y: e.clientY,
+                    time: utcDate,
+                    screenWidth: window.screen.width,
+                    screenHeight: window.screen.height,
+                  });
+                });
+               
+              }
 
               // const mouseMovement = trackMouseMovement();
               // console.log("🚀 ~ trackEvent ~ mouseMovement:", mouseMovement);
@@ -349,16 +368,6 @@
               // Fare Hareketi Takibi
 
               // Tıklama Noktası Takibi
-              function trackClicks() {
-                document.addEventListener("click", (e) => {
-                  console.log(
-                    "🚀 ~ Tıklanan Koordinatlar: X:",
-                    e.clientX,
-                    "Y:",
-                    e.clientY
-                  );
-                });
-              }
 
               // Kullanıcı Etkileşim Süresi Takibi
               function trackTimeSpent() {

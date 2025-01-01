@@ -25,11 +25,7 @@ const NewVisitor = () => {
         handleRequest()
     }, [])
 
-    useEffect(() => {
-        
-        console.log("🚀 ~ newVisitor ~ res:", res)
 
-    }, [res])
 
     return (
         <div className="flex flex-col items-center justify-center lg:w-1/4 w-full lg:my-0 my-4">

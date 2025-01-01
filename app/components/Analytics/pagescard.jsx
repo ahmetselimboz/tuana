@@ -54,7 +54,7 @@ const pagescard = () => {
         if (loading) {
 
             setPages(res?.data?.totalPage)
-            console.log("🚀 ~ pagescard ~ pages:", pages)
+            //console.log("🚀 ~ pagescard ~ pages:", pages)
         }
     }, [res, loading])
 

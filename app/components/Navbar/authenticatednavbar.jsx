@@ -9,9 +9,10 @@ import { HiMiniBars3 } from 'react-icons/hi2';
 import CustomDatePicker from '../Date/customdatepicker';
 import ProjectList from './Auth-Navbar/projectlist';
 import UserBar from './Auth-Navbar/userbar';
+import { usePathname } from 'next/navigation';
 
 const authenticatedNavbar = () => {
-
+  const pathname = usePathname();
     const [openAppBar, setOpenAppBar] = useState(false)
     const [openUserBar, setOpenUserBar] = useState(false)
     const [openSidebar, setOpenSidebar] = useState(false)
@@ -106,7 +107,7 @@ const authenticatedNavbar = () => {
 
                 </div>
             </div>
-            {isVisible && (
+            {isVisible && pathname == "/analytics" && (
                 <div className='w-full '>
                     <div className="h-auto w-fit flex items-center justify-center px-4 fixed right-[18rem] top-5 z-20 ">
 

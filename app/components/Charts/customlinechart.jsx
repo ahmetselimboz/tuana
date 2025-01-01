@@ -103,7 +103,7 @@ const LineChart = ({ data }) => {
     });
 
     const processData = async (data) => {
-        console.log("🚀 ~ processData ~ data:", data);
+        //console.log("🚀 ~ processData ~ data:", data);
         try {
             if (!data || !data.value || data.value.length === 0) {
                 if (range && firstDate) {
@@ -149,8 +149,8 @@ const LineChart = ({ data }) => {
 
     useEffect(() => {
         const maxVal = Math.max(...seriesData);
-        console.log("🚀 ~ useEffect ~ seriesData:", seriesData);
-        console.log("🚀 ~ useEffect ~ categories:", categories);
+       // console.log("🚀 ~ useEffect ~ seriesData:", seriesData);
+        //console.log("🚀 ~ useEffect ~ categories:", categories);
         setChartData((prevData) => ({
             ...prevData,
             series: [{ ...prevData.series[0], name: data?.label, data: seriesData }],
