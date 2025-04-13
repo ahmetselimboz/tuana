@@ -7,7 +7,7 @@ import SlideUpAnimation from '../Animation/SlideUpAnimation';
 import HeaderText from './HeaderText';
 import InfiniteScrollAnimation from './InfiniteScrollAnimation';
 
-const header = () => {
+const headerv2 = () => {
   return (
     <div className="relative w-full h-full  bg-main overflow-hidden">
 
@@ -84,4 +84,4 @@ const header = () => {
   )
 }
 
-export default header;
+export default headerv2;
