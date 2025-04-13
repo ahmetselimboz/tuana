@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Navbar from "./components/Navbar/navbar";
 import Footer from "@/app/components/Footer/footer"
-import Header from "./components/Homepage/Header2"
+import Header from "./components/Homepage/Header2.jsx"
 import LineDesign from "@/app/components/Homepage/linedesign"
 import ScrollLockSlideCards from "./components/Homepage/ScrollLockSlideCards";
 import PCAndPhone from "./components/Homepage/PCAndPhone";
@@ -20,7 +20,7 @@ export default function Home() {
         <Navbar></Navbar>
         <div className="w-full h-24 lg:h-0"></div>
         <Header></Header>
-      
+
         <LineDesign></LineDesign>
 
         <ScrollLockSlideCards></ScrollLockSlideCards>
