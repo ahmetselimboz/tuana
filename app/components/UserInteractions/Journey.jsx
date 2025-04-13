@@ -37,7 +37,7 @@ const Journey = () => {
             setJourneyData(res?.journey)
 
 
-            console.log("🚀 ~ useEffect ~ res?.journey:", res?.journey)
+            //console.log("🚀 ~ useEffect ~ res?.journey:", res?.journey)
 
         }
     }, [res, loading])

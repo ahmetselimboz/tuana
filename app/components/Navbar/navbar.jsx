@@ -32,7 +32,7 @@ const Navbar = () => {
                         </div>
 
                     </div>
-                    <div className='w-1/2 flex items-center justify-end '>
+                    <div className='w-1/2 flex items-center justify-end tracking-'>
 
                         <HiMiniBars3 className='text-stone-900 text-2xl' onClick={() => { setOpenMenu(!openMenu) }} />
                         <Dropdown isOpen={openMenu}>
@@ -79,13 +79,13 @@ const Navbar = () => {
                 </div>
                 <div className='w-1/3 flex items-center'>
                     <div className='text-1-5xl font-medium flex gap-8 w-full items-center justify-center '>
-                        {/* {
+                        {
                             navMenu.map((nav, index) => (
                                 <Link href={nav.url} key={index}>
                                     <span className={`${pathname == nav.url ? "nav-active" : ""} font-dosis tracking-wider text-primaryGray hover:text-stone-900 transition-all`}>{nav.title}</span>
                                 </Link>
                             ))
-                        } */}
+                        }
 
                     </div>
                 </div>

@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getCookie } from 'cookies-next';
+import { getCookie } from "cookies-next";
 
 export async function middleware(req) {
-  const cookieStore = cookies(); 
-  const token = (await cookieStore.get('accessToken'))?.value || req.cookies.accessToken;
+  const cookieStore = cookies();
+  const token =
+    (await cookieStore.get("accessToken"))?.value || req.cookies.accessToken;
 
   console.log("🚀 ~ middleware ~ token:", token);
 
@@ -21,13 +22,23 @@ export async function middleware(req) {
     "/email-confirmed",
     "/forgot-password",
   ];
+
+  const dashboardUrls = ["/analytics", "/user-interactions", "/seo"];
   const regularRoutes = ["/"];
+
+  if (dashboardUrls.includes(req.nextUrl.pathname)) {
+
+    if (!req.nextUrl.search.startsWith("?id=")) {
+      console.log("req.nextUrl: ", req.nextUrl);
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  }
 
   if (token && regularRoutes.includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/redirect", req.url));
   }
 
-  if (req.nextUrl.pathname === "/analytics") {
+  if (dashboardUrls.includes(req.nextUrl.pathname)) {
     if (!req.nextUrl.search) {
       return NextResponse.redirect(new URL("/", req.url));
     }
@@ -35,6 +46,11 @@ export async function middleware(req) {
     if (req.nextUrl.search === "?id=TNAKLYTP") {
       return NextResponse.next();
     }
+
+    // if (!req.nextUrl.search.startsWith("?id=")) {
+    //   console.log("req.nextUrl: ", req.nextUrl);
+    //   return NextResponse.redirect(new URL("/", req.url));
+    // }
   }
 
   if (!token && protectedRoutes.includes(req.nextUrl.pathname)) {

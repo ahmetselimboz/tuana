@@ -117,17 +117,17 @@ const UserInteractions = () => {
 
       <div className=' w-full h-auto bg-main'>
         <AuthenticatedNavbar />
-        <div className="w-full h-20"></div>
+        <div className="w-full lg:h-20 h-10"></div>
         <div className="w-full h-full flex items-start relative mb-6">
           {
             width <= 1024 ? (<div></div>) : (<Sidebar closePopup={closePopup} setIsPopupOpen={setIsPopupOpen} isPopupOpen={isPopupOpen}></Sidebar>)
           }
           <div className="lg:w-4/6 w-full flex flex-col lg:ml-[16.67%] px-8 py-4">
-            <div className='w-full flex items-center '>
-              <div className="w-5/6 lg:px-8 px-3 py-6 flex items-center justify-between">
+            <div className='w-full flex lg:items-center items-center lg:flex-row flex-col lg:mb-0 mb-8'>
+              <div className="lg:w-5/6 w-full lg:px-8 px-3 py-6 flex items-center justify-between">
                 <CustomDatePicker ></CustomDatePicker>
               </div>
-              <div className='w-1/6'>
+              <div className='lg:w-1/6  w-1/2'>
                 <DateDropdown
                   clw="border-2 border-stone-900/10"
 

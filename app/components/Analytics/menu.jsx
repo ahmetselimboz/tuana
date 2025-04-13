@@ -53,7 +53,7 @@ const menu = () => {
     {
       title: "SEO & Marketing",
       items: [
-        { icon: AiOutlineSearch, title: "SEO (Web?)", url: `/seo` },
+        { icon: AiOutlineSearch, title: "SEO (Web?)", url: `/seo?id=${id}` },
         { icon: RiAdvertisementLine, title: "Ads Management", url: `/ads-management` },
         { icon: HiOutlinePresentationChartBar, title: "Channel Management", url: `/channel-management` },
       ],

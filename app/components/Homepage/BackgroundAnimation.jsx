@@ -131,7 +131,7 @@ const LineChartAnimation = () => {
   }
 
   return (
-    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[900px] overflow-hidden opacity-70">
+    <div className="relative  opacity-25 w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] 2xl:h-[900px] overflow-hidden ">
       <svg
         className="w-full h-full"
         viewBox="0 -220 900 180"
@@ -161,7 +161,7 @@ const LineChartAnimation = () => {
         <motion.path
           d={pathData}
           fill="none"
-          stroke="#19ae9d"
+          stroke="#14897c"
           strokeWidth="3"
           animate={{ d: pathData }}
           transition={{
@@ -178,7 +178,7 @@ const LineChartAnimation = () => {
             cx={point.x}
             cy={point.y}
             r="5"
-            fill="#19ae9d"
+            fill="#14897c"
             animate={{ cx: point.x, cy: point.y }}
             transition={{
               type: "spring",

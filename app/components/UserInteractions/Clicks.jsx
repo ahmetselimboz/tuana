@@ -47,7 +47,13 @@ const Clicks = () => {
 
     useEffect(() => {
       heatmapData?.forEach((page, index) => {
-        const container = document.getElementById(`clicks-${index}`);
+        const containerId = `clicks-${index}`;
+        const container = document.getElementById(containerId);
+    
+        // Önceki heatmap içeriğini temizle
+        if (container) {
+          container.innerHTML = ""; // Eski heatmap'in üzerine yenisini eklemeyi engelle
+        }
         const containerWidth = container.offsetWidth; // Konteyner genişliği
         const containerHeight = container.offsetHeight; // Konteyner yüksekliği
   
@@ -94,11 +100,11 @@ const Clicks = () => {
 
 
             </div>
-            <div className="w-full flex items-center rounded-md shadow-xl border border-stone-900/20 bg-main py-4 px-4">
+            <div className="w-full flex lg:flex-row flex-col items-center rounded-md shadow-xl border border-stone-900/20 bg-main py-4 px-4">
                 {heatmapData?.map((page, index) => (
                     <div
                         key={index}
-                        className="flex flex-col items-center bg-gray-100 shadow-md rounded-lg p-4 w-1/3 mr-2"
+                        className="flex flex-col items-center bg-gray-100 shadow-md rounded-lg p-4 w-full sm:w-1/2 lg:w-1/3 mb-4 sm:mb-0 sm:mr-2 last:mr-0"
                     >
                         {/* URL Başlığı */}
                         <h3 className="text-lg font-semibold mb-4">{page.url}</h3>

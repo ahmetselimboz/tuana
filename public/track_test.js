@@ -14,7 +14,7 @@
     "https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/0.7.20/ua-parser.min.js",
     () => {
       loadScript("https://cdn.socket.io/4.7.5/socket.io.min.js", () => {
-        const URL = "http://localhost:4000"; // Or production URL
+        const URL = "https://server.tuanalytics.xyz"; // Or production URL
         const socket = io(URL);
 
         const getOrCreateUserId = () => {
