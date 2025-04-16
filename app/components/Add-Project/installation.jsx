@@ -38,7 +38,7 @@ const Installation = ({ setStage, setAppDetails, setProjectType, appDetails, pro
     track("config", "${appDetails.appId}");
   </script>
 
-  <script async src="https://cdn.tuanalytics.com/script/track_test.js"></script>`
+  <script async src="${process.env.NEXT_PUBLIC_SCRIPT_URL}"></script>`
 
 
     useEffect(() => {

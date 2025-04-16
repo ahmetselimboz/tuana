@@ -62,7 +62,7 @@ const footer = () => {
             <div className='w-full lg:h-[80px] h-full bg-primaryGray flex items-center lg:flex-row flex-col justify-between lg:px-6 lg:py-0 py-4'>
                 <div className='lg:w-2/6 w-full h-full flex items-center lg:justify-start justify-center'>
                     <h3 className='text-main font-dosis'>
-                        &copy;&nbsp;{new Date().getFullYear()} Tuanalytics is a product of <Link rel="nofollow" href="https://linatechnologies.com" target='_blank' className='font-medium hover:underline transition-all'>Lina Technologies</Link>.
+                        &copy;&nbsp;{new Date().getFullYear()} Tuanalytics is a product of <Link rel="nofollow" href="https://linatechnologies.com" target='_blank' className='font-medium hover:underline transition-all'>Ahmet Selim Boz & Atahan Halıcı</Link>.
                     </h3>
 
                 </div>
