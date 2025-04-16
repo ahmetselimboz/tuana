@@ -35,6 +35,7 @@ const Redirect = () => {
     if (res !== null) {
 
       if (res.code !== 200) {
+        console.log("redirectte hata var")
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
@@ -42,6 +43,7 @@ const Redirect = () => {
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
       } else {
+        console.log("redirectte hata yok")
         toast({
           variant: "default",
           title: "Success",

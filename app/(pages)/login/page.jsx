@@ -34,9 +34,11 @@ const Login = () => {
     useEffect(() => {
 
         if (res !== null) {
-            console.log("🚀 ~ useEffect ~ res:", res)
+           
 
             if (res.code !== 200) {
+
+                console.log("🚀 ~ useEffect ~ res:", res)
                 formik.setFieldValue('password', '');
 
                 toast({
@@ -46,6 +48,7 @@ const Login = () => {
                     action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
             }else{
+                console.log("redirect ediyoruz")
                 router.push('/redirect')
             }
 
