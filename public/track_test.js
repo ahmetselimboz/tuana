@@ -27,11 +27,11 @@
             localStorage.setItem("session");
             console.log("Yeni kullanıcı: ", userId);
           } else {
-            // console.log("Geri dönen kullanıcı: ", userId);
+      
           }
 
           let session = sessionStorage.getItem("session");
-          // console.log("🚀 ~ getOrCreateUserId ~ userId:", userId);
+    
 
           if (!session) {
             session = crypto.randomUUID(); // Yeni bir UUID oluştur
@@ -55,9 +55,7 @@
             location: locationInfo,
             screenResolution: `${window.screen.width}x${window.screen.height}`,
             language: navigator.language || navigator.userLanguage,
-            // mouseMovement: trackMouseMovement(),
-            // clickCoordinates: trackClicks(),
-            // timeSpent: trackTimeSpent(),
+        
           };
           return data;
         };
@@ -76,10 +74,10 @@
         let clicks = [];
         const checkDataLayer = () => {
           if (window?.dataLayer) {
-            // console.log("dataLayer bulundu:", window.dataLayer);
+            
             if (window?.dataLayer?.length > 0) {
               window.dataLayer.forEach((element, index) => {
-                // console.log(`Element ${index}:`, element);
+             
                 if (element[0] === "config") {
                   appId = element[1];
                 }
@@ -109,10 +107,10 @@
               };
 
               const trackEvent = async (eventType, options = {}) => {
-                // Yerel geliştirme ve bot kontrolleri
-                // if (/^localhost$|^127(\.[0-9]+){0,2}\.[0-9]+$|^\[::1?\]$/.test(location.hostname) || location.protocol === "file:") {
-                //   return ignoreEvent("localhost", options);
-                // }
+                //Yerel geliştirme ve bot kontrolleri
+                if (/^localhost$|^127(\.[0-9]+){0,2}\.[0-9]+$|^\[::1?\]$/.test(location.hostname) || location.protocol === "file:") {
+                  return ignoreEvent("localhost", options);
+                }
 
                 if (
                   (window._phantom ||
@@ -142,10 +140,6 @@
                 if (locationInfo !== null) {
                   socket.emit("trackEvent", data);
                 } else {
-                  // console.log(
-                  //   "getMinimalLocationInfo henüz tanımlanmadı, tekrar kontrol ediliyor..."
-                  // );
-
                   setTimeout(getMinimalLocationInfo, 100);
                 }
               };
@@ -209,13 +203,6 @@
                 trackPageView();
               }
 
-              // window.addEventListener("beforeunload", () => {
-              //   trackEvent("page_exit", {
-              //     reason: "User leaving the page",
-              //   });
-              //   socket.emit("disconnect", appId);
-              // });
-
               const localDate22 = new Date();
               const utcDate222 = new Date(
                 localDate22.getTime() - localDate22.getTimezoneOffset() * 60000
@@ -252,35 +239,7 @@
                 );
               });
 
-              // Listen for the visibility change event
-              // document.addEventListener("visibilitychange", function () {
-              //   if (document.visibilityState === "hidden") {
-              //     isTabClosing = true;
-              //   }
-              // });
-
-              // window.addEventListener("beforeunload", function (event) {
-              //   if (isTabClosing) {
-              //     const data = JSON.stringify({
-              //       visitorId: sessionData.userId,
-              //       appId: appId || "UnknownApp",
-              //       type: "User leaving the page",
-              //       time: utcDate222,
-              //       url: location.pathname,
-              //     });
-
-              //     fetch(`${URL}/api/apps/track-exit-event`, {
-              //       method: "POST",
-              //       headers: {
-              //         "Content-Type": "application/json",
-              //       },
-              //       body: data,
-              //       keepalive: true,
-              //     }).catch((error) =>
-              //       console.error("Fetch isteği başarısız oldu:", error)
-              //     );
-              //   }
-              // });
+          
 
               trackMouseMovement();
               function trackMouseMovement() {
@@ -288,13 +247,7 @@
                 document.addEventListener("mousemove", (e) => {
                   const currentTime = Date.now();
                   if (currentTime - lastRecordedTime > 100) {
-                    // console.log(
-                    //   "🚀 ~ Mouse Hareketi: X:",
-                    //   e.clientX,
-                    //   "Y:",
-                    //   e.clientY
-                    // );
-                    // 100ms aralık
+       
                     mouseMovements.push({
                       x: e.clientX,
                       y: e.clientY,
@@ -353,19 +306,7 @@
                 });
               }
 
-              // const mouseMovement = trackMouseMovement();
-              // console.log("🚀 ~ trackEvent ~ mouseMovement:", mouseMovement);
-              // const clickCoordinates = trackClicks();
-              // console.log(
-              //   "🚀 ~ trackEvent ~ clickCoordinates:",
-              //   clickCoordinates
-              // );
-              // const timeSpent = trackTimeSpent();
-              // console.log("🚀 ~ trackEvent ~ timeSpent:", timeSpent);
-
-              // Fare Hareketi Takibi
-
-              // Tıklama Noktası Takibi
+         
 
               // Kullanıcı Etkileşim Süresi Takibi
               function trackTimeSpent() {
@@ -376,9 +317,7 @@
               }
             }
           } else {
-            // console.log(
-            //   "dataLayer henüz tanımlanmadı, tekrar kontrol ediliyor..."
-            // );
+   
 
             setTimeout(checkDataLayer, 100); // 100 ms sonra tekrar kontrol et
           }

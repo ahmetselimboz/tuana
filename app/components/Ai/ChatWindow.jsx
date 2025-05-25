@@ -78,16 +78,8 @@ const ChatWindow = ({
               </div>
             </div>
           )
-        )
+        ) 
       }
-
-
-
-
-
-
-
-      {/* Mesaj Gönderim Alanı */}
 
       {
         chatRights.limit !== 0 ? (

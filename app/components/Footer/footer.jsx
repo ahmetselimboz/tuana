@@ -10,8 +10,8 @@ const footer = () => {
     return (
         <div className='w-full lg:h-[600px] h-fit flex flex-col justify-between border-t-8 border-primary mt-8 bg-main'>
 
-            <div className="w-full h-full flex lg:flex-row flex-col">
-                <div className='lg:w-2/6 w-full h-full flex flex-col items-center justify-start'>
+            <div className="w-full h-full flex lg:flex-row flex-col items-center justify-center">
+                <div className='lg:w-2/6 w-full h-full flex flex-col items-center justify-start  lg:mb-0 mb-8'>
                     <div className='w-full  flex flex-col items-center mt-12 mb-6 px-4'>
                         
                         <Tuanalyticssvg classn={"w-fit h-[80px]"}></Tuanalyticssvg>
@@ -36,7 +36,7 @@ const footer = () => {
                     </div>
 
                 </div>
-                <hr className='w-5/6 lg:hidden mx-auto border-b-2 border-secondary/20 mt-12 mb-8' />
+                {/* <hr className='w-5/6 lg:hidden mx-auto border-b-2 border-secondary/20 mt-12 mb-8' />
 
                 <div className='lg:w-4/6 w-full h-full flex lg:flex-col flex-col-reverse'>
                     <div className='w-full lg:h-5/6 flex  h-[400px]'>
@@ -57,12 +57,12 @@ const footer = () => {
                         </div>
                     </div>
 
-                </div>
+                </div> */}
             </div>
             <div className='w-full lg:h-[80px] h-full bg-primaryGray flex items-center lg:flex-row flex-col justify-between lg:px-6 lg:py-0 py-4'>
                 <div className='lg:w-2/6 w-full h-full flex items-center lg:justify-start justify-center'>
-                    <h3 className='text-main font-dosis'>
-                        &copy;&nbsp;{new Date().getFullYear()} Tuanalytics is a product of <Link rel="nofollow" href="https://linatechnologies.com" target='_blank' className='font-medium hover:underline transition-all'>Ahmet Selim Boz & Atahan Halıcı</Link>.
+                    <h3 className='text-main font-dosis text-center'>
+                        &copy;&nbsp;{new Date().getFullYear()} Tuanalytics is a product of <Link rel="nofollow" href="#" target='_blank' className='font-medium hover:underline transition-all'>Ahmet Selim Boz & Atahan Halıcı</Link>.
                     </h3>
 
                 </div>
@@ -77,9 +77,9 @@ const footer = () => {
                         <span className=""><LuDot /></span>
                         <Link href="/" className='hover:underline transition-all text-center'>Environmental and Social Policy</Link>
                     </div>
-                    <div className='lg:w-1/4 w-full h-full flex items-center justify-center lg:mb-0 mb-3'>
+                    {/* <div className='lg:w-1/4 w-full h-full flex items-center justify-center lg:mb-0 mb-3'>
                      <LanguageDropdown></LanguageDropdown>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

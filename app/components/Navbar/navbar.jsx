@@ -15,11 +15,11 @@ const Navbar = () => {
     
 
     const navMenu = [
-        { title: "Why Tuana", url: '/why-tuana' },
-        { title: "Docs", url: '/docs' },
-        { title: "Tutorial", url: '/tutorial' },
-        { title: "FAQ", url: '/faq' },
-        { title: "Pricing", url: '/pricing' },
+        // { title: "Why Tuana", url: '/why-tuana' },
+        // { title: "Docs", url: '/docs' },
+        // { title: "Tutorial", url: '/tutorial' },
+        // { title: "FAQ", url: '/faq' },
+        // { title: "Pricing", url: '/pricing' },
     ]
 
     if (width <= 1024) {
