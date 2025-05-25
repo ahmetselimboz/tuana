@@ -31,14 +31,7 @@ const LargeAICard = ({ userInfo, closePopup }) => {
     } = useChat(userInfo, askQuestion, appId);
 
 
-    const questions = [
-        "How do I get more people to use my platform?",
-        "What can I do to bring more users?",
-        "How do I make my platform more popular?",
-        "What can I change to keep users coming back?",
-        "How do I make people recommend?",
-        "What are easy ways to get more users?",
-    ]
+
 
     return (
         <>
@@ -79,7 +72,7 @@ const LargeAICard = ({ userInfo, closePopup }) => {
                 </div>
                 <div className='w-full flex items-center justify-center px-8'>
 
-                    <MySlider questions={questions} setAskQuestion={setAskQuestion}></MySlider>
+                    <MySlider askQuestion={askQuestion} setAskQuestion={setAskQuestion}></MySlider>
                 </div>
 
 
@@ -95,6 +88,7 @@ const LargeAICard = ({ userInfo, closePopup }) => {
                     handleSend={handleSend}
                     setShowRightsField={setShowRightsField}
                     messagesContainerRef={messagesContainerRef}
+
                 />
 
 

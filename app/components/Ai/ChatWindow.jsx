@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 import { HiDotsHorizontal } from 'react-icons/hi';
 import { RiErrorWarningLine } from 'react-icons/ri';
@@ -13,8 +13,11 @@ const ChatWindow = ({
   setInputValue,
   handleSend,
   setShowRightsField,
-  messagesContainerRef
+  messagesContainerRef,
 }) => {
+
+
+
   
   //const messagesContainerRef = useRef();
 

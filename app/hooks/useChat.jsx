@@ -33,6 +33,14 @@ const useChat = (userInfo, askQuestion, appId) => {
     const { loading2, res, error, sendRequest } = useAxios();
     const { toast } = useToast()
 
+    useEffect(() => {
+        if (askQuestion) {
+            console.log("askQuestion değişti:", askQuestion);
+            setInputValue(askQuestion);
+            handleSend();
+        }
+    }, [askQuestion]);
+
     const handleRequest = async () => {
         try {
             await sendRequest({
@@ -62,15 +70,15 @@ const useChat = (userInfo, askQuestion, appId) => {
                     action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
             } else {
-                console.log("Resss  ", res )
-                console.log("🚀 ~ useChat ~ res:", res)
+                    // console.log("Resss  ", res)
+                    // console.log("🚀 ~ useChat ~ res:", res)
                 if (res && res.ai) {
                     setChatAI(res.ai);
                     setChatRights({
                         limit: res.ai.limit,
                         limitExist: res.ai.limitExist,
                     });
-                   
+
                     if (res.messages && res.messages.length > 0) {
                         // if (selectedChat == "671ccea647949c3fab28fb81") {
                         //     dispatch(setSelectedChat(res.chatId))
@@ -78,14 +86,14 @@ const useChat = (userInfo, askQuestion, appId) => {
                         //setMessages([])
                         dispatch(resetMessages());
                         const botMessage = { sender: "bot", text: `Hi, I'm Tuan-AI. How can I help you today?` };
-                       
+
                         const messages = res.messages.map((message) => ({
                             sender: message.sender,
                             text: message.message,
                             id: message._id?.$oid || Date.now(),
                         }));
                         // setMessages((prev) => [botMessage, ...messages]);
-                        dispatch(setMessages([botMessage, ...messages])); 
+                        dispatch(setMessages([botMessage, ...messages]));
                     }
                 }
             }
@@ -98,6 +106,7 @@ const useChat = (userInfo, askQuestion, appId) => {
 
 
     const handleSend = () => {
+        //console.log("inputValue: ", inputValue);
         if (inputValue.trim()) {
             if (inputValue.trim().length === 0) {
                 handleBotMessage("Please do not leave blank");
@@ -126,7 +135,7 @@ const useChat = (userInfo, askQuestion, appId) => {
 
         socket.on("connect", () => console.log("Connected to server"));
 
-  
+
 
         socket.on("ai_response", (chunk) => {
             setPartialResponse((prev) => prev + chunk);
@@ -160,17 +169,12 @@ const useChat = (userInfo, askQuestion, appId) => {
         };
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         socket.on("ai_rights", (rights) => {
-            console.log("🚀 ~ socket.on ~ rights:", rights)
+            //console.log("🚀 ~ socket.on ~ rights:", rights)
             setChatRights((prev) => ({ ...prev, limit: rights }));
         });
-    },[socket])
-
-    useEffect(() => {
-        setInputValue(askQuestion);
-        handleSend()
-    }, [askQuestion]);
+    }, [socket])
 
     useEffect(() => {
         if (messages.length > 0 || partialResponse || loading) {
@@ -190,9 +194,9 @@ const useChat = (userInfo, askQuestion, appId) => {
     }
 
 
-    useEffect(()=>{
-        console.log("🚀 ~ chatRights:", chatRights)
-    },[chatRights])
+    // useEffect(() => {
+    //     console.log("🚀 ~ chatRights:", chatRights)
+    // }, [chatRights])
 
     return {
         messages,
